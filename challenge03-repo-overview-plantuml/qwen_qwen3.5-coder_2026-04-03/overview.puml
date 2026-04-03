@@ -1,0 +1,73 @@
+@startuml
+!theme blueprint
+
+title LLM Challenges — Repository Overview
+
+package "llm-challenges" {
+
+  [README.md] as readme
+  [INSTRUCTIONS.md] as instructions
+  [package.json] as pkg
+  [.gitignore] as gitignore
+
+  package "Challenges" {
+
+    [challengeNN-<slug>/\nREADME.md] as challenge_readme
+
+    package "Challenge Types" {
+      [Deep Readonly\n(types, tests, examples)] as c1
+      [Solar System\n(index.html, sketch.js)] as c2
+      [Repo Overview\n(overview.puml, overview.md)] as c3
+    }
+
+    challenge_readme --> c1 : "challenge01-"
+    challenge_readme --> c2 : "challenge02-"
+    challenge_readme --> c3 : "challenge03-"
+  }
+
+  package "LLM Solutions" {
+    [harness_model_date/\nsolution files] as solutions
+  }
+
+  package "Config" {
+    [node_modules/] as deps
+    [package-lock.json] as lock
+  }
+}
+
+' Relationships
+readme ..> instructions : references
+readme ..> challenge_readme : describes workflow
+instructions ..> solutions : defines naming convention
+pkg ..> deps : manages
+lock ..> pkg : locks versions
+gitignore ..> deps : excludes
+challenge_readme ..> solutions : deliverables go here
+
+note bottom of solutions
+  Each LLM run creates a folder:
+  [harness]_[model]_[quant]_[date]/
+  containing that model's solution files.
+  These are excluded from the diagram
+  to keep it generic and future-proof.
+end note
+
+note right of c1
+  TypeScript: DeepReadonly,
+  DeepMutable, DeepPartial,
+  DeepRequired, DeepPick
+end note
+
+note right of c2
+  Creative coding: p5.js solar
+  system with 8 planets, moons,
+  zoom/pan, starfield
+end note
+
+note right of c3
+  Documentation: analyse repo
+  structure, produce PlantUML
+  overview diagram
+end note
+
+@enduml

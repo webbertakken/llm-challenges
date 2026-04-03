@@ -18,7 +18,7 @@ Expected output should be similar to:
 3. Make it solve the challenge
 
 ```console
-Read INSTRUCTIONS.md of the llm-challenges repo, then do challenge N
+Read INSTRUCTIONS.md of the llm-challenges repo, then do each challenge
 ```
 
 ## License
