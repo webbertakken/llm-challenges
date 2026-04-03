@@ -51,7 +51,7 @@ After writing your solution, verify it compiles:
 
 ```bash
 cd challengeNN/[harness]--[model]--[YYYY-MM-DD]
-npx tsc --noEmit --strict --target ES2022 --module Node16 --moduleResolution Node16
+npx tsgo --noEmit --strict --target ES2022 --module Node16 --moduleResolution Node16
 ```
 
 If the challenge has runtime tests, run them:

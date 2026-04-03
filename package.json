@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Coding challenges for benchmarking LLM agents",
   "devDependencies": {
+    "@typescript/native-preview": "^7.0.0-dev.20260403.1",
     "typescript": "^5.7.0"
   }
 }
