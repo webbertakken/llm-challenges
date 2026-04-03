@@ -21,21 +21,10 @@ package "Root" as root {
 
 package "Challenge 01\nDeep Readonly & Recursive Utility Types" as ch01 <<TypeScript / Type-level>> {
   file "README.md" as ch01_readme <<spec>>
-  package "pi_opus-4.6_2026-04-03" as ch01_result {
-    file "types.ts" as ch01_types
-    file "tests.ts" as ch01_tests
-    file "examples.ts" as ch01_examples
-    file "duration-58-seconds.txt" as ch01_dur
-  }
 }
 
 package "Challenge 02\nSolar System in p5.js" as ch02 <<JavaScript / Creative Coding>> {
   file "README.md" as ch02_readme <<spec>>
-  package "pi_opus-4.6_2026-04-03" as ch02_result {
-    file "index.html" as ch02_html
-    file "sketch.js" as ch02_sketch
-    file "duration-48-seconds.txt" as ch02_dur
-  }
 }
 
 package "Challenge 03\nRepo Overview with PlantUML" as ch03 <<Documentation / Diagrams>> {
@@ -53,10 +42,6 @@ instructions --> ch01_readme : "agent reads\nchallenge spec"
 instructions --> ch02_readme : "agent reads\nchallenge spec"
 instructions --> ch03_readme : "agent reads\nchallenge spec"
 
-ch01_readme ..> ch01_result : "LLM produces\nsolution"
-ch02_readme ..> ch02_result : "LLM produces\nsolution"
-
 pkg --> deps : "npm install"
-ch01_result ..> tsgo : "verified with\ntsgo --noEmit"
 
 @enduml

@@ -6,8 +6,6 @@
 !include overview.puml
 ```
 
-![Repo Overview](overview.puml)
-
 > To render the diagram, use the [PlantUML online server](https://www.plantuml.com/plantuml/uml/) or a local PlantUML installation:
 > ```bash
 > plantuml overview.puml   # produces overview.png
@@ -28,7 +26,7 @@
 
 ### Challenges
 
-Each challenge lives in a `challengeNN-<slug>/` directory containing a `README.md` specification and zero or more result folders produced by LLM agents.
+Each challenge lives in a `challengeNN-<slug>/` directory containing a `README.md` specification.
 
 | Challenge | Topic | Key Deliverables |
 |-----------|-------|-----------------|
@@ -36,22 +34,12 @@ Each challenge lives in a `challengeNN-<slug>/` directory containing a `README.m
 | **02 — Solar System** | p5.js creative coding / animation | `index.html`, `sketch.js` |
 | **03 — Repo Overview** | PlantUML documentation diagram | `overview.puml`, `overview.md` |
 
-### Results Convention
-
-Solutions are stored in folders named:
-
-```
-challengeNN/<harness>--<model>--<YYYY-MM-DD>/
-```
-
-For example, `challenge01/pi--opus-4.6--2026-04-03/` contains the solution produced by Claude Opus 4.6 running inside the **pi** agent harness on 3 April 2026. Each result folder also includes a `duration-N-seconds.txt` file recording how long the agent took.
-
 ### Workflow
 
 1. An LLM agent is pointed at the repo and told to solve a challenge.
 2. It reads `INSTRUCTIONS.md` to learn the rules.
 3. It reads the challenge's `README.md` for the specification.
-4. It writes its solution files directly into its results folder.
+4. It writes its solution files directly into its results folder (`challengeNN/<harness>_<model>_<date>/`).
 5. It verifies correctness (e.g., `tsgo --noEmit` for TypeScript challenges).
 6. It records the elapsed time in a `duration-N-seconds.txt` file.
 
