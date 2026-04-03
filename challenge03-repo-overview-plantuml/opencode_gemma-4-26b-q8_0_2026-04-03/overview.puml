@@ -1,0 +1,27 @@
+@startuml
+!theme blueprint
+
+package "llm-challenges" {
+    file "INSTRUCTIONS.md"
+    file "README.md"
+    file "package.json"
+    file "package-lock.json"
+
+    package "challenge01-deep-readonly" {
+        file "README.md"
+    }
+
+    package "challenge02-solar-system" {
+        file "README.md"
+    }
+
+    package "challenge03-repo-overview-plantuml" {
+        file "README.md"
+    }
+
+    package "challengeNN-<slug>" {
+        file "README.md"
+    }
+}
+
+@enduml
