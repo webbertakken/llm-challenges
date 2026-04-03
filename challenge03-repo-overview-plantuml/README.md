@@ -17,6 +17,7 @@ Analyse this repository and create the best possible overview diagram using Plan
 - Embed the diagram in a Markdown document with a brief written explanation
 - Use `!theme blueprint` for the diagram theme
 - Do **not** include solution result folders in the diagram — only show the repo structure, challenges, and their specifications
+- Do **not** list individual challenges — represent them generically (e.g. `challengeNN-<slug>/`) so the diagram remains valid as new challenges are added
 
 ## Deliverables
 
