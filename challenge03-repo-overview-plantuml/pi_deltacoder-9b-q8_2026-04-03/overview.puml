@@ -1,0 +1,55 @@
+@startuml RepoOverview
+left to right direction
+skinparam theme blueprint
+
+title LLM Challenges Repository Structure
+
+package "Root (/llm-challenges)" {
+    package "Challenge 01" {
+        folder "challenge01-deep-readonly" {
+            [deep-readonly]\nTypeScript Challenge
+        }
+    }
+
+    package "Challenge 02" {
+        folder "challenge02-solar-system" {
+            [p5.js Simulation]\nCreative Coding Challenge
+        }
+    }
+
+    package "Challenge 03" {
+        folder "challenge03-repo-overview-plantuml" {
+            [PlantUML Documentation]\nRepository Overview
+        }
+    }
+}
+
+package "Shared" {
+    file "INSTRUCTIONS.md"
+    file "README.md"
+    file "package.json"
+    file "package-lock.json"
+    file "img.png"
+    folder ".git"
+    folder ".idea"
+    folder ".qwen"
+}
+
+note right of challenge01-deep-readonly
+    Solution folders
+    created by different
+    harness-model combinations
+end note
+
+note right of challenge02-solar-system
+    p5.js HTML/JS solutions
+    animated solar system
+    simulation
+end note
+
+note right of challenge03-repo-overview-plantuml
+    PlantUML diagrams and
+    markdown documentation
+end note
+
+@enduml
