@@ -1,0 +1,50 @@
+@startuml
+!theme blueprint
+
+title llm-challenges — Repository Overview
+
+package "llm-challenges" as repo {
+
+  file "README.md" as readme
+  file "INSTRUCTIONS.md" as instructions
+  file "package.json" as pkg
+  file ".gitignore" as gitignore
+
+  folder "node_modules/" as nm {
+    component "typescript ^5.7" as ts
+    component "@typescript/native-preview ^7.0" as tsgo
+  }
+
+  folder "challengeNN-<slug>/" as challenge {
+    file "README.md\n(specification)" as challengeReadme
+
+    folder "[harness]_[model]_[YYYY-MM-DD]/" as result {
+      file "solution files" as solution
+      file "duration-N-seconds.txt" as timing
+    }
+  }
+}
+
+readme -[hidden]down-> instructions
+instructions -[hidden]down-> pkg
+
+instructions -down-> challenge : "defines\nworkflow"
+challengeReadme -down-> result : "specifies\ndeliverables"
+pkg -right-> nm : "npm install"
+tsgo -down-> result : "npx tsgo\n--noEmit\nverify"
+
+note right of challenge
+  Challenges follow naming pattern:
+  ""challengeNN-<slug>/""
+  Each contains a README.md spec
+  and per-agent result folders.
+end note
+
+note bottom of result
+  Each agent run produces a
+  timestamped results folder
+  with solution files and a
+  duration marker.
+end note
+
+@enduml
