@@ -1,0 +1,67 @@
+@startuml
+!theme blueprint
+title LLM Challenges — Repository Overview
+skinparam linetype ortho
+
+package "llm-challenges" as repo {
+
+  file "README.md" as readme {
+    Usage guide &
+    prompt template
+  }
+
+  file "INSTRUCTIONS.md" as instructions {
+    Rules for LLM agents:
+    identification, folder
+    naming, verification,
+    timing protocol
+  }
+
+  file "package.json" as pkg {
+    TypeScript & tsgo
+    dev dependencies
+  }
+
+  package "challengeNN-<slug>/" as challenge <<Rectangle>> {
+
+    file "README.md" as challengeReadme {
+      Specification:
+      objective, requirements,
+      deliverables, evaluation
+    }
+
+    package "[harness]_[model]_[YYYY-MM-DD]/" as result <<Rectangle>> {
+      file "Solution files" as solution {
+        Deliverables as
+        specified by the
+        challenge README
+      }
+      file "duration-N-seconds.txt" as timing {
+        Elapsed time
+        in seconds
+      }
+    }
+  }
+}
+
+actor "User" as user
+rectangle "LLM Agent" as agent <<process>>
+rectangle "Harness" as harness <<process>> {
+}
+
+note right of harness
+  Claude Code, Pi,
+  Aider, Cursor, etc.
+end note
+
+user --> harness : "do challenge N"
+harness --> agent : delegates prompt
+agent --> instructions : reads rules
+agent --> challengeReadme : reads spec
+agent --> result : writes solution
+agent --> timing : records duration
+
+instructions ..> challenge : "defines folder\nnaming convention"
+readme ..> instructions : references
+
+@enduml

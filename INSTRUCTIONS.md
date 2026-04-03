@@ -4,14 +4,15 @@ You are solving TypeScript benchmark challenges. Follow these rules precisely.
 
 ## Step 1: Identify Yourself
 
-Determine your **harness** and **model** to form your results folder name:
+Determine your **harness**, **model**, and **quantisation** to form your results folder name:
 
 ```
-challengeNN/[harness]_[model]_[YYYY-MM-DD]/
+challengeNN/[harness]_[model]_[quantisation]_[YYYY-MM-DD]/
 ```
 
 - **harness**: the coding agent you're running in (e.g. `claude`, `pi`, `qwen`, `aider`, `cursor`)
 - **model**: the LLM you are (e.g. `sonnet-4`, `opus-4`, `deepseek-r1`, `gpt-4o`, `qwen-coder`)
+- **quantisation**: the quantisation level (e.g. `q4_k_m`, `q6_k`, `fp16`)
 - **date**: the date of the run (YYYY-MM-DD)
 
 Use lowercase, hyphens for spaces. Examples:
@@ -28,29 +29,29 @@ Read the challenge README at `challengeNN/README.md`. It contains the full speci
 
 ## Step 3: Write Your Solution
 
-Create your solution files **directly** in:
+Create your solution files **directly** inside your result folder, which follows this naming pattern:
 
 ```
-challengeNN/[harness]_[model]_[YYYY-MM-DD]/
+challengeNN/[harness]_[model]_[quantisation]_[YYYY-MM-DD]/
 ```
 
 For example, if you are Claude Sonnet 4 running in the `claude` CLI, solving challenge 01:
 
 ```
-challenge01/claude_sonnet-4_2026-04-03/
+challenge01-[challenge-title]/claude_sonnet-4_2026-04-03/
   types.ts
   tests.ts
   examples.ts
 ```
 
-**Do NOT create a `solution/` subfolder** — place all files directly in your results folder.
+**Do NOT create a `solution/` subfolder or any intermediate folders** — place all files directly in the result subfolder.
 
 ## Step 4: Verify
 
 After writing your solution, verify it compiles:
 
 ```bash
-cd challengeNN/[harness]_[model]_[YYYY-MM-DD]
+cd challengeNN/[harness]_[model]_[quantisation]_[YYYY-MM-DD]
 npx tsgo --noEmit --strict --target ES2024 --module NodeNext --moduleResolution NodeNext
 ```
 
@@ -64,7 +65,7 @@ npx tsx tests.ts
 
 Before writing any solution files, create an empty timing marker file in your results folder:
 
-```bash
+```
 touch challengeNN/[harness]_[model]_[YYYY-MM-DD]/duration.txt
 ```
 

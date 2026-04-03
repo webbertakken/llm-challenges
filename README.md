@@ -1,23 +1,26 @@
-# llm-challenges
+# LLM Challenges
 
-Coding challenges for benchmarking LLM agents.
+Light weight, understandable differences between harnesses-model combinations.
 
 ## How It Works
 
-1. Pick a challenge (e.g. `challenge01`)
-2. Open a terminal with your LLM coding agent in this repo
-3. Tell it to solve the challenge — it will read `INSTRUCTIONS.md` and the challenge README
+1. Open a harness with the model you want to benchmark
+2. Verify it knows its model name and quantisation
 
-The LLM writes its solution into `challengeNN/[harness]_[model]_[YYYY-MM-DD]/`.
-
-## Quick Start
-
-```bash
-npm install
+```console
+Which model and quantisation are you using?
 ```
 
-## For LLMs
+Expected output should be similar to:
 
-Read **[INSTRUCTIONS.md](./INSTRUCTIONS.md)** before solving any challenge.
+![img.png](img.png)
 
-Key steps: identify yourself → read the challenge README → write your solution → verify it compiles → record timing (`duration-N-seconds.txt`).
+3. Make it solve the challenge
+
+```console
+Read INSTRUCTIONS.md of the llm-challenges repo, then do challenge N
+```
+
+## License
+
+MIT

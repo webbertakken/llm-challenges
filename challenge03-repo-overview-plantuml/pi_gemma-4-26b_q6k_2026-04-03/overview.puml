@@ -1,0 +1,30 @@
+@startuml
+!theme blueprint
+
+package "llm-challenges" {
+    file "INSTRUCTIONS.md"
+    file "README.md"
+    file "ALL_PROMPTS.md"
+    file "img.png"
+    file "package.json"
+    file "package-lock.json"
+
+    package "challenge01-deep-readonly" {
+        file "README.md"
+    }
+
+    package "challenge02-solar-system" {
+        file "README.md"
+    }
+
+    package "challenge03-repo-overview-plantuml" {
+        file "README.md"
+    }
+}
+
+note right of "llm-challenges"
+  A repository containing various 
+  TypeScript benchmark challenges for LLMs.
+end note
+
+@enduml
