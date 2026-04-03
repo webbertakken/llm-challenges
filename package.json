@@ -1,0 +1,8 @@
+{
+  "name": "llm-challenges",
+  "version": "1.0.0",
+  "description": "Coding challenges for benchmarking LLM agents",
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}
