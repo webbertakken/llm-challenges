@@ -1,0 +1,27 @@
+@startuml
+!theme blueprint
+
+title llm-challenges Repository Overview
+
+package "llm-challenges" as repo {
+    file "README.md" as root_readme
+    file "INSTRUCTIONS.md" as instructions
+    file "package.json" as package_json
+    file "package-lock.json" as lockfile
+
+    package "challengeNN-<slug>/" as challenge {
+        file "README.md\n(specification)" as challenge_readme
+    }
+}
+
+root_readme -down-> instructions : tells agents to read
+instructions -down-> challenge : defines the workflow
+package_json -right-> lockfile : npm install
+challenge_readme -down-> challenge : each challenge owns its spec
+
+note right of challenge
+  Challenge folders are represented generically so the diagram
+  stays valid as new challenges are added.
+end note
+
+@enduml
