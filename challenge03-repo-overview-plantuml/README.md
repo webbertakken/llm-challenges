@@ -15,6 +15,7 @@ Analyse this repository and create the best possible overview diagram using Plan
 - Create a PlantUML diagram that gives a clear, informative overview of the repo
 - Choose whatever diagram type(s) best convey the structure (component, class, package, etc.)
 - Embed the diagram in a Markdown document with a brief written explanation
+- Use `!theme blueprint` for the diagram theme
 
 ## Deliverables
 
