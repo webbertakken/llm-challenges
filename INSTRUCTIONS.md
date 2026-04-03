@@ -7,7 +7,7 @@ You are solving TypeScript benchmark challenges. Follow these rules precisely.
 Determine your **harness** and **model** to form your results folder name:
 
 ```
-challengeNN/[harness]--[model]--[YYYY-MM-DD]/
+challengeNN/[harness]_[model]_[YYYY-MM-DD]/
 ```
 
 - **harness**: the coding agent you're running in (e.g. `claude`, `pi`, `qwen`, `aider`, `cursor`)
@@ -15,10 +15,10 @@ challengeNN/[harness]--[model]--[YYYY-MM-DD]/
 - **date**: the date of the run (YYYY-MM-DD)
 
 Use lowercase, hyphens for spaces. Examples:
-- `challenge01/claude--sonnet-4--2026-04-03`
-- `challenge01/pi--deepseek-r1--2026-04-03`
-- `challenge01/qwen--qwen-coder--2026-04-03`
-- `challenge01/aider--gpt-4o--2026-04-03`
+- `challenge01/claude_sonnet-4_2026-04-03`
+- `challenge01/pi_deepseek-r1_2026-04-03`
+- `challenge01/qwen_qwen-coder_2026-04-03`
+- `challenge01/aider_gpt-4o_2026-04-03`
 
 If you're unsure of your harness or model, ask the user.
 
@@ -31,13 +31,13 @@ Read the challenge README at `challengeNN/README.md`. It contains the full speci
 Create your solution files **directly** in:
 
 ```
-challengeNN/[harness]--[model]--[YYYY-MM-DD]/
+challengeNN/[harness]_[model]_[YYYY-MM-DD]/
 ```
 
 For example, if you are Claude Sonnet 4 running in the `claude` CLI, solving challenge 01:
 
 ```
-challenge01/claude--sonnet-4--2026-04-03/
+challenge01/claude_sonnet-4_2026-04-03/
   types.ts
   tests.ts
   examples.ts
@@ -50,7 +50,7 @@ challenge01/claude--sonnet-4--2026-04-03/
 After writing your solution, verify it compiles:
 
 ```bash
-cd challengeNN/[harness]--[model]--[YYYY-MM-DD]
+cd challengeNN/[harness]_[model]_[YYYY-MM-DD]
 npx tsgo --noEmit --strict --target ES2024 --module NodeNext --moduleResolution NodeNext
 ```
 
@@ -65,13 +65,13 @@ npx tsx tests.ts
 Before writing any solution files, create an empty timing marker file in your results folder:
 
 ```bash
-touch challengeNN/[harness]--[model]--[YYYY-MM-DD]/duration.txt
+touch challengeNN/[harness]_[model]_[YYYY-MM-DD]/duration.txt
 ```
 
 After finishing the challenge, measure the elapsed time from `duration.txt`'s creation to now, write the number of seconds into the file, and rename it:
 
 ```bash
-dir="challengeNN/[harness]--[model]--[YYYY-MM-DD]"
+dir="challengeNN/[harness]_[model]_[YYYY-MM-DD]"
 start=$(stat -c %Y "$dir/duration.txt")
 now=$(date +%s)
 secs=$((now - start))
@@ -79,7 +79,7 @@ echo "$secs" > "$dir/duration.txt"
 mv "$dir/duration.txt" "$dir/duration-${secs}-seconds.txt"
 ```
 
-This produces e.g. `challenge01/pi--opus-4.6--2026-04-03/duration-58-seconds.txt` containing `58`.
+This produces e.g. `challenge01/pi_opus-4.6_2026-04-03/duration-58-seconds.txt` containing `58`.
 
 ## Rules
 

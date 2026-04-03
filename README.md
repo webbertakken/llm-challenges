@@ -8,7 +8,7 @@ Coding challenges for benchmarking LLM agents.
 2. Open a terminal with your LLM coding agent in this repo
 3. Tell it to solve the challenge — it will read `INSTRUCTIONS.md` and the challenge README
 
-The LLM writes its solution into `challengeNN/[harness]--[model]--[YYYY-MM-DD]/`.
+The LLM writes its solution into `challengeNN/[harness]_[model]_[YYYY-MM-DD]/`.
 
 ## Quick Start
 

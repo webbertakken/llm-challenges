@@ -1,0 +1,78 @@
+@startuml llm-challenges-overview
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam componentStyle rectangle
+skinparam packageStyle frame
+skinparam shadowing false
+skinparam defaultFontName "Segoe UI"
+skinparam titleFontSize 20
+
+title llm-challenges — Repository Overview
+
+package "Root" as root {
+  file "README.md" as readme <<docs>> #E8F5E9
+  file "INSTRUCTIONS.md" as instructions <<docs>> #E8F5E9
+  file "package.json" as pkg <<config>> #FFF3E0
+  file ".gitignore" as gitignore <<config>> #FFF3E0
+
+  note right of instructions
+    Rules for LLM agents:
+    • Identify harness + model
+    • Read challenge README
+    • Write solution to results folder
+    • Verify with tsgo/tsx
+    • Record timing
+  end note
+}
+
+package "Challenge 01\nDeep Readonly & Recursive Utility Types" as ch01 <<TypeScript / Type-level>> #E3F2FD {
+  file "README.md" as ch01_readme <<spec>>
+  package "pi--opus-4.6--2026-04-03" as ch01_result #BBDEFB {
+    file "types.ts" as ch01_types
+    file "tests.ts" as ch01_tests
+    file "examples.ts" as ch01_examples
+    file "duration-58-seconds.txt" as ch01_dur
+  }
+}
+
+package "Challenge 02\nSolar System in p5.js" as ch02 <<JavaScript / Creative Coding>> #FFF9C4 {
+  file "README.md" as ch02_readme <<spec>>
+  package "pi--opus-4.6--2026-04-03" as ch02_result #FFF176 {
+    file "index.html" as ch02_html
+    file "sketch.js" as ch02_sketch
+    file "duration-48-seconds.txt" as ch02_dur
+  }
+}
+
+package "Challenge 03\nRepo Overview with PlantUML" as ch03 <<Documentation / Diagrams>> #F3E5F5 {
+  file "README.md" as ch03_readme <<spec>>
+}
+
+' Dependencies
+package "Dev Dependencies\n(node_modules)" as deps #F5F5F5 {
+  component "typescript ^5.7" as ts
+  component "@typescript/native-preview ^7.0" as tsgo
+}
+
+' Relationships
+instructions --> ch01_readme : "agent reads\nchallenge spec"
+instructions --> ch02_readme : "agent reads\nchallenge spec"
+instructions --> ch03_readme : "agent reads\nchallenge spec"
+
+ch01_readme ..> ch01_result : "LLM produces\nsolution"
+ch02_readme ..> ch02_result : "LLM produces\nsolution"
+
+pkg --> deps : "npm install"
+ch01_result ..> tsgo : "verified with\ntsgo --noEmit"
+
+legend right
+  |= Color |= Meaning |
+  | <#E8F5E9> | Documentation |
+  | <#FFF3E0> | Configuration |
+  | <#E3F2FD> | TypeScript challenge |
+  | <#FFF9C4> | JavaScript challenge |
+  | <#F3E5F5> | Documentation challenge |
+  | <#F5F5F5> | Dependencies |
+endlegend
+
+@enduml
