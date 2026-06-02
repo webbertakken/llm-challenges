@@ -1,0 +1,51 @@
+@startuml repo-overview
+!theme blueprint
+title llm-challenges — repository overview
+
+' ----------------------------------------------------------------------
+' A benchmark harness: a small set of self-describing TypeScript / coding
+' challenges. Each challenge is solved independently by many LLM agents,
+' whose outputs land in per-run result folders that follow a strict
+' naming and timing protocol defined in INSTRUCTIONS.md.
+' (Individual challenges and result folders are shown generically so the
+'  diagram stays valid as runs and challenges are added.)
+' ----------------------------------------------------------------------
+
+folder "llm-challenges/  (repo root)" as root {
+
+  file "INSTRUCTIONS.md\nshared protocol: folder\nnaming, verify & timing" as instructions
+  file "README.md\nproject intro" as readme
+  file "package.json\ndevDeps: tsgo, typescript" as pkg
+  file ".gitignore" as gitignore
+
+  folder "plans/\nroadmap notes" as plans
+
+  package "challengeNN-<slug>/\none folder per challenge" as challenge {
+    file "README.md\nobjective · requirements\ndeliverables · evaluation" as cReadme
+
+    folder "[harness]_[model]_[quant]_[date]/\none result folder per agent run" as result {
+      artifact "solution files\ne.g. types.ts / sketch.js /\noverview.puml — per spec" as solution
+      file "duration-<secs>-seconds.txt\nelapsed-time marker" as duration
+    }
+  }
+}
+
+' ----------------------------- relationships --------------------------
+
+readme ..> instructions : "points to"
+instructions ..> challenge : "tells agents to\npick a challenge"
+instructions ..> result : "dictates naming\n+ timing of"
+cReadme ..> solution : "specifies\ndeliverables"
+solution ..> pkg : "verified with\ntsgo / tsx"
+challenge "1" *-- "0..*" result : "accumulates runs"
+
+legend right
+  | Element | Meaning |
+  | folder | directory |
+  | file | tracked file |
+  | artifact | produced output(s) |
+  | ..> | governs / references |
+  | *-- | contains |
+endlegend
+
+@enduml

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solar System — p5.js</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #05060a;
+        color: #e6e9f2;
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        overflow: hidden;
+      }
+      main {
+        position: fixed;
+        inset: 0;
+      }
+      canvas {
+        display: block;
+      }
+      .hud {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        padding: 10px 14px;
+        background: rgba(8, 10, 18, 0.55);
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        font-size: 13px;
+        line-height: 1.5;
+        max-width: 280px;
+      }
+      .hud h1 {
+        margin: 0 0 6px;
+        font-size: 14px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #ffd28a;
+      }
+      .hud kbd {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 4px;
+        padding: 0 5px;
+        font-size: 11px;
+      }
+      .planet-label {
+        position: fixed;
+        bottom: 12px;
+        right: 12px;
+        padding: 8px 12px;
+        background: rgba(8, 10, 18, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        font-size: 12px;
+        opacity: 0.85;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="stage"></main>
+
+    <div class="hud" aria-label="Controls">
+      <h1>Solar System</h1>
+      <div>
+        <kbd>scroll</kbd> zoom · <kbd>drag</kbd> pan ·
+        <kbd>Space</kbd> pause · <kbd>R</kbd> reset
+      </div>
+      <div><kbd>+</kbd>/<kbd>-</kbd> speed · <kbd>L</kbd> orbits</div>
+    </div>
+    <div class="planet-label">Hover a planet for its name</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.min.js"></script>
+    <script src="sketch.js"></script>
+  </body>
+</html>

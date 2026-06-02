@@ -1,0 +1,53 @@
+@startuml repo-overview
+!theme blueprint
+
+title LLM Challenges — Repository Overview
+
+skinparam linetype ortho
+skinparam shadowing false
+skinparam ranksep 55
+skinparam nodesep 35
+skinparam wrapWidth 220
+
+actor "LLM Agent\n(harness · model · quant)" as agent
+
+package "llm-challenges  —  git repository root" as root {
+
+  file "INSTRUCTIONS.md" as instr <<protocol>>
+  file "README.md" as rootReadme <<docs>>
+  file "package.json\npackage-lock.json" as pkg <<toolchain>>
+  file ".gitignore\nimg.png" as assets <<assets>>
+
+  folder "challengeNN-<slug>/" as challenge <<challenge>> {
+    file "README.md\nspecification + deliverables" as spec <<spec>>
+  }
+
+  node "node_modules/\ntsgo · typescript" as deps <<deps>>
+}
+
+' --- workflow the agent follows -------------------------------------------
+agent --> instr     : 1 · read the protocol
+agent --> spec      : 2 · read the challenge spec
+agent ..> challenge : 3 · add a result folder\n(per naming convention)
+
+' --- internal relationships ----------------------------------------------
+rootReadme --> instr     : points to
+instr ..> challenge      : defines result-folder\nnaming convention
+spec --> pkg             : verified with tsgo\n(type-level challenges)
+pkg --> deps             : installs
+
+legend right
+  == Stereotypes ==
+  <<protocol>>   one-time setup, rules, verify & timing steps
+  <<spec>>       a single challenge's requirements
+  <<toolchain>>  TypeScript + tsgo (native-preview) verifier
+  <<challenge>>  repeated generically as challengeNN-<slug>/
+  == Result folders ==
+  Each challengeNN-<slug>/ holds exactly one README.md.
+  An agent adds its own subfolder named
+  [harness]_[model]_[quant]_[YYYY-MM-DD]/
+  containing the deliverables plus duration-<secs>-seconds.txt.
+  Those generated result folders are deliberately not drawn.
+endlegend
+
+@enduml
