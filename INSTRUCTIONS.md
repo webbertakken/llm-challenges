@@ -84,8 +84,8 @@ This produces e.g. `challenge01/pi_opus-4.6_2026-04-03/duration-58-seconds.txt` 
 
 ## Rules
 
-- Read **only** the challenge README and this instructions file
-- **Do NOT read, open, or reference anything inside `results/`** — other models' solutions live there and looking at them invalidates your run
+- Read **only** the challenge README, this instructions file, and any input files the challenge README explicitly tells you to read
+- **Do NOT read, open, or reference any other run's result folder, anything inside `results/`, or any `grader/` folder** — those hold other models' solutions or reference answers, and looking at them invalidates your run
 - Write clean, well-typed TypeScript — avoid `any` and unnecessary `as` casts
 - Follow the deliverables listed in the challenge README exactly
 - Include all required files
