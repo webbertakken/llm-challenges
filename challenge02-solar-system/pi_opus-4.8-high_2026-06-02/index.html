@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solar System — p5.js</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #02030a;
+        overflow: hidden;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        color: #e8eefc;
+      }
+      #hud {
+        position: fixed;
+        top: 14px;
+        left: 16px;
+        z-index: 10;
+        max-width: 320px;
+        padding: 14px 16px;
+        background: rgba(10, 16, 36, 0.62);
+        border: 1px solid rgba(120, 160, 255, 0.25);
+        border-radius: 10px;
+        backdrop-filter: blur(6px);
+        font-size: 13px;
+        line-height: 1.55;
+        pointer-events: none;
+      }
+      #hud h1 {
+        margin: 0 0 6px;
+        font-size: 15px;
+        letter-spacing: 0.4px;
+        font-weight: 600;
+      }
+      #hud kbd {
+        display: inline-block;
+        min-width: 16px;
+        padding: 1px 6px;
+        border-radius: 4px;
+        background: rgba(120, 160, 255, 0.18);
+        border: 1px solid rgba(120, 160, 255, 0.35);
+        font-family: inherit;
+        font-size: 12px;
+        text-align: center;
+      }
+      #hud .muted {
+        color: #9fb0d6;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hud">
+      <h1>Solar System</h1>
+      <div class="muted">8 planets · moons · rings · asteroid belt</div>
+      <div style="margin-top: 8px">
+        <kbd>scroll</kbd> zoom &nbsp; <kbd>drag</kbd> pan<br />
+        <kbd>Space</kbd> pause &nbsp; <kbd>&larr;</kbd>/<kbd>&rarr;</kbd>
+        speed<br />
+        <kbd>L</kbd> labels &nbsp; <kbd>O</kbd> orbits &nbsp; <kbd>R</kbd> reset
+      </div>
+    </div>
+
+    <!-- p5.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.min.js"></script>
+    <script src="sketch.js"></script>
+  </body>
+</html>

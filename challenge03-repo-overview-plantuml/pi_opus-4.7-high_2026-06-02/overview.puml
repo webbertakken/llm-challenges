@@ -1,0 +1,72 @@
+@startuml llm-challenges-overview
+!theme blueprint
+title LLM Challenges — Repository Overview
+
+' --------------------------------------------------------------
+' Top-level repository structure
+' --------------------------------------------------------------
+package "llm-challenges/" as repo {
+
+  file "README.md" as readme
+  file "INSTRUCTIONS.md" as instr
+  file "package.json" as pkg
+  file "img.png" as img
+
+  package "challengeNN-<slug>/" as challenge {
+    file "README.md" as cReadme
+    note right of cReadme
+      Challenge specification:
+        • Objective
+        • Requirements
+        • Deliverables
+        • Evaluation criteria
+    end note
+
+    package "[harness]_[model]_[quant]_[YYYY-MM-DD]/" as runFolder #lightyellow {
+      file "deliverables\n(types.ts / sketch.js /\noverview.puml ...)" as files
+      file "duration-<secs>-seconds.txt" as duration
+    }
+  }
+}
+
+' --------------------------------------------------------------
+' External actors and tooling
+' --------------------------------------------------------------
+actor "LLM Agent" as agent
+cloud "Harness\n(claude · pi · qwen · aider · ...)" as harness
+component "tsgo\n(--strict)" as tsgo
+component "p5.js\n(CDN)" as p5
+component "PlantUML" as puml
+
+' --------------------------------------------------------------
+' Relationships
+' --------------------------------------------------------------
+readme ..> instr : "points to"
+instr ..> challenge : "explains protocol"
+cReadme ..> runFolder : "specifies deliverables"
+
+agent --> harness : "runs inside"
+harness --> instr : "reads first"
+harness --> cReadme : "reads per challenge"
+harness ..> runFolder : "writes solution"
+
+runFolder ..> tsgo : "challenge 01\nverification"
+runFolder ..> p5    : "challenge 02\nruntime"
+runFolder ..> puml  : "challenge 03\nrenders diagram"
+
+note bottom of runFolder
+  One folder per (harness, model, quant, date) tuple.
+  Other runs live as siblings and must NOT be read.
+end note
+
+note right of instr
+  Rules of engagement:
+    • Read only INSTRUCTIONS.md + the
+      challenge's own README.md
+    • Place deliverables directly in the
+      result folder (no nested solution/)
+    • Touch duration.txt before writing,
+      rename to duration-<n>-seconds.txt at end
+end note
+
+@enduml
