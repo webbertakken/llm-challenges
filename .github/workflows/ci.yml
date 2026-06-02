@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  challenges:
+    name: Verify challenge graders
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify graders against reference solutions
+        run: npm run verify
+
+      - name: Type-check reference solutions (strict)
+        run: |
+          set -euo pipefail
+          npx tsgo --noEmit --strict --target ES2024 --module NodeNext --moduleResolution NodeNext \
+            challenge04-bug-hunt/grader/reference-fixed.ts \
+            challenge05-reverse-engineer/grader/reference-solution.ts \
+            challenge06-type-eval/grader/reference-solution.ts
+
+      - name: Ensure RESULTS.md is up to date
+        run: npx tsx scripts/scoreboard.ts --check

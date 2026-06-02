@@ -2,8 +2,13 @@
   "name": "llm-challenges",
   "version": "1.0.0",
   "description": "Coding challenges for benchmarking LLM agents",
+  "scripts": {
+    "verify": "tsx scripts/verify-challenges.ts",
+    "scoreboard": "tsx scripts/scoreboard.ts"
+  },
   "devDependencies": {
     "@typescript/native-preview": "^7.0.0-dev.20260403.1",
+    "tsx": "^4.22.4",
     "typescript": "^5.7.0"
   }
 }
