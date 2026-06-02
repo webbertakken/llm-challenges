@@ -1,0 +1,41 @@
+@startuml
+!theme blueprint
+
+title Repository Overview: LLM Challenges
+
+package "CI/CD" {
+  [ci.yml]
+}
+
+package "Scripts" {
+  [scoreboard.ts]
+  [verify-challenges.ts]
+}
+
+package "Challenges" {
+  folder "challengeNN-<slug>" {
+    [README.md]
+  }
+}
+
+package "Documentation" {
+  [INSTRUCTIONS.md]
+  [README.md]
+}
+
+package "Configuration" {
+  [package.json]
+  [.gitignore]
+}
+
+package "Plans" {
+    [benchmark-runs-and-new-challenges.md]
+    [local-gemini-openai-runs.md]
+}
+
+
+[challengeNN-<slug>] ..> [INSTRUCTIONS.md] : "reads"
+[ci.yml] ..> [verify-challenges.ts] : "runs"
+[verify-challenges.ts] ..> [challengeNN-<slug>] : "verifies"
+
+@enduml

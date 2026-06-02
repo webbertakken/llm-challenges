@@ -1,0 +1,41 @@
+@startuml
+!theme blueprint
+
+skinparam componentStyle rectangle
+
+folder "LLM Challenges Repository" {
+  
+  folder "Documentation" {
+    file "README.md" as readme
+    file "INSTRUCTIONS.md" as instructions
+    file "RESULTS.md" as results
+  }
+
+  file "package.json" as pkg
+
+  folder ".github/workflows/" {
+    file "ci.yml" as ci
+  }
+
+  folder "scripts/" {
+    file "verify-challenges.ts" as verify
+    file "scoreboard.ts" as scoreboard
+  }
+
+  folder "challengeNN-<slug>/" as challenges {
+    file "README.md (Spec)" as chal_readme
+    file "Auxiliary Files" as aux_files
+  }
+
+}
+
+ci --> verify : "Runs"
+ci --> scoreboard : "Runs"
+
+scoreboard --> results : "Updates"
+verify --> challenges : "Validates solutions in"
+scoreboard --> challenges : "Reads metadata from"
+
+instructions --> challenges : "Guides agent behavior in"
+
+@enduml

@@ -9,8 +9,15 @@ from its `duration-<secs>-seconds.txt` marker.
 | Run | Duration | Deliverables |
 | --- | --- | --- |
 | `claude_opus-4.6_2026-04-03` | 350s | examples.ts, tests.ts, types.ts |
+| `codex_gpt-5.4_2026-06-02` | 157s | examples.ts, tests.ts, types.ts |
+| `codex_gpt-5.5_2026-06-02` | 138s | examples.ts, tests.ts, types.ts |
+| `gemini_gemini-2.5-pro_2026-06-02` | — | examples.ts, tests.ts, types.ts |
+| `gemini_gemini-3-flash-preview_2026-06-02` | 43s | examples.ts, package.json, tests.ts, tsconfig.json, types.ts |
+| `gemini_gemini-3.1-pro-preview_2026-06-02` | 131s | examples.ts, tests.ts, types.ts |
 | `pi_deltacoder-9b-q8_2026-04-03` | — | examples.ts, tests.ts, types.ts |
+| `pi_deltacoder-9b_q8_2026-06-02` | — | examples.ts, tests.ts, types.ts |
 | `pi_gemma-4-26b_q6k_2026-04-03` | — | examples.ts, tests.ts, types.ts |
+| `pi_gemma-4-26b_q6k_2026-06-02` | — | types.ts |
 | `pi_opus-4.6_2026-04-03` | 58s | examples.ts, tests.ts, types.ts |
 | `pi_opus-4.7-high_2026-06-02` | 342s | examples.ts, tests.ts, types.ts |
 | `pi_opus-4.8-high_2026-06-02` | 251s | examples.ts, tests.ts, types.ts |
@@ -22,8 +29,15 @@ from its `duration-<secs>-seconds.txt` marker.
 | Run | Duration | Deliverables |
 | --- | --- | --- |
 | `claude_opus-4.6_2026-04-03` | 53s | index.html, sketch.js |
+| `codex_gpt-5.4_2026-06-02` | 169s | index.html, sketch.js |
+| `codex_gpt-5.5_2026-06-02` | 97s | index.html, sketch.js |
+| `gemini_gemini-2.5-pro_2026-06-02` | 25s | index.html, sketch.js |
+| `gemini_gemini-3-flash-preview_2026-06-02` | 18s | index.html, sketch.js |
+| `gemini_gemini-3.1-pro-preview_2026-06-02` | 67s | index.html, sketch.js |
 | `pi_deltacoder-9b-q8_2026-04-03` | 48s | index.html, sketch.js |
+| `pi_deltacoder-9b_q8_2026-06-02` | 59s | index.html, sketch.js |
 | `pi_gemma-4-26b-a4b_2026-04-03` | 58s | index.html, sketch.js |
+| `pi_gemma-4-26b_q6k_2026-06-02` | 607s | index.html, sketch.js |
 | `pi_opus-4.6_2026-04-03` | 48s | index.html, sketch.js |
 | `pi_opus-4.7-high_2026-06-02` | 86s | index.html, sketch.js |
 | `pi_opus-4.8-high_2026-06-02` | 97s | index.html, sketch.js |
@@ -35,11 +49,17 @@ from its `duration-<secs>-seconds.txt` marker.
 | Run | Duration | Deliverables |
 | --- | --- | --- |
 | `claude_opus-4.6_2026-04-03` | 29s | overview.md, overview.puml |
+| `codex_gpt-5.5_2026-06-02` | 144s | overview.md, overview.puml |
+| `gemini_gemini-2.5-pro_2026-06-02` | 33s | overview.md, overview.puml |
+| `gemini_gemini-3-flash-preview_2026-06-02` | 29s | overview.md, overview.puml |
+| `gemini_gemini-3.1-pro-preview_2026-06-02` | 56s | overview.md, overview.puml |
 | `opencode_gemma-4-26b-q8_0_2026-04-03` | 1775234322s | overview.md, overview.puml |
 | `opencode_gemma-4-26b-q8_0_2026-04-03_altered` | — | duration-31-seconds_altered.txt, overview_altered.md, overview_altered.puml |
 | `pi_claude-opus-4-6_2026-04-03` | 27s | overview.md, overview.puml |
 | `pi_deltacoder-9b-q8_2026-04-03` | 18s | overview.md, overview.puml |
+| `pi_deltacoder-9b_q8_2026-06-02` | 33s | overview.md, overview.puml |
 | `pi_gemma-4-26b_q6k_2026-04-03` | 25s | overview.md, overview.puml |
+| `pi_gemma-4-26b_q6k_2026-06-02` | — | — |
 | `pi_opus-4.7-high_2026-06-02` | 34s | overview.md, overview.puml |
 | `pi_opus-4.8-high_2026-06-02` | 184s | overview.md, overview.puml, repo-overview.png |
 | `pi_opus-4.8-xhigh_2026-06-02` | 178s | overview.md, overview.puml, repo-overview.png, repo-overview.svg |
@@ -47,16 +67,43 @@ from its `duration-<secs>-seconds.txt` marker.
 
 ## challenge04-bug-hunt
 
-_No runs yet._
+| Run | Duration | Deliverables |
+| --- | --- | --- |
+| `codex_gpt-5.4_2026-06-02` | 77s | bugs.md, fixed.ts |
+| `codex_gpt-5.5_2026-06-02` | 117s | bugs.md, fixed.ts |
+| `gemini_gemini-2.5-pro_2026-06-02` | 74s | bugs.md, fixed.ts |
+| `gemini_gemini-3-flash-preview_2026-06-02` | 34s | bugs.md, fixed.ts |
+| `gemini_gemini-3.1-pro-preview_2026-06-02` | 88s | bugs.md, fixed.ts |
+| `pi_deltacoder-9b_q8_2026-06-02` | 357s | bugs.md, fixed.ts |
+| `pi_gemma-4-26b_q6k_2026-06-02` | — | fixed.ts |
 
 ## challenge05-reverse-engineer
 
-_No runs yet._
+| Run | Duration | Deliverables |
+| --- | --- | --- |
+| `codex_gpt-5.5_2026-06-02` | 50s | analysis.md, equivalence.test.ts, solution.ts |
+| `gemini_gemini-2.5-pro_2026-06-02` | — | analysis.md, equivalence.test.ts, solution.ts |
+| `gemini_gemini-3-flash-preview_2026-06-02` | 26s | analysis.md, equivalence.test.ts, solution.ts |
+| `gemini_gemini-3.1-pro-preview_2026-06-02` | 88s | analysis.md, equivalence.test.ts, solution.ts |
+| `pi_deltacoder-9b_q8_2026-06-02` | 65s | analysis.md, equivalence.test.ts, solution.ts |
+| `pi_gemma-4-26b_q6k_2026-06-02` | 7s | analysis.md, equivalence.test.ts, solution.ts |
 
 ## challenge06-type-eval
 
-_No runs yet._
+| Run | Duration | Deliverables |
+| --- | --- | --- |
+| `codex_gpt-5.5_2026-06-02` | 88s | solution.ts, tests.ts |
+| `gemini_gemini-3-flash-preview_2026-06-02` | 160s | solution.ts, tests.ts |
+| `gemini_gemini-3.1-pro-preview_2026-06-02` | 283s | solution.ts, tests.ts |
+| `pi_deltacoder-9b_q8_2026-06-02` | — | solution.ts |
+| `pi_gemma-4-26b_q6k_2026-06-02` | — | solution.ts |
 
 ## challenge07-type-lambda
 
-_No runs yet._
+| Run | Duration | Deliverables |
+| --- | --- | --- |
+| `codex_gpt-5.5_2026-06-02` | 166s | notes.md, solution.ts |
+| `gemini_gemini-3-flash-preview_2026-06-02` | 86s | notes.md, solution.ts |
+| `gemini_gemini-3.1-pro-preview_2026-06-02` | 277s | notes.md, solution.ts |
+| `pi_deltacoder-9b_q8_2026-06-02` | — | notes.md, solution.ts |
+| `pi_gemma-4-26b_q6k_2026-06-02` | — | solution.ts |

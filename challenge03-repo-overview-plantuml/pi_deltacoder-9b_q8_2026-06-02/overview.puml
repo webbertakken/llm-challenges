@@ -1,0 +1,164 @@
+@startuml repo-structure
+!theme blueprint
+
+title LLM Challenges Repository Structure
+
+skinparam backgroundColor #FFFFFF
+skinparam componentStyle rectangle
+skinparam boxStyle rectangle
+
+package "Root" {
+    [README.md] as readme
+    [INSTRUCTIONS.md] as instructions
+    [RESULTS.md] as results
+    [package.json] as pkg
+    [package-lock.json] as lock
+    [img.png] as img
+
+    folder ".github" {
+        [workflows] as workflows
+    }
+
+    folder ".git" as git
+    folder ".idea" as idea
+    folder ".qwen" as qwen
+    folder "plans" as plans
+    folder "scripts" {
+        [scoreboard.ts] as scoreboard
+        [verify-challenges.ts] as verify
+    }
+
+    folder "node_modules" as node_modules
+}
+
+package "Challenge 01" {
+    folder "challenge01-deep-readonly" {
+        [README.md] as c1_readme
+        [types.ts] as c1_types
+        [tests.ts] as c1_tests
+        [examples.ts] as c1_examples
+        [tsconfig.json] as c1_tsconfig
+
+        folder "result-01" {
+            [types.ts] as c1_result_types
+            [tests.ts] as c1_result_tests
+            [examples.ts] as c1_result_examples
+        }
+    }
+}
+
+package "Challenge 02" {
+    folder "challenge02-solar-system" {
+        [README.md] as c2_readme
+        [app.ts] as c2_app
+        [assets/] as c2_assets
+
+        folder "result-02" {
+            [app.ts] as c2_result_app
+            [assets/] as c2_result_assets
+        }
+    }
+}
+
+package "Challenge 03" {
+    folder "challenge03-repo-overview-plantuml" {
+        [README.md] as c3_readme
+
+        folder "result-03" {
+            [overview.puml] as c3_puml
+            [overview.md] as c3_md
+        }
+    }
+}
+
+package "Challenge 04" {
+    folder "challenge04-bug-hunt" {
+        [README.md] as c4_readme
+        [toolkit.ts] as c4_toolkit
+        folder "grader" {
+            [grade.ts] as c4_grade
+            [reference.ts] as c4_reference
+        }
+    }
+}
+
+package "Challenge 05" {
+    folder "challenge05-reverse-engineer" {
+        [README.md] as c5_readme
+        folder "grader" {
+            [grade.ts] as c5_grade
+            [reference.ts] as c5_reference
+        }
+    }
+}
+
+package "Challenge 06" {
+    folder "challenge06-type-eval" {
+        [README.md] as c6_readme
+        folder "grader" {
+            [grade.ts] as c6_grade
+            [reference.ts] as c6_reference
+        }
+    }
+}
+
+package "Challenge 07" {
+    folder "challenge07-type-lambda" {
+        [README.md] as c7_readme
+        folder "grader" {
+            [grade.ts] as c7_grade
+            [reference.ts] as c7_reference
+        }
+    }
+}
+
+' Root to challenges
+readme -> c1_readme
+readme -> c2_readme
+readme -> c3_readme
+readme -> c4_readme
+readme -> c5_readme
+readme -> c6_readme
+readme -> c7_readme
+
+instructions -> c1_readme
+instructions -> c2_readme
+instructions -> c3_readme
+instructions -> c4_readme
+instructions -> c5_readme
+instructions -> c6_readme
+instructions -> c7_readme
+
+pkg -> node_modules
+pkg -> scoreboard
+pkg -> verify
+
+workflows -> c4_readme
+workflows -> c5_readme
+workflows -> c6_readme
+workflows -> c7_readme
+
+' Challenge relationships
+c1_readme --> c1_types
+c2_readme --> c2_app
+c3_readme --> c3_puml
+c4_readme --> c4_toolkit
+c5_readme --> c5_grade
+c6_readme --> c6_grade
+c7_readme --> c7_grade
+
+' Grader references
+c4_grade ..> c4_reference : verifies
+c5_grade ..> c5_reference : verifies
+c6_grade ..> c6_reference : verifies
+c7_grade ..> c7_reference : verifies
+
+' Scripts
+scoreboard ..> results
+verify ..> results
+
+note bottom
+"Challenges 04-07 have objective graders\nChallenge 02 is manual/visual assessment\nChallenge 03 tests repo comprehension"
+end note
+
+@enduml

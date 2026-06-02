@@ -1,0 +1,44 @@
+@startuml
+!theme blueprint
+
+title Repository Overview: llm-challenges
+
+package "llm-challenges (Root)" as root {
+    file "README.md" as main_readme
+    file "INSTRUCTIONS.md" as instructions
+    file "RESULTS.md" as results
+    file "package.json" as pkg_json
+
+    folder ".github" {
+        folder "workflows" {
+            file "ci.yml" as ci
+        }
+    }
+
+    folder "plans" {
+        file "*.md" as plan_files
+    }
+
+    folder "scripts" {
+        file "scoreboard.ts" as scoreboard
+        file "verify-challenges.ts" as verify
+    }
+
+    folder "challengeNN-<slug>/" as challenge_folder {
+        file "README.md" as challenge_readme
+        file "..." as other_files
+        note bottom of challenge_folder
+            Generic structure for each challenge.
+            Excludes model result folders.
+        end note
+    }
+}
+
+' Relationships
+ci --> verify : "runs"
+verify --> challenge_folder : "validates"
+scoreboard --> results : "regenerates"
+results ..> challenge_folder : "summarises scores"
+instructions ..> challenge_folder : "governs runs"
+
+@enduml
