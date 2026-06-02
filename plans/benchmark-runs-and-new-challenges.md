@@ -30,7 +30,7 @@
 - [x] Challenge 06 — Type-level expression evaluator (type-system computation)
 - [x] Challenge 07 — Type-level lambda calculus normaliser (frontier; may be unsolved)
 - [x] Validate each new challenge spec is self-consistent and solvable/gradeable (reference solutions pass graders for 04-06; ch07 spec passable + runtime selfcheck)
-- [ ] Commit / PR / merge new challenges
+- [x] Commit / PR / merge new challenges (PR #3, CI green on main)
 
 ## Phase 5 — Repo improvements (no changes to existing tests/results)
 
