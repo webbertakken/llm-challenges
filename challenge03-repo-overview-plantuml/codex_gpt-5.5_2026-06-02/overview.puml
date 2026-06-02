@@ -1,0 +1,56 @@
+@startuml
+!theme blueprint
+
+title llm-challenges repository overview
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam wrapWidth 180
+skinparam maxMessageSize 120
+
+folder "llm-challenges/" as repo {
+  component "README.md\nRepository purpose, challenge table,\nresults and tooling entry points" as root_readme
+  component "INSTRUCTIONS.md\nRun protocol, deliverable placement,\nverification and timing rules" as instructions
+  component "package.json\nNode scripts and TypeScript tooling" as package_json
+  component "RESULTS.md\nGenerated benchmark run summary" as results_md
+
+  folder "scripts/" as scripts {
+    component "scoreboard.ts\nRegenerates or checks RESULTS.md\nfrom run metadata" as scoreboard
+    component "verify-challenges.ts\nRuns infrastructure checks for\nchallenge verification contracts" as verify
+  }
+
+  folder ".github/workflows/" as workflows {
+    component "ci.yml\nInstalls dependencies, runs verification,\nstrict type checks, and scoreboard check" as ci
+  }
+
+  package "challengeNN-<slug>/" as challenge {
+    component "README.md\nObjective, requirements, rules,\ndeliverables, verification, scoring" as challenge_readme
+    component "starter/input files\nOptional fixtures or source files\nexplicitly named by the README" as starter_files
+  }
+}
+
+actor "Agent / harness" as agent
+actor "CI" as ci_actor
+
+agent --> instructions : follows run protocol
+agent --> challenge_readme : reads challenge specification
+agent --> starter_files : uses only named inputs
+
+root_readme --> challenge : catalogues numbered challenges
+instructions --> challenge : defines result-folder layout
+package_json --> scripts : exposes npm scripts
+scoreboard --> results_md : writes/checks
+verify --> challenge : validates challenge contracts
+ci_actor --> ci : executes on push and pull request
+ci --> package_json : npm ci
+ci --> verify : npm run verify
+ci --> scoreboard : --check
+
+note right of challenge
+  All challenge folders follow the same shape:
+  a README specification plus any explicitly named inputs.
+  Individual challenges are represented generically so
+  the overview stays valid when new challenges are added.
+end note
+
+@enduml

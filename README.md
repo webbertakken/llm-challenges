@@ -45,6 +45,8 @@ npx tsx grader/grade.ts <result-folder>
 
 - [`RESULTS.md`](RESULTS.md) — auto-generated overview of every run.
   Regenerate with `npx tsx scripts/scoreboard.ts`.
+- [`SCORES.md`](SCORES.md) — objective per-challenge grading of every run.
+  Regenerate with `npx tsx scripts/grade-all.ts`.
 - `npx tsx scripts/verify-challenges.ts` — verifies every grader and its
   reference solution still pass (run in CI).
 
