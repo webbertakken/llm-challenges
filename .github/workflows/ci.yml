@@ -33,3 +33,6 @@ jobs:
 
       - name: Ensure RESULTS.md is up to date
         run: npx tsx scripts/scoreboard.ts --check
+
+      - name: Ensure README scoreboard is up to date
+        run: npx tsx scripts/leaderboard.ts --check
