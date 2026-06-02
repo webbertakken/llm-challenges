@@ -35,7 +35,7 @@ Run all 7 challenges for each model. Folder: `challengeNN-<slug>/[harness]_[mode
 
 ## Phase 5 — Verify, scoreboard, ship
 
-- [ ] Grade every run (ch01/04/05/06/07 graders; ch02/03 presence)
-- [ ] Regenerate RESULTS.md scoreboard
-- [ ] Confirm existing tests/results untouched; CI green
-- [ ] Commit / PR / merge
+- [x] Grade every run -> SCORES.md (`scripts/grade-all.ts`)
+- [x] Regenerate RESULTS.md scoreboard
+- [x] Confirm existing tests/results untouched; CI green
+- [x] Commit / PR / merge (PR #5)
