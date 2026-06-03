@@ -1,0 +1,116 @@
+' =====================================================================
+'  LLM Challenges :: repository overview
+'  Two complementary views:
+'    1. overview-structure  :: the directory layout (package diagram)
+'    2. overview-pipeline   :: the benchmark & scoring data flow
+'  Challenges are shown generically (challengeNN-<slug>/) and per-run
+'  solution result folders are intentionally excluded.
+' =====================================================================
+
+@startuml overview-structure
+!theme blueprint
+title LLM Challenges :: repository structure
+
+skinparam linetype ortho
+skinparam nodesep 12
+skinparam ranksep 24
+skinparam shadowing false
+
+package "llm-challenges/  (repo root)" as ROOT {
+
+  ' ---- root docs & configuration -------------------------------------
+  folder "root docs & config" as CFG {
+    file "README.md\n(overview + generated\nscoreboard block)" as README
+    file "INSTRUCTIONS.md\n(agent run protocol)" as INSTR
+    file "package.json\n(verify · scoreboard · leaderboard)" as PKG
+    file "package-lock.json" as LOCK
+    file ".gitignore" as GI
+  }
+
+  ' ---- continuous integration ----------------------------------------
+  folder ".github/workflows/" as GH {
+    file "ci.yml\n(verify · strict typecheck ·\nfreshness --check)" as CI
+  }
+
+  ' ---- benchmark tooling ---------------------------------------------
+  folder "scripts/  (benchmark tooling)" as SCRIPTS {
+    folder "bench/" as BENCH {
+      file "run-challenge.sh\n(isolate · run harness · harvest)" as RUN
+    }
+    file "verify-challenges.ts\n(grader vs reference)" as VERIFY
+    file "grade-all.ts\n(objective grades)" as GRADE
+    file "scoreboard.ts\n(deliverable index)" as SCORE
+    file "leaderboard.ts\n(ranked scoreboard)" as LEAD
+  }
+
+  ' ---- the challenges (generic, x7) ----------------------------------
+  folder "challengeNN-<slug>/   (x7, one per challenge)" as CH {
+    file "README.md\n(challenge specification)" as CHREADME
+    file "input files (optional)\ne.g. toolkit.ts · mystery.mjs" as INPUT
+    folder "grader/\n(grade.ts + hidden reference)" as GRADER
+  }
+
+  ' ---- derived artefacts (generated, absent from the snapshot) --------
+  folder "generated  (derived; not in snapshot)" as GEN {
+    artifact "SCORES.md" as SCORES
+    artifact "RESULTS.md" as RESULTS
+    artifact "docs/results/\ninterpretations.md" as INTERP
+  }
+}
+
+note bottom of CH
+  Per-run solution folders
+  [harness]_[model]_[quant]_[date]/
+  live inside each challenge but are
+  intentionally excluded from this overview.
+end note
+
+@enduml
+
+
+@startuml overview-pipeline
+!theme blueprint
+title LLM Challenges :: benchmark & scoring pipeline
+
+left to right direction
+skinparam linetype ortho
+skinparam nodesep 16
+skinparam ranksep 55
+skinparam shadowing false
+
+actor "Operator\n(harness CLI)" as OP
+
+file "challengeNN-<slug>/\nREADME spec\n+ inputs + grader" as CH
+
+component "run-challenge.sh" as RUN
+component "grade-all.ts" as GRADE
+component "scoreboard.ts" as SCORE
+component "leaderboard.ts" as LEAD
+component "verify-challenges.ts" as VERIFY
+component "ci.yml\n(GitHub Actions)" as CI
+
+artifact "SCORES.md" as SCORES
+artifact "RESULTS.md" as RESULTS
+file "README.md\n(scoreboard block)" as README
+
+OP --> RUN : pick harness/model
+RUN ..> CH : read spec\n+ copy inputs
+RUN --> GRADE : runs *
+RUN --> SCORE : runs *
+GRADE ..> CH : run grade.ts
+GRADE --> SCORES : per-run grades
+SCORE --> RESULTS : deliverable index
+SCORES ..> LEAD : grades + durations
+LEAD --> README : inject block
+VERIFY ..> CH : grader vs reference
+
+CI ==> VERIFY : verify
+CI ==> SCORE : --check
+CI ==> LEAD : --check
+
+note bottom of RUN
+  * Per-run result folders are the transient
+  pipeline payload, excluded from this overview.
+end note
+
+@enduml

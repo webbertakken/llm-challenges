@@ -46,7 +46,9 @@ npx tsx grader/grade.ts <result-folder>
 Every run, scored and ranked. The score weights the behaviourally graded
 challenges (01, 04-07) above the visual/presence ones (02, 03); see
 `scripts/leaderboard.ts` for the exact rubric. Regenerate with
-`npx tsx scripts/leaderboard.ts`.
+`npx tsx scripts/leaderboard.ts`. Some early models only faced challenges 01-03
+(the rest did not exist yet); which gaps could not be back-filled, and why, is in
+[`docs/results/interpretations.md`](docs/results/interpretations.md#coverage-and-availability).
 
 <!-- LEADERBOARD:START -->
 
@@ -63,11 +65,12 @@ Times only cover challenges that left a duration marker.
 | --- | --- | :---: | :---: | :---: | ---: | ---: |
 | 🥇 1 | **codex · gpt-5.5** | 7/7 | 7/7 | **100**/100 | 114s | 800s |
 | 🥈 2 | **gemini · gemini-3.1-pro-preview** | 7/7 | 7/7 | **100**/100 | 141s | 990s |
-| 🥉 3 | **gemini · gemini-3-flash-preview** | 7/7 | 6/7 | **80**/100 | 57s ⚡ | 396s |
-| 4 | **pi · gemma-4-26b-q6k** | 6/7 | 3/7 | **53**/100 | 307s | 614s |
-| 5 | **pi · deltacoder-9b-q8** | 7/7 | 4/7 | **50**/100 | 129s | 514s |
-| 6 | **gemini · gemini-2.5-pro** | 5/7 | 4/7 | **50**/100 | 44s | 132s |
-| 7 | **codex · gpt-5.4** | 3/7 | 3/7 | **40**/100 | 134s | 403s |
+| 🥉 3 | **claude · opus-4.8** | 7/7 | 7/7 | **100**/100 | 391s | 2734s |
+| 4 | **gemini · gemini-3-flash-preview** | 7/7 | 6/7 | **80**/100 | 57s ⚡ | 396s |
+| 5 | **pi · gemma-4-26b-q6k** | 6/7 | 3/7 | **53**/100 | 307s | 614s |
+| 6 | **pi · deltacoder-9b-q8** | 7/7 | 4/7 | **50**/100 | 129s | 514s |
+| 7 | **gemini · gemini-2.5-pro** | 5/7 | 4/7 | **50**/100 | 44s | 132s |
+| 8 | **codex · gpt-5.4** | 3/7 | 3/7 | **40**/100 | 134s | 403s |
 
 ### Core three — challenges 01-03 only
 

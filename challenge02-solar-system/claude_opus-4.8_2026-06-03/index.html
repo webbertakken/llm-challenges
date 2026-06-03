@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="An interactive, animated solar system simulation built with p5.js — the Sun, eight planets, moons, rings, an asteroid belt, a starfield and a comet."
+    />
+    <title>Solar System — p5.js</title>
+
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #05060c;
+        color: #e8ecff;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        overflow: hidden;
+        overscroll-behavior: none;
+      }
+
+      /* The p5 canvas fills the viewport and sits beneath the overlay text. */
+      main {
+        position: fixed;
+        inset: 0;
+      }
+
+      canvas {
+        display: block;
+      }
+
+      /* Accessible loading / no-JS message, hidden once the sketch paints. */
+      #boot {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-content: center;
+        gap: 0.5rem;
+        text-align: center;
+        background: #05060c;
+        z-index: 10;
+        transition: opacity 0.6s ease;
+      }
+
+      #boot h1 {
+        margin: 0;
+        font-size: clamp(1.2rem, 4vw, 2rem);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+      }
+
+      #boot p {
+        margin: 0;
+        opacity: 0.7;
+        font-size: 0.95rem;
+      }
+
+      /* A small spinning ring to signal loading without causing layout shift. */
+      .ring {
+        width: 42px;
+        height: 42px;
+        margin: 0.4rem auto 0;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.15);
+        border-top-color: #ffcf6b;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .ring {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main id="app"></main>
+
+    <div id="boot" role="status" aria-live="polite">
+      <div class="ring" aria-hidden="true"></div>
+      <h1>Solar System</h1>
+      <p>Loading the simulation…</p>
+      <noscript>This simulation requires JavaScript to be enabled.</noscript>
+    </div>
+
+    <!-- p5.js from CDN (pinned for reproducibility). -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- The sketch itself. -->
+    <script src="sketch.js"></script>
+  </body>
+</html>

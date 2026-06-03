@@ -11,6 +11,7 @@ Objective grading of every run (`scripts/grade-all.ts`). Read-only.
 | Run | 01 | 02 | 03 | 04 | 05 | 06 | 07 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `claude_opus-4.6_2026-04-03` | ✅ compiles | ok | ok | — | — | — | — |
+| `claude_opus-4.8_2026-06-03` | ✅ compiles | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
 | `codex_gpt-5.4_2026-06-02` | ✅ compiles | ok | — | 9/9 | — | — | — |
 | `codex_gpt-5.5_2026-06-02` | ✅ compiles | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
 | `gemini_gemini-2.5-pro_2026-06-02` | ❌ errors | ok | ok | 9/9 | ✅ equiv | — | — |

@@ -32,3 +32,19 @@ Goal: a beautiful, honest comparison of every harness·model run — pros/cons i
 - [x] Wire `leaderboard.ts --check` into CI; add `npm` script
 - [x] Quality checks: typecheck scripts, run `verify`, confirm freshness checks pass
 - [x] Final verification end-to-end, then commit
+
+## Phase 2 — Close coverage gaps (every model runs the challenges)
+
+Triggered by the Opus runs only ever covering 01-03. Fill what is runnable today;
+document the rest transparently.
+
+- [x] Probe every harness: claude (real Opus 4.8 ✓), codex (quota→Jun 7),
+      gemini-2.5-pro (QUOTA_EXHAUSTED), gemini-3-flash (✓ already complete),
+      qwen (interactive OAuth only), local (shared llama.cpp — avoid)
+- [x] Build isolated benchmark runner `scripts/bench/run-challenge.sh`
+      (workspace = README + inputs + node_modules symlink; harvest deliverables)
+- [x] Validate pipeline on ch05 (graded EQUIVALENT), then run Opus 4.8 on all 7
+- [x] Grade the new run: `claude_opus-4.8_2026-06-03` = 100/100 (cracked ch07)
+- [x] Regenerate SCORES.md, RESULTS.md, README leaderboard
+- [x] Update interpretations: Opus entry, renumbered ranks, coverage section
+- [x] Final verification (freshness + grader infra), then commit

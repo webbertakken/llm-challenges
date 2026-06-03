@@ -11,7 +11,9 @@ scoreboard; this page is the qualitative companion.
 - **Two cohorts.** Challenges 04-07 did not exist when the earliest runs were
   made, so those runs only attempted the **core three** (01-03). They are judged
   on a 35-point scale; the **full gauntlet** runs are judged out of 100. Never
-  compare a 35-scale score against a 100-scale score directly.
+  compare a 35-scale score against a 100-scale score directly. The 2026-06-03
+  `claude · opus-4.8` run was added later precisely to give Opus a full-gauntlet
+  result (see *Coverage and availability*).
 - **What each challenge probes.** 01 recursive utility types (`tsgo --strict`
   must compile); 02 creative p5.js (visual); 03 repo comprehension + PlantUML;
   04 subtle-bug detection (graded /9); 05 reverse-engineering an obfuscated
@@ -30,8 +32,8 @@ scoreboard; this page is the qualitative companion.
 
 **Pros**
 
-- The only run to ace all seven: clean ch01 compile, a perfect 9/9 bug hunt,
-  exact CRC-32 identification, and both type-level challenges (06 and the
+- One of three runs to ace all seven: clean ch01 compile, a perfect 9/9 bug
+  hunt, exact CRC-32 identification, and both type-level challenges (06 and the
   frontier 07) passing.
 - Solved the frontier ch07 with a disciplined design — tokeniser, recursive
   descent, de Bruijn indices, normal-order reduction with a 100-step fuel bound
@@ -61,7 +63,34 @@ scoreboard; this page is the qualitative companion.
   283s and 277s.
 - Same final score as codex-5.5 for noticeably more latency.
 
-### 🥉 gemini · gemini-3-flash-preview — 80/100, 7/7, avg 57s ⚡
+### 🥉 claude · opus-4.8 — 100/100, 7/7, avg 391s
+
+Added on 2026-06-03 to close the gap: the earlier `pi · opus-*` rows were made
+before challenges 04-07 existed, so Opus had never faced the hard half. It has
+now — and it is unambiguously top-tier.
+
+**Pros**
+
+- A flawless 100/100: clean ch01 compile, a 9/9 bug hunt that also *confirms*
+  the correct functions, exact CRC-32 with a self-run 10k-input equivalence
+  check, and **both** type-level challenges — including the frontier ch07 —
+  passing.
+- Cracked the frontier with a principled, fully type-level pipeline: a character
+  tokeniser, a recursive-descent parser with a real grammar, de Bruijn
+  conversion that handles shadowing, normal-order beta with index shifting, and a
+  bounded fuel counter that yields `DIVERGE`.
+- Went beyond the brief: rendered its PlantUML to PNGs (ch03) and shipped an
+  elaborate animated sketch (ch02) — the most polished deliverables on the board.
+
+**Cons**
+
+- By far the slowest of the perfect club: 391s average, 2734s total — roughly
+  3.4x codex-5.5 for the same score. Part is harness overhead (this run went via
+  the Claude Code CLI with the full global config loaded) and part is Opus's own
+  thoroughness (rendering diagrams, running its own 10k-input test).
+- Quality matches the very best; throughput does not.
+
+### 4. gemini · gemini-3-flash-preview — 80/100, 7/7, avg 57s ⚡
 
 **Pros**
 
@@ -74,12 +103,12 @@ scoreboard; this page is the qualitative companion.
 
 **Cons**
 
-- Failed the frontier ch07: it chose a 50-step reduction bound (versus 100-400
-  for the runs that passed), too small to normalise the harder terms — its own
-  notes flag the risk.
+- Failed the frontier ch07: it chose a 50-step reduction bound (versus the
+  larger bounds the passing runs used), too small to normalise the harder terms
+  — its own notes flag the risk.
 - Trades depth for speed on the very hardest type-level work.
 
-### 4. pi · gemma-4-26b-q6k — 53/100, 6/7 _(local)_
+### 5. pi · gemma-4-26b-q6k — 53/100, 6/7 _(local)_
 
 A 26B model at q6k, partially GPU-offloaded, running fully offline.
 
@@ -98,7 +127,7 @@ A 26B model at q6k, partially GPU-offloaded, running fully offline.
   reach.
 - Erratic timing (607s on the visual challenge) from partial-offload contention.
 
-### 5. pi · deltacoder-9b-q8 — 50/100, 7/7 _(local)_
+### 6. pi · deltacoder-9b-q8 — 50/100, 7/7 _(local)_
 
 **Pros**
 
@@ -115,7 +144,7 @@ A 26B model at q6k, partially GPU-offloaded, running fully offline.
 - Both type-level challenges (06, 07) fail.
 - ch04 took 357s — slow on the deeper reasoning task.
 
-### 6. gemini · gemini-2.5-pro — 50/100, 5/7
+### 7. gemini · gemini-2.5-pro — 50/100, 5/7
 
 **Pros**
 
@@ -134,7 +163,7 @@ A 26B model at q6k, partially GPU-offloaded, running fully offline.
   fails the strict compile.
 - Narrowest completion among the capable cloud models (5/7).
 
-### 7. codex · gpt-5.4 — 40/100, 3/7
+### 8. codex · gpt-5.4 — 40/100, 3/7
 
 **Pros**
 
@@ -154,6 +183,8 @@ A 26B model at q6k, partially GPU-offloaded, running fully offline.
 
 These runs predate challenges 04-07. All of the Opus/Claude/Qwen runs sweep the
 core three perfectly, so **speed and effort settings** are the differentiator.
+Opus's true ceiling is the perfect full-gauntlet `claude · opus-4.8` run above;
+these older `pi · opus-*` and `claude · opus-4.6` rows only ever saw 01-03.
 
 ### pi · opus-4.6 — 35/35, 3/3, avg 44s
 
@@ -273,11 +304,40 @@ The April core run; by June this model broadened to all seven challenges.
 
 ---
 
+## Coverage and availability
+
+Only the `claude` harness (real Opus 4.8) was runnable on 2026-06-03; every other
+provider was rate-limited or needed interactive auth, so the remaining gaps could
+not be filled today:
+
+- **codex (gpt-5.4, gpt-5.5)** — OpenAI Codex usage quota exhausted until
+  2026-06-07. gpt-5.5 was already complete; gpt-5.4 stays at 3/7.
+- **gemini-2.5-pro** — the Gemini API returned `QUOTA_EXHAUSTED` for this model,
+  so ch06/07 could not be added (gemini-3-flash and 3.1-pro were already 7/7).
+- **qwen3.5-coder** — the qwen CLI requires interactive OAuth and cannot be
+  driven headlessly here.
+- **local models (deltacoder-9b, gemma-4-26b, opencode gemma)** — served by a
+  local llama.cpp instance shared with another live system; not re-run to avoid
+  disrupting it. The June deltacoder run is already 7/7; gemma is 6/7.
+- **opus-4.6, opus-4.7** — retired versions that can no longer be requested;
+  superseded for the hard half by the complete opus-4.8 run.
+
+New runs use isolated workspaces (`scripts/bench/run-challenge.sh`): the agent
+sees only the challenge README, its declared inputs, and a `node_modules`
+symlink — never a grader or another model's solution.
+
+---
+
 ## Cross-cutting observations
 
-- **The frontier (ch07) separates the very top.** Only codex-5.5 and
-  gemini-3.1-pro normalised the type-level lambda calculus. The decisive factor
-  was the reduction step-bound: 50 steps fails (gemini-3-flash), 100-400 passes.
+- **Opus was never weak — it was never tested.** Its earlier low placement was a
+  pure coverage artifact: run on the hard half, `claude · opus-4.8` scored a
+  perfect 100/100 and joined the very top of the board.
+- **The frontier (ch07) separates the very top.** Three runs normalised the
+  type-level lambda calculus — codex-5.5, gemini-3.1-pro, and opus-4.8 — each
+  with a tokeniser, de Bruijn conversion, normal-order reduction, and a bounded
+  fuel counter. For the rest the step bound was decisive: 50 steps fails
+  (gemini-3-flash), larger bounds pass.
 - **Reverse-engineering well-known algorithms is broadly solved.** Every model
   that attempted ch05 — including local 9B and 26B models — correctly identified
   reflected CRC-32 (`0xEDB88320`, init/final `0xFFFFFFFF`).

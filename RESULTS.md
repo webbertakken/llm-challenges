@@ -9,6 +9,7 @@ from its `duration-<secs>-seconds.txt` marker.
 | Run | Duration | Deliverables |
 | --- | --- | --- |
 | `claude_opus-4.6_2026-04-03` | 350s | examples.ts, tests.ts, types.ts |
+| `claude_opus-4.8_2026-06-03` | 456s | examples.ts, tests.ts, types.ts |
 | `codex_gpt-5.4_2026-06-02` | 157s | examples.ts, tests.ts, types.ts |
 | `codex_gpt-5.5_2026-06-02` | 138s | examples.ts, tests.ts, types.ts |
 | `gemini_gemini-2.5-pro_2026-06-02` | — | examples.ts, tests.ts, types.ts |
@@ -29,6 +30,7 @@ from its `duration-<secs>-seconds.txt` marker.
 | Run | Duration | Deliverables |
 | --- | --- | --- |
 | `claude_opus-4.6_2026-04-03` | 53s | index.html, sketch.js |
+| `claude_opus-4.8_2026-06-03` | 558s | index.html, sketch.js |
 | `codex_gpt-5.4_2026-06-02` | 169s | index.html, sketch.js |
 | `codex_gpt-5.5_2026-06-02` | 97s | index.html, sketch.js |
 | `gemini_gemini-2.5-pro_2026-06-02` | 25s | index.html, sketch.js |
@@ -49,6 +51,7 @@ from its `duration-<secs>-seconds.txt` marker.
 | Run | Duration | Deliverables |
 | --- | --- | --- |
 | `claude_opus-4.6_2026-04-03` | 29s | overview.md, overview.puml |
+| `claude_opus-4.8_2026-06-03` | 562s | overview-pipeline.png, overview-structure.png, overview.md, overview.puml |
 | `codex_gpt-5.5_2026-06-02` | 144s | overview.md, overview.puml |
 | `gemini_gemini-2.5-pro_2026-06-02` | 33s | overview.md, overview.puml |
 | `gemini_gemini-3-flash-preview_2026-06-02` | 29s | overview.md, overview.puml |
@@ -69,6 +72,7 @@ from its `duration-<secs>-seconds.txt` marker.
 
 | Run | Duration | Deliverables |
 | --- | --- | --- |
+| `claude_opus-4.8_2026-06-03` | 250s | bugs.md, fixed.ts |
 | `codex_gpt-5.4_2026-06-02` | 77s | bugs.md, fixed.ts |
 | `codex_gpt-5.5_2026-06-02` | 117s | bugs.md, fixed.ts |
 | `gemini_gemini-2.5-pro_2026-06-02` | 74s | bugs.md, fixed.ts |
@@ -81,6 +85,7 @@ from its `duration-<secs>-seconds.txt` marker.
 
 | Run | Duration | Deliverables |
 | --- | --- | --- |
+| `claude_opus-4.8_2026-06-03` | 228s | analysis.md, equivalence.test.ts, solution.ts |
 | `codex_gpt-5.5_2026-06-02` | 50s | analysis.md, equivalence.test.ts, solution.ts |
 | `gemini_gemini-2.5-pro_2026-06-02` | — | analysis.md, equivalence.test.ts, solution.ts |
 | `gemini_gemini-3-flash-preview_2026-06-02` | 26s | analysis.md, equivalence.test.ts, solution.ts |
@@ -92,6 +97,7 @@ from its `duration-<secs>-seconds.txt` marker.
 
 | Run | Duration | Deliverables |
 | --- | --- | --- |
+| `claude_opus-4.8_2026-06-03` | 286s | solution.ts, tests.ts |
 | `codex_gpt-5.5_2026-06-02` | 88s | solution.ts, tests.ts |
 | `gemini_gemini-3-flash-preview_2026-06-02` | 160s | solution.ts, tests.ts |
 | `gemini_gemini-3.1-pro-preview_2026-06-02` | 283s | solution.ts, tests.ts |
@@ -102,6 +108,7 @@ from its `duration-<secs>-seconds.txt` marker.
 
 | Run | Duration | Deliverables |
 | --- | --- | --- |
+| `claude_opus-4.8_2026-06-03` | 394s | notes.md, solution.ts |
 | `codex_gpt-5.5_2026-06-02` | 166s | notes.md, solution.ts |
 | `gemini_gemini-3-flash-preview_2026-06-02` | 86s | notes.md, solution.ts |
 | `gemini_gemini-3.1-pro-preview_2026-06-02` | 277s | notes.md, solution.ts |
