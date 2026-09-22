@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solar System — p5.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.min.js"></script>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #04060f;
+        overflow: hidden;
+        font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      }
+      canvas {
+        display: block;
+      }
+      #hint {
+        position: fixed;
+        inset: auto 0 14px 0;
+        text-align: center;
+        color: #8fa3c8;
+        font-size: 13px;
+        letter-spacing: 0.02em;
+        pointer-events: none;
+        text-shadow: 0 1px 4px #000;
+      }
+      #hint kbd {
+        background: #16203a;
+        border: 1px solid #2b3a60;
+        border-radius: 4px;
+        padding: 1px 5px;
+        color: #cfe0ff;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="sketch-host"></main>
+    <p id="hint">
+      <kbd>drag</kbd> pan · <kbd>scroll</kbd> zoom · <kbd>space</kbd> pause ·
+      <kbd>←</kbd>/<kbd>→</kbd> speed · <kbd>0-9</kbd> follow body · <kbd>O</kbd> orbits ·
+      <kbd>L</kbd> labels · <kbd>T</kbd> trails · <kbd>R</kbd> reset view
+    </p>
+    <script src="sketch.js"></script>
+  </body>
+</html>
