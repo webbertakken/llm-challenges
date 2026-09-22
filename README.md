@@ -115,44 +115,51 @@ written by hand (it sits outside the generated leaderboard markers) from reading
 every submitted `types.ts`/`examples.ts` (ch01) and `solution.ts`/`notes.md`
 (ch07), backed by a 23-check behavioural probe of each `DeepReadonly` suite and
 22 extra normaliser cases (16 hidden, 6 heavy) whose expected outputs come from
-the challenge's own runtime reference. Scores are 0-10; `-` means not submitted.
-Rows follow the leaderboard order. Method, evidence and a paragraph per model:
-[`docs/results/interpretations.md`](docs/results/interpretations.md#qualitative-depth---challenges-01--07).
+the challenge's own runtime reference. Ch01 and Ch07 are depth scores (0-10,
+`-` means not submitted). **Quality /10** is one overall score per run: the mean
+of the two depth scores (a missing challenge counts as 0), moved by the
+qualitative evidence - typed `(state, action)` reducers and machines built
+around the compiler's limits pull it up (at most +0.5); toy or non-compiling
+examples, casts hiding bugs, step bounds tuned to the published cases and notes
+that misdescribe the code pull it down (at most -1.5). The table is ranked by
+Quality, ties broken by Ch07, then Ch01, then average time. The Notes justify
+each score. Rubric, evidence and a paragraph per model:
+[`docs/results/interpretations.md`](docs/results/interpretations.md#overall-quality-score).
 
-| Harness · Model | Ch01 depth /10 | Ch07 depth /10 | Notes |
-| --- | :---: | :---: | --- |
-| **antigravity · gemini-3.7-flash-high** | 5 | 6 | Tuples gain a stray `...never[]` rest; notes say 120 steps, code runs 100 |
-| **antigravity · gemini-3.8-flash-high** | 7 | 7 | 23/23 probe, PII-safe projection example; tidy 100-step normaliser |
-| **pi · deepseek-v4-pro-high** | 5 | 4 | Minimal types, `declare`-stub examples; normaliser hits TS2589 at `pred 3` |
-| **pi · deepseek-v4-flash-high** | 7 | 6 | Normalised `byId`/`order` state; 400 steps plus a 1-cycle detector |
-| **pi · opus-5.5-medium** | 8 | 9 | Typed `(state, action)` reducer; Krivine machine, 10,000-step budget |
-| **codex · gpt-5.5** | 6 | 7 | `any`-free types, thin examples; textbook 100-step normaliser |
-| **antigravity · gemini-3.1-pro-high** | 6 | 6 | Compact and elegant, toy examples; 30-step bound already fails 2^4 |
-| **gemini · gemini-3.1-pro-preview** | 5 | 8 | `DeepPartial` makes array elements optional; TaPL-faithful 400 steps |
-| **pi · opus-5-high** | 7 | 8 | Path-validated `DeepPick`; fused substitution, measured depth ceiling |
-| **pi · fable-5.1-xhigh** | 9 | 9 | `Action`-union reducer plus runtime `select`; 5,100-step burst loop |
-| **pi · opus-5.5-high** | 9 | 9 | Reducer plus Immer-style `produce`, no casts; zipper machine with caches |
-| **pi · opus-5-xhigh** | 8 | 8 | `"cart/add"` action union, cast-free clone; names the `never` parser trap |
-| **claude · opus-4.8** | 7 | 8 | `any`-free, runnable, no action reducer; honest 300-step normaliser |
-| **pi · opus-5.5-xhigh** | 10 | 10 | `deepFreeze` plus reducer replay; depth-independent machine, fact 4 in 6s |
-| **grok · grok-4.6-high** | 5 | 6 | Reducer/`produce` examples do not compile; WHNF/NF with per-subterm fuel |
-| **grok · grok-4.6-xhigh** | 5 | 6 | Solid types, cart reducer example does not compile; honest 64 steps |
-| **grok · grok-4.7-high** | 4 | 5 | `Set` becomes `WeakSet` (its own test caught it); 58 steps |
-| **grok · grok-4.7-xhigh** | 7 | 6 | Unified `Deep<T, Mode>` engine; threaded-fuel WHNF/NF but only 48 steps |
-| **gemini · gemini-3-flash-preview** | 4 | 2 | Casts hide a shallow merge; parser bug fails even `\x.x` |
-| **pi · gemma-4-26b-q6k** (Jun) | 1 | 0 | `types.ts` only with a `{}` placeholder; empty `solution.ts` |
-| **pi · deltacoder-9b-q8** (Jun) | 2 | 1 | Arrays stay mutable, dotted-key `DeepPick`; solution has syntax errors |
-| **gemini · gemini-2.5-pro** | 4 | - | Tuples collapse to arrays; real `ADD_POST` reducer, harness fails compile |
-| **codex · gpt-5.4** | 6 | - | Good types but `DeepPick` turns `Map` into `ReadonlyMap` |
-| **pi · opus-4.6** | 7 | - | Action reducer over `byId`/`allIds`; example `updateUser` calls itself |
-| **qwen · qwen3.5-coder** | 6 | - | Real GitHub REST shapes; `ReadonlyMap` input mangled, casts hide a bug |
-| **claude · opus-4.6** | 6 | - | Selector plus update function; `as unknown as` casts in examples |
-| **pi · opus-4.7-high** | 7 | - | Typed `toggle-theme` reducer, PII-safe telemetry pick |
-| **pi · opus-4.8-high** | 7 | - | Clean runnable examples; `addCartItem` transition without an action |
-| **pi · opus-4.8-xhigh** | 6 | - | Same design as 4.8-high; `reducer(state)` takes no action |
-| **pi · gemma-4-26b-q6k** (Apr) | 2 | - | Functions become `{}`; `DeepPick` cannot merge paths (admitted) |
-| **pi · deltacoder-9b-q8** (Apr) | 1 | - | `DeepPick` returns the value; `DeepMutable` never strips `readonly` |
-| **opencode · gemma-4-26b-q8_0** | - | - | No ch01 or ch07 deliverable |
+| # | Harness · Model | Quality /10 | Ch01 /10 | Ch07 /10 | Notes |
+| --- | --- | :---: | :---: | :---: | --- |
+| 🥇 1 | **pi · opus-5.5-xhigh** | **10** | 10 | 10 | `deepFreeze` plus reducer replay; depth-independent machine, `fact 4` clean in 6s |
+| 🥈 2 | **pi · fable-5.1-xhigh** | **9.5** | 9 | 9 | `Action`-union reducer, runtime `select`; burst loop clears every heavy term |
+| 🥉 3 | **pi · opus-5.5-high** | **9.5** | 9 | 9 | Reducer plus cast-free `produce`; cached zipper machine, differential-tested |
+| 4 | **pi · opus-5.5-medium** | **9** | 8 | 9 | Typed `(state, action)` reducer; Krivine machine clears every heavy term |
+| 5 | **pi · opus-5-xhigh** | **8.5** | 8 | 8 | `"cart/add"` action union, cast-free clone; notes name the `never` parser trap |
+| 6 | **pi · opus-5-high** | **8** | 7 | 8 | Path-validated `DeepPick`, no reducer; fused substitution, measured depth ceiling |
+| 7 | **claude · opus-4.8** | **7.5** | 7 | 8 | `any`-free and runnable but no action reducer; honest 300-step normaliser |
+| 8 | **antigravity · gemini-3.8-flash-high** | **6.5** | 7 | 7 | 23/23 probe, PII-safe pick; JSON `cloneToMutable` silently loses `Map`s |
+| 9 | **pi · deepseek-v4-flash-high** | **6.5** | 7 | 6 | Normalised `byId`/`order` state, no action; 400 steps plus a 1-cycle detector |
+| 10 | **gemini · gemini-3.1-pro-preview** | **6** | 5 | 8 | TaPL-faithful 400 steps; toy examples, `DeepPartial` makes elements optional |
+| 11 | **codex · gpt-5.5** | **6** | 6 | 7 | `any`-free types but toy examples (fixed `history` tuple); textbook 100 steps |
+| 12 | **grok · grok-4.7-xhigh** | **6** | 7 | 6 | Unified `Deep<T, Mode>` engine; threaded fuel, but 48 steps fails `2^5` |
+| 13 | **antigravity · gemini-3.1-pro-high** | **5** | 6 | 6 | Elegant but toy examples; 30-step bound tuned to the grader, `2^4` diverges |
+| 14 | **antigravity · gemini-3.7-flash-high** | **4.5** | 5 | 6 | Tuples gain `...never[]`, state-only examples; notes say 120 steps, code 100 |
+| 15 | **grok · grok-4.6-high** | **4** | 5 | 6 | Reducer/`produce` examples do not compile; "128 steps" is really per subterm |
+| 16 | **grok · grok-4.6-xhigh** | **4** | 5 | 6 | Cart reducer example does not compile; honest but grader-sized 64 steps |
+| 17 | **pi · opus-4.7-high** | **4** | 7 | - | Ch01 only (ch07 postdates the run): typed `toggle-theme` reducer, PII-safe pick |
+| 18 | **pi · deepseek-v4-pro-high** | **3.5** | 5 | 4 | `declare`-stub examples; grader-sized normaliser hits TS2589 at `pred 3` |
+| 19 | **pi · opus-4.8-high** | **3.5** | 7 | - | Ch01 only (ch07 postdates the run): clean runnable examples, no action type |
+| 20 | **grok · grok-4.7-high** | **3** | 4 | 5 | Shipped a `Set`-to-`WeakSet` bug its own test caught; 58 steps fails `2^5` |
+| 21 | **pi · opus-4.6** | **3** | 7 | - | Ch01 only (ch07 postdates the run): loosely typed reducer; `updateUser` recurses |
+| 22 | **claude · opus-4.6** | **3** | 6 | - | Ch01 only (ch07 postdates the run): selector and update, casts to compile |
+| 23 | **pi · opus-4.8-xhigh** | **3** | 6 | - | Ch01 only (ch07 postdates the run): `reducer(state)` takes no action |
+| 24 | **qwen · qwen3.5-coder** | **2.5** | 6 | - | Ch01 only (ch07 postdates the run): GitHub REST shapes, casts hide a shallow merge |
+| 25 | **codex · gpt-5.4** | **2.5** | 6 | - | Ch01 only (no ch07 submitted): `DeepPick` yields `ReadonlyMap`; state constant |
+| 26 | **gemini · gemini-3-flash-preview** | **1.5** | 4 | 2 | Cast hides a shallow merge; parser fails `\x.x`; notes say 50 steps, code 20 |
+| 27 | **gemini · gemini-2.5-pro** | **1.5** | 4 | - | Ch01 only (no ch07 submitted): real `ADD_POST` reducer, but the file fails compile |
+| 28 | **pi · gemma-4-26b-q6k** (Jun) | **0.5** | 1 | 0 | `types.ts` only with a `{}` placeholder; empty `solution.ts` |
+| 29 | **pi · gemma-4-26b-q6k** (Apr) | **0.5** | 2 | - | Ch01 only (ch07 postdates the run): functions become `{}`; aliases, no code |
+| 30 | **pi · deltacoder-9b-q8** (Jun) | **0** | 2 | 1 | Mutable arrays, examples fail compile; normaliser has syntax errors, notes overclaim |
+| 31 | **pi · deltacoder-9b-q8** (Apr) | **0** | 1 | - | Ch01 only (ch07 postdates the run): `DeepMutable` a no-op, examples fail compile |
+| 32 | **opencode · gemma-4-26b-q8_0** | **0** | - | - | No ch01 or ch07 deliverable |
 
 ## Results & tooling
 
@@ -160,8 +167,8 @@ Rows follow the leaderboard order. Method, evidence and a paragraph per model:
   Regenerate with `npx tsx scripts/leaderboard.ts`.
 - [`docs/results/interpretations.md`](docs/results/interpretations.md) — up to
   three pros and cons per model, with cross-cutting observations.
-- [Qualitative depth](#qualitative-depth---challenges-01--07) - hand-scored
-  depth of every ch01 and ch07 answer (maintained by hand, not generated).
+- [Qualitative depth](#qualitative-depth---challenges-01--07) - hand-scored,
+  quality-ranked depth of every ch01 and ch07 answer (maintained by hand).
 - [`RESULTS.md`](RESULTS.md) — auto-generated overview of every run.
   Regenerate with `npx tsx scripts/scoreboard.ts`.
 - [`SCORES.md`](SCORES.md) — objective per-challenge grading of every run.

@@ -365,7 +365,8 @@ A pass/fail grade and a stopwatch say nothing about how *good* an answer is. Thi
 section judges depth and quality by reading the code of the first challenge
 (ch01, `DeepReadonly` and friends) and the frontier one (ch07, the type-level
 lambda normaliser) for every run that submitted them. The scores are the
-hand-written second table in the repo [`README.md`](../../README.md#qualitative-depth---challenges-01--07).
+hand-written second table in the repo [`README.md`](../../README.md#qualitative-depth---challenges-01--07),
+ranked by the [overall quality score](#overall-quality-score).
 
 ### How this was judged
 
@@ -397,6 +398,80 @@ hand-written second table in the repo [`README.md`](../../README.md#qualitative-
   genuine general normaliser, the step bound and how honestly `notes.md`
   explains it, breadth and robustness (including how it behaves at TypeScript's
   TS2589 instantiation limits), and elegance.
+
+### Overall quality score
+
+Each run gets one **Quality /10**, and the README table is ranked by it, the way
+the scoreboard ranks by score. It is a synthesis, not an average:
+
+1. **Base** = the mean of the ch01 and ch07 depth scores. A challenge that was
+   not submitted counts as 0, so a ch01-only run can reach at most half marks
+   and ranks low for coverage, not because its ch01 was poor.
+2. **Pull up, at most +0.5 in total**, for any of: a `(state, action)` reducer
+   over a literal-typed action in ch01; a ch07 machine reorganised around
+   TypeScript's limits (it clears all six heavy terms); notes with measured,
+   falsifiable limits that the re-run confirmed. The cap stops these from
+   double-counting what the depth scores already reward.
+3. **Pull down, at most -1.5 in total**: -1 for examples that do not compile or
+   a bug the run's own tests caught and shipped anyway; -0.5 each for toy or
+   stub examples (a state constant, `declare` stubs, bare aliases), casts or
+   code that hide a runtime bug, a step bound sized to the published cases (it
+   fails `2^4`, `2^5` or `pred 3`), and notes that misdescribe the shipped code.
+4. Clamp to 0-10, in half points. Ties are broken by ch07 depth, then ch01
+   depth, then the scoreboard's average time (faster first; `-` sorts below 0).
+
+| # | Run | Ch01 | Ch07 | Base | Adjustments | Quality |
+| ---: | --- | :---: | :---: | :---: | --- | :---: |
+| 1 | pi · opus-5.5-xhigh | 10 | 10 | 10 | +0.5 reducer, machine, measured notes (clamped) | **10** |
+| 2 | pi · fable-5.1-xhigh | 9 | 9 | 9 | +0.5 reducer, machine, measured `fact 4` | **9.5** |
+| 3 | pi · opus-5.5-high | 9 | 9 | 9 | +0.5 reducer, machine, measured notes | **9.5** |
+| 4 | pi · opus-5.5-medium | 8 | 9 | 8.5 | +0.5 reducer, machine | **9** |
+| 5 | pi · opus-5-xhigh | 8 | 8 | 8 | +0.5 `"cart/add"` reducer, predicted limits | **8.5** |
+| 6 | pi · opus-5-high | 7 | 8 | 7.5 | +0.5 measured depth ceiling and step table | **8** |
+| 7 | claude · opus-4.8 | 7 | 8 | 7.5 | none: runnable and honest, but no action | **7.5** |
+| 8 | antigravity · gemini-3.8-flash-high | 7 | 7 | 7 | -0.5 JSON clone silently loses `Map`s | **6.5** |
+| 9 | pi · deepseek-v4-flash-high | 7 | 6 | 6.5 | none | **6.5** |
+| 10 | gemini · gemini-3.1-pro-preview | 5 | 8 | 6.5 | -0.5 toy examples | **6** |
+| 11 | codex · gpt-5.5 | 6 | 7 | 6.5 | -0.5 toy examples | **6** |
+| 12 | grok · grok-4.7-xhigh | 7 | 6 | 6.5 | -0.5 48-step bound fails `2^5` | **6** |
+| 13 | antigravity · gemini-3.1-pro-high | 6 | 6 | 6 | -0.5 toy examples, -0.5 30-step bound | **5** |
+| 14 | antigravity · gemini-3.7-flash-high | 5 | 6 | 5.5 | -0.5 state-only examples, -0.5 notes (120 vs 100) | **4.5** |
+| 15 | grok · grok-4.6-high | 5 | 6 | 5.5 | -1 examples do not compile, -0.5 per-subterm "128" | **4** |
+| 16 | grok · grok-4.6-xhigh | 5 | 6 | 5.5 | -1 example does not compile, -0.5 64-step bound | **4** |
+| 17 | pi · opus-4.7-high | 7 | - | 3.5 | +0.5 typed `toggle-theme` reducer; ch01 only | **4** |
+| 18 | pi · deepseek-v4-pro-high | 5 | 4 | 4.5 | -0.5 `declare` stubs, -0.5 TS2589 at `pred 3` | **3.5** |
+| 19 | pi · opus-4.8-high | 7 | - | 3.5 | none; ch01 only | **3.5** |
+| 20 | grok · grok-4.7-high | 4 | 5 | 4.5 | -1 shipped `Set`-to-`WeakSet` bug, -0.5 58-step bound | **3** |
+| 21 | pi · opus-4.6 | 7 | - | 3.5 | -0.5 `updateUser` recurses forever; ch01 only | **3** |
+| 22 | claude · opus-4.6 | 6 | - | 3 | none; ch01 only | **3** |
+| 23 | pi · opus-4.8-xhigh | 6 | - | 3 | none; ch01 only | **3** |
+| 24 | qwen · qwen3.5-coder | 6 | - | 3 | -0.5 casts hide a shallow merge; ch01 only | **2.5** |
+| 25 | codex · gpt-5.4 | 6 | - | 3 | -0.5 state-constant examples; ch01 only | **2.5** |
+| 26 | gemini · gemini-3-flash-preview | 4 | 2 | 3 | -0.5 toy, -0.5 cast hides a bug, -0.5 notes (50 vs 20) | **1.5** |
+| 27 | gemini · gemini-2.5-pro | 4 | - | 2 | +0.5 `ADD_POST` reducer, -1 file does not compile | **1.5** |
+| 28 | pi · gemma-4-26b-q6k (Jun) | 1 | 0 | 0.5 | none | **0.5** |
+| 29 | pi · gemma-4-26b-q6k (Apr) | 2 | - | 1 | -0.5 aliases, no code; ch01 only | **0.5** |
+| 30 | pi · deltacoder-9b-q8 (Jun) | 2 | 1 | 1.5 | -1 examples do not compile, -0.5 notes overclaim | **0** |
+| 31 | pi · deltacoder-9b-q8 (Apr) | 1 | - | 0.5 | -1 stray `@ts-expect-error` fails compile (clamped) | **0** |
+| 32 | opencode · gemma-4-26b-q8_0 | - | - | 0 | no deliverable | **0** |
+
+What the ranking says:
+
+- **The top four are the only compiler-aware ch07 machines**, and all four pair
+  them with a typed reducer in ch01. opus-5.5-xhigh is alone at 10 because its
+  machine does not depend on term depth at all.
+- **Quality and the objective scoreboard disagree most in the middle.** The
+  three fastest perfect scorers on the scoreboard (antigravity gemini-3.8-flash,
+  3.7-flash, deepseek-v4-pro) land 8th, 14th and 18th here: they pass the
+  graders, but with a hidden runtime bug, toy examples, grader-sized bounds or
+  notes that do not match the code.
+- **Grok's objective ch01 fails are real quality losses except for 4.7-xhigh**,
+  whose fail comes from over-ambitious tests; it keeps 6 and ranks above all
+  three other grok runs.
+- **Ch01-only runs rank 17th and below by construction.** Their ch01 work is
+  often good (pi opus-4.6, opus-4.7-high and opus-4.8-high all score 7), but
+  ch07 did not exist yet (or, for gemini-2.5-pro and codex gpt-5.4, was never
+  submitted), so half the evidence is missing.
 
 ### Challenge 01 - per model
 
