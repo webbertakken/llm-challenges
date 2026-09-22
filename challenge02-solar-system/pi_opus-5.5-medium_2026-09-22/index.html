@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solar system</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #02030a;
+        color: #cfd8ff;
+        font-family: system-ui, sans-serif;
+      }
+      #help {
+        position: fixed;
+        left: 12px;
+        bottom: 12px;
+        padding: 8px 12px;
+        font-size: 13px;
+        line-height: 1.5;
+        background: rgba(10, 14, 30, 0.7);
+        border: 1px solid rgba(120, 140, 255, 0.25);
+        border-radius: 8px;
+        pointer-events: none;
+      }
+      kbd {
+        padding: 0 4px;
+        border: 1px solid #5a6390;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+    <script src="sketch.js" defer></script>
+  </head>
+  <body>
+    <main aria-label="Animated solar system simulation"></main>
+    <div id="help">
+      Drag to pan · Scroll to zoom · <kbd>Space</kbd> pause · <kbd>+</kbd>/<kbd>-</kbd> speed ·
+      <kbd>L</kbd> labels · <kbd>O</kbd> orbits · <kbd>T</kbd> trails · <kbd>R</kbd> reset
+    </div>
+  </body>
+</html>
