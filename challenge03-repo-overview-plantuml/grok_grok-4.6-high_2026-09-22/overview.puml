@@ -1,0 +1,66 @@
+@startuml
+!theme blueprint
+
+title LLM Challenges — Repository Overview
+
+skinparam shadowing false
+skinparam roundCorner 10
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam noteFontSize 12
+skinparam defaultFontSize 13
+
+left to right direction
+
+package "llm-challenges" as repo {
+  together {
+    [INSTRUCTIONS.md] as instr <<agent protocol>>
+    [package.json] as pkg <<npm toolkit>>
+  }
+
+  package "challengeNN-<slug>/" as challenge {
+    [README.md] as spec <<specification>>
+    [named inputs] as inputs <<optional>>
+  }
+
+  package "scripts/" as scripts {
+    [verify-challenges.ts] as verify
+    [scoreboard.ts] as scoreboard
+    [leaderboard.ts] as leaderboard
+  }
+
+  package ".github/workflows/" as ci {
+    [ci.yml] as workflow
+  }
+}
+
+actor "LLM agent" as agent
+
+agent --> instr : 1. identify harness / model / date
+instr --> spec : 2. read only this spec
+spec ..> inputs : may name extra files
+agent --> challenge : 3. write solution files\ninto a dated run folder
+instr --> agent : 4. type-check with tsgo\n5. record duration
+
+pkg --> verify : npm run verify
+workflow --> verify : CI
+verify --> scoreboard
+scoreboard --> leaderboard
+
+note bottom of challenge
+  Challenges are uniform: a README is the spec,
+  plus only the files that README names as inputs.
+  Run-result folders are intentionally omitted so
+  the diagram stays valid as new challenges appear.
+end note
+
+legend right
+  **Solve protocol (per challenge)**
+  1. Create ``<harness>_<model>_<date>/``
+  2. Touch ``duration.txt``
+  3. Place deliverables **directly** in that folder
+  4. ``npx tsgo --noEmit --strict ...``
+  5. Rename to ``duration-<secs>-seconds.txt``
+endlegend
+
+@enduml
