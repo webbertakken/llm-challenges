@@ -1,0 +1,74 @@
+@startuml
+!theme blueprint
+
+title LLM Challenges — repository overview
+
+' ---------------------------------------------------------------------------
+' The repository: a benchmark suite of TypeScript coding challenges for LLM
+' agents, plus the tooling that grades and scores runs.
+' ---------------------------------------------------------------------------
+
+package "llm-challenges (root)" {
+  [INSTRUCTIONS.md] as INSTRUCTIONS
+  [README.md] as README
+  [package.json] as PKG
+  [package-lock.json] as LOCK
+  [.gitignore] as GITIGNORE
+
+  package ".github/workflows/" {
+    [ci.yml] as CI
+  }
+}
+
+package "scripts/ (tooling)" {
+  [verify-challenges.ts] as VERIFY
+  [grade-all.ts] as GRADE
+  [scoreboard.ts] as SCORE
+  [leaderboard.ts] as LEADER
+  folder "bench/" as BENCH
+}
+
+package "plans/ (planning notes)" {
+  [benchmark-runs-and-new-challenges.md] as PLAN1
+  [local-gemini-openai-runs.md] as PLAN2
+  [model-observations-and-scoreboard.md] as PLAN3
+}
+
+package "docs/ (documentation)" {
+  folder "results/" as RESULTS
+}
+
+' Each challenge is represented generically so the diagram stays valid as
+' new challenges are added. One challenge is instantiated below as an example
+' of the internal shape; the others are implied by the same pattern.
+package "challengeNN-<slug>/ (one per challenge)" {
+  [README.md] as C_README
+  [grader/] as C_GRADER
+  [input files] as C_INPUT
+  [<run>_<model>_<date>/ result folders] as C_SOLN
+}
+
+' ---------------------------------------------------------------------------
+' Relationships
+' ---------------------------------------------------------------------------
+
+PKG --> VERIFY : "verify"
+PKG --> SCORE : "scoreboard"
+PKG --> LEADER : "leaderboard"
+
+CI --> VERIFY : runs on push
+CI --> GRADE : runs on push
+
+VERIFY --> C_SOLN : type-checks solutions
+GRADE --> C_GRADER : scores each challenge
+SCORE --> RESULTS : aggregates
+LEADER --> RESULTS : reads
+
+C_GRADER --> C_SOLN : grades
+C_README --> C_SOLN : specifies deliverables
+INSTRUCTIONS --> C_README : agent rules
+
+GRADE --> BENCH : batch runs
+VERIFY --> GRADE : per-challenge
+
+@enduml
