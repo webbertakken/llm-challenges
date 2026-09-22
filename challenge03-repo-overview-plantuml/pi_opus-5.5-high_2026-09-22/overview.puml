@@ -1,0 +1,95 @@
+@startuml overview
+!theme blueprint
+
+title LLM Challenges - repository overview
+
+skinparam componentStyle rectangle
+skinparam packageStyle folder
+skinparam wrapWidth 320
+skinparam nodesep 40
+skinparam ranksep 50
+
+actor "Agent under test\n(harness + model)" as agent
+actor "Maintainer" as maintainer
+
+package "llm-challenges/ (repository root)" as root {
+
+  package "Benchmark protocol" as protocol {
+    artifact instructions [
+      **INSTRUCTIONS.md**
+      ----
+      1. identify: harness, model, quantisation
+      2. pick a challenge, read its README
+      3. write files into the result folder
+      4. verify: tsgo ~--noEmit ~--strict, tsx tests.ts
+      5. record timing (duration-N-seconds.txt)
+      ----
+      rules: read only spec + named inputs,
+      never peek at results or grader/
+    ]
+  }
+
+  package "challengeNN-<slug>/  (one folder per challenge, numbered)" as challenge {
+    artifact spec [
+      **README.md** - the specification
+      ----
+      Difficulty and topics
+      Objective
+      Requirements / edge cases
+      Deliverables (exact file names)
+      Evaluation criteria
+    ]
+    file "input files\n(optional, named in the README)" as inputs
+    folder "grader/\n(reference answers,\noff-limits to agents)" as grader
+  }
+
+  package "Reporting" as reporting {
+    file "README.md\n(project intro + leaderboard)" as readme
+    file "RESULTS.md\n(per-run results)" as results
+    file "SCORES.md\n(scores per challenge)" as scores
+    file "img.png\n(illustration)" as image
+  }
+
+  package "Supporting material" as support {
+    folder "docs/\n(documentation)" as docs
+    folder "plans/\n(work plans)" as plans
+    folder "scripts/\n(repo automation)" as scripts
+  }
+
+  package "Toolchain (Node.js)" as toolchain {
+    component "package.json\npackage-lock.json" as pkg
+    component "tsgo\n(native TypeScript type checker)" as tsgo
+    component "tsx\n(TypeScript runtime for tests)" as tsx
+    folder "node_modules/" as nm
+  }
+}
+
+agent --> instructions : 1. follows
+agent --> spec : 2. reads
+agent ..> inputs : reads when named
+agent --> tsgo : 4. type-checks solution
+agent --> tsx : 4. runs runtime tests
+agent .[#FF6B6B].> grader : <color:#FF6B6B>must not read</color>
+
+spec ..> inputs : names
+grader ..> spec : grades against\nevaluation criteria
+
+pkg --> tsgo : pins
+pkg --> tsx : pins
+pkg --> nm : installs into
+
+maintainer --> challenge : authors specs\nand graders
+maintainer --> reporting : records run\noutcomes
+maintainer --> support : maintains
+readme --> image : embeds
+
+' layout: stack the maintainer-side packages
+image -[hidden]down- docs
+
+note top of challenge
+  Challenges are shown generically: every challengeNN-<slug>/ has the same shape,
+  so new challenges slot in without changing this diagram.
+  Solution folders produced by benchmark runs are intentionally omitted.
+end note
+
+@enduml
