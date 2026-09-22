@@ -1,0 +1,34 @@
+@startuml
+!theme blueprint
+
+skinparam componentStyle rectangle
+
+package "LLM Challenges Repository" {
+    
+    file "INSTRUCTIONS.md" as Instructions
+    note right of Instructions
+        Core rules, setup, 
+        and validation commands 
+        for all agents.
+    end note
+    
+    folder "challengeNN-<slug>/" as ChallengeDir {
+        file "README.md" as ChallengeReadme
+        note right of ChallengeReadme
+            Challenge-specific objective,
+            requirements, and deliverables.
+        end note
+        
+        file "Inputs..." as ChallengeInputs
+        note right of ChallengeInputs
+            Optional starter code or 
+            data provided for the challenge.
+        end note
+        
+        ChallengeReadme -[hidden]down- ChallengeInputs
+    }
+    
+    Instructions -down-> ChallengeDir : "Dictates general workflow for"
+}
+
+@enduml
