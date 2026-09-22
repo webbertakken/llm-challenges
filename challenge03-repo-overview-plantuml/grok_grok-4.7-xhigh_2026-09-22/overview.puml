@@ -1,0 +1,55 @@
+@startuml llm-challenges-overview
+!theme blueprint
+title LLM Challenges — repository overview
+
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam wrapWidth 170
+
+package "llm-challenges" {
+  [INSTRUCTIONS.md] as Instructions <<agent contract>>
+  [package.json] as Package <<npm scripts>>
+
+  package "challengeNN-<slug>/" as Challenge {
+    [README.md] as Spec <<specification>>
+    [optional input files] as Inputs <<named by that README>>
+    [grader/\nreference + grade.ts] as Grader <<optional>>
+  }
+
+  package "scripts/" {
+    [bench/run-challenge.sh] as Bench <<one isolated run>>
+    [verify-challenges.ts] as Verify
+    [grade-all.ts] as GradeAll
+    [scoreboard.ts] as Scoreboard
+    [leaderboard.ts] as Leaderboard
+  }
+
+  package "Checked-in reports" {
+    [SCORES.md] as Scores <<generated>>
+    [RESULTS.md] as Results <<generated>>
+    [README.md\nleaderboard block] as Readme <<generated>>
+  }
+
+  [ci.yml] as CI <<.github/workflows>>
+}
+
+Instructions --> Spec : read the spec\nfor one challenge
+Spec --> Inputs : only files\nthe spec names
+Bench --> Spec : copy spec + inputs\ninto a clean workspace
+Bench ..> Grader : not copied\n(hidden from the agent)
+Verify --> Grader : reference must pass\nbuggy fixture must fail
+GradeAll --> Grader : grade a run\nwhere a grader exists
+GradeAll --> Scores : write
+Scoreboard --> Results : write file list\nand durations
+Leaderboard --> Scores : read grades
+Leaderboard --> Readme : rewrite the block
+Package --> Verify : npm run verify
+Package --> Scoreboard : npm run scoreboard
+Package --> Leaderboard : npm run leaderboard
+CI --> Verify
+CI --> Grader : tsgo --strict\non TypeScript references
+CI --> Scoreboard : --check
+CI --> Leaderboard : --check
+
+@enduml
