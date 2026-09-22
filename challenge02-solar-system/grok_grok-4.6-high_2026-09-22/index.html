@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar System — p5.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #02010a;
+        font-family: "Segoe UI", system-ui, sans-serif;
+      }
+      canvas {
+        display: block;
+      }
+      #hud {
+        position: fixed;
+        left: 16px;
+        bottom: 16px;
+        color: #c9d4ff;
+        font-size: 12px;
+        line-height: 1.6;
+        pointer-events: none;
+        text-shadow: 0 1px 8px #000;
+        opacity: 0.85;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hud">
+      Scroll to zoom · drag to pan · space pause · [ / ] speed · L labels
+    </div>
+    <script src="sketch.js"></script>
+  </body>
+</html>
