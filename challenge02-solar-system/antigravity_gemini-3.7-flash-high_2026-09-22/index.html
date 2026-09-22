@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar System Simulation — p5.js</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #03050d;
+      color: #f0f4f8;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+    #canvas-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    #ui-overlay {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 10;
+      background: rgba(10, 15, 30, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      max-width: 320px;
+    }
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      background: linear-gradient(90deg, #ffcc00, #ff7b00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p.subtitle {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-bottom: 14px;
+    }
+    .control-group {
+      margin-bottom: 12px;
+    }
+    label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      color: #cbd5e1;
+    }
+    input[type="range"] {
+      width: 100%;
+      accent-color: #f59e0b;
+      cursor: pointer;
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    button {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    button:hover {
+      background: rgba(245, 158, 11, 0.3);
+      border-color: #f59e0b;
+    }
+    .instructions {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 12px;
+      line-height: 1.4;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 8px;
+    }
+    #planet-info-panel {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10;
+      background: rgba(10, 15, 30, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      width: 280px;
+      display: none;
+    }
+    #planet-info-panel h2 {
+      font-size: 1.1rem;
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+    #planet-info-panel .stat-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      margin-bottom: 6px;
+      color: #94a3b8;
+    }
+    #planet-info-panel .stat-value {
+      color: #f1f5f9;
+      font-weight: 500;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+<body>
+  <div id="canvas-container"></div>
+
+  <div id="ui-overlay">
+    <h1>Solar System</h1>
+    <p class="subtitle">Interactive 2D Orbital Mechanics</p>
+
+    <div class="control-group">
+      <label for="speedSlider">Simulation Speed: <span id="speedVal">1.0x</span></label>
+      <input type="range" id="speedSlider" min="0" max="5" step="0.1" value="1.0">
+    </div>
+
+    <div class="btn-row">
+      <button id="pauseBtn">Pause</button>
+      <button id="resetCamBtn">Reset View</button>
+      <button id="toggleOrbitsBtn">Orbits</button>
+    </div>
+
+    <div class="instructions">
+      • <strong>Drag</strong> to pan across space<br>
+      • <strong>Scroll</strong> to zoom in/out<br>
+      • <strong>Click planet</strong> to focus and inspect
+    </div>
+  </div>
+
+  <div id="planet-info-panel">
+    <h2 id="infoName">Planet</h2>
+    <div class="stat-row"><span>Type:</span><span class="stat-value" id="infoType">-</span></div>
+    <div class="stat-row"><span>Distance from Sun:</span><span class="stat-value" id="infoDist">-</span></div>
+    <div class="stat-row"><span>Orbital Period:</span><span class="stat-value" id="infoPeriod">-</span></div>
+    <div class="stat-row"><span>Moons:</span><span class="stat-value" id="infoMoons">-</span></div>
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>
