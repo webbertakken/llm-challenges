@@ -1,0 +1,88 @@
+@startuml llm-challenges-structure
+!theme blueprint
+title LLM Challenges — Repository Structure
+
+skinparam wrapWidth 220
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam defaultFontSize 13
+
+package "llm-challenges/" as root {
+  together {
+    file "INSTRUCTIONS.md" as instructions
+    file "package.json" as pkg
+  }
+
+  package "challengeNN-<slug>/" as challenge {
+    file "README.md" as spec
+    file "named inputs\n(optional)" as inputs
+  }
+
+  package "scripts/" as scripts {
+    component "verify-challenges.ts" as verify
+    component "scoreboard.ts" as scoreboard
+    component "leaderboard.ts" as leaderboard
+    component "bench/run-challenge.sh" as bench
+  }
+
+  package ".github/workflows/" as github {
+    component "ci.yml" as ci
+  }
+
+  folder "docs/" as docs
+}
+
+instructions -down-> spec : "agent playbook\npoints at each spec"
+spec -down-> inputs : "README may name\nfiles to read"
+pkg -down-> scripts : "npm run verify\nnpm run scoreboard\nnpm run leaderboard"
+ci -down-> pkg : "npm ci, then\nverify + scoreboard checks"
+
+note bottom of challenge
+  New challenges follow this layout.
+  Do not enumerate challenge01, challenge02, …
+  in diagrams — the glob stays valid as the
+  suite grows.
+
+  Agent result folders (harness_model_date)
+  sit beside the spec but are omitted here:
+  they are run artefacts, not the suite itself.
+end note
+
+note right of instructions
+  Identity → read README → write files
+  directly into the results folder →
+  npx tsgo --strict → optional npx tsx tests.ts
+  → duration-<secs>-seconds.txt
+end note
+
+@enduml
+
+@startuml llm-challenges-workflow
+!theme blueprint
+title LLM Challenges — Agent and Tooling Workflow
+
+actor "LLM Agent" as agent
+participant "INSTRUCTIONS.md" as instr
+participant "challengeNN-<slug>/README.md" as readme
+participant "Named inputs" as named
+participant "Result files" as results
+participant "tsgo / tsx" as check
+participant "CI (ci.yml)" as ci
+
+agent -> instr : read playbook
+agent -> readme : read specification only
+readme -> named : optional, if named
+agent -> results : write deliverables\n(no nested solution/ folder)
+agent -> check : type-check (--strict, ES2024, NodeNext)
+agent -> check : run runtime tests when specified
+agent -> results : write duration-<secs>-seconds.txt
+
+ci -> check : npm run verify
+ci -> ci : scoreboard / leaderboard --check
+
+note over agent, results
+  Result folders are per-run artefacts and are
+  not part of the structural overview.
+end note
+
+@enduml
