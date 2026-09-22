@@ -1,0 +1,51 @@
+@startuml
+!theme blueprint
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName "Helvetica, Arial, sans-serif"
+
+title LLM Challenges Benchmark Suite — Repository Architecture
+
+package "Repository Root" as Root {
+    file "INSTRUCTIONS.md" as Instructions <<Orchestration>> {
+        * Agent Identification Rules
+        * Execution Lifecycle & Timing
+        * Compilation & Verification Commands
+    }
+
+    file "package.json / tsconfig.json" as ProjectConfig <<Tooling>> {
+        * TypeScript / tsgo Compiler Settings
+        * Runtime Execution Engines
+    }
+
+    package "challengeNN-<slug>/" as ChallengeModule <<Generic Challenge Suite>> {
+        file "README.md" as ChallengeSpec <<Specification>> {
+            * Challenge Objective & Rules
+            * Required Deliverables
+            * Evaluation Criteria
+            * Difficulty & Topic Tags
+        }
+
+        folder "Challenge Inputs / Assets" as Inputs <<Optional>> {
+            file "input.* / starter.*" as InputFiles
+        }
+
+        ChallengeSpec ..> InputFiles : "references"
+    }
+
+    package "Evaluation & Benchmark Harness" as Harness <<Framework>> {
+        card "Agent Execution" as Runner {
+            :Read INSTRUCTIONS.md;
+            :Read Challenge README.md;
+            :Implement Deliverables;
+            :Verify Type Safety & Tests;
+            :Record Benchmark Timing;
+        }
+    }
+}
+
+Instructions -[#38bdf8]-> Runner : "governs execution"
+ChallengeSpec -[#38bdf8]-> Runner : "defines task contract"
+ProjectConfig -[#38bdf8]-> Runner : "provides type checking"
+
+@enduml
