@@ -65,21 +65,27 @@ Times only cover challenges that left a duration marker.
 | --- | --- | :---: | :---: | :---: | ---: | ---: |
 | 🥇 1 | **antigravity · gemini-3.7-flash-high** | 7/7 | 7/7 | **100**/100 | 30s ⚡ | 212s |
 | 🥈 2 | **antigravity · gemini-3.8-flash-high** | 7/7 | 7/7 | **100**/100 | 49s | 341s |
-| 🥉 3 | **codex · gpt-5.5** | 7/7 | 7/7 | **100**/100 | 114s | 800s |
-| 4 | **antigravity · gemini-3.1-pro-high** | 7/7 | 7/7 | **100**/100 | 117s | 821s |
-| 5 | **gemini · gemini-3.1-pro-preview** | 7/7 | 7/7 | **100**/100 | 141s | 990s |
-| 6 | **pi · opus-5-high** | 7/7 | 7/7 | **100**/100 | 201s | 1404s |
-| 7 | **pi · opus-5-xhigh** | 7/7 | 7/7 | **100**/100 | 275s | 1922s |
-| 8 | **claude · opus-4.8** | 7/7 | 7/7 | **100**/100 | 391s | 2734s |
-| 9 | **grok · grok-4.6-high** | 7/7 | 6/7 | **85**/100 | 67s | 470s |
-| 10 | **grok · grok-4.6-xhigh** | 7/7 | 6/7 | **85**/100 | 109s | 760s |
-| 11 | **grok · grok-4.7-high** | 7/7 | 6/7 | **85**/100 | 268s | 1874s |
-| 12 | **grok · grok-4.7-xhigh** | 7/7 | 6/7 | **85**/100 | 299s | 2096s |
-| 13 | **gemini · gemini-3-flash-preview** | 7/7 | 6/7 | **80**/100 | 57s | 396s |
-| 14 | **pi · gemma-4-26b-q6k** | 6/7 | 3/7 | **53**/100 | 307s | 614s |
-| 15 | **pi · deltacoder-9b-q8** | 7/7 | 4/7 | **50**/100 | 129s | 514s |
-| 16 | **gemini · gemini-2.5-pro** | 5/7 | 4/7 | **50**/100 | 44s | 132s |
-| 17 | **codex · gpt-5.4** | 3/7 | 3/7 | **40**/100 | 134s | 403s |
+| 🥉 3 | **pi · deepseek-v4-pro-high** | 7/7 | 7/7 | **100**/100 | 75s | 523s |
+| 4 | **pi · deepseek-v4-flash-high** | 7/7 | 7/7 | **100**/100 | 80s | 561s |
+| 5 | **pi · opus-5.5-medium** | 7/7 | 7/7 | **100**/100 | 109s | 766s |
+| 6 | **codex · gpt-5.5** | 7/7 | 7/7 | **100**/100 | 114s | 800s |
+| 7 | **antigravity · gemini-3.1-pro-high** | 7/7 | 7/7 | **100**/100 | 117s | 821s |
+| 8 | **gemini · gemini-3.1-pro-preview** | 7/7 | 7/7 | **100**/100 | 141s | 990s |
+| 9 | **pi · opus-5-high** | 7/7 | 7/7 | **100**/100 | 201s | 1404s |
+| 10 | **pi · fable-5.1-xhigh** | 7/7 | 7/7 | **100**/100 | 247s | 1732s |
+| 11 | **pi · opus-5.5-high** | 7/7 | 7/7 | **100**/100 | 256s | 1791s |
+| 12 | **pi · opus-5-xhigh** | 7/7 | 7/7 | **100**/100 | 275s | 1922s |
+| 13 | **claude · opus-4.8** | 7/7 | 7/7 | **100**/100 | 391s | 2734s |
+| 14 | **pi · opus-5.5-xhigh** | 7/7 | 7/7 | **100**/100 | 422s | 2952s |
+| 15 | **grok · grok-4.6-high** | 7/7 | 6/7 | **85**/100 | 67s | 470s |
+| 16 | **grok · grok-4.6-xhigh** | 7/7 | 6/7 | **85**/100 | 109s | 760s |
+| 17 | **grok · grok-4.7-high** | 7/7 | 6/7 | **85**/100 | 268s | 1874s |
+| 18 | **grok · grok-4.7-xhigh** | 7/7 | 6/7 | **85**/100 | 299s | 2096s |
+| 19 | **gemini · gemini-3-flash-preview** | 7/7 | 6/7 | **80**/100 | 57s | 396s |
+| 20 | **pi · gemma-4-26b-q6k** | 6/7 | 3/7 | **53**/100 | 307s | 614s |
+| 21 | **pi · deltacoder-9b-q8** | 7/7 | 4/7 | **50**/100 | 129s | 514s |
+| 22 | **gemini · gemini-2.5-pro** | 5/7 | 4/7 | **50**/100 | 44s | 132s |
+| 23 | **codex · gpt-5.4** | 3/7 | 3/7 | **40**/100 | 134s | 403s |
 
 ### Core three — challenges 01-03 only
 
@@ -102,12 +108,60 @@ Per-model strengths and weaknesses: [`docs/results/interpretations.md`](docs/res
 
 <!-- LEADERBOARD:END -->
 
+## Qualitative depth - challenges 01 & 07
+
+Passing tests and ranking by time hides how good an answer is. This table is
+written by hand (it sits outside the generated leaderboard markers) from reading
+every submitted `types.ts`/`examples.ts` (ch01) and `solution.ts`/`notes.md`
+(ch07), backed by a 23-check behavioural probe of each `DeepReadonly` suite and
+22 extra normaliser cases (16 hidden, 6 heavy) whose expected outputs come from
+the challenge's own runtime reference. Scores are 0-10; `-` means not submitted.
+Rows follow the leaderboard order. Method, evidence and a paragraph per model:
+[`docs/results/interpretations.md`](docs/results/interpretations.md#qualitative-depth---challenges-01--07).
+
+| Harness · Model | Ch01 depth /10 | Ch07 depth /10 | Notes |
+| --- | :---: | :---: | --- |
+| **antigravity · gemini-3.7-flash-high** | 5 | 6 | Tuples gain a stray `...never[]` rest; notes say 120 steps, code runs 100 |
+| **antigravity · gemini-3.8-flash-high** | 7 | 7 | 23/23 probe, PII-safe projection example; tidy 100-step normaliser |
+| **pi · deepseek-v4-pro-high** | 5 | 4 | Minimal types, `declare`-stub examples; normaliser hits TS2589 at `pred 3` |
+| **pi · deepseek-v4-flash-high** | 7 | 6 | Normalised `byId`/`order` state; 400 steps plus a 1-cycle detector |
+| **pi · opus-5.5-medium** | 8 | 9 | Typed `(state, action)` reducer; Krivine machine, 10,000-step budget |
+| **codex · gpt-5.5** | 6 | 7 | `any`-free types, thin examples; textbook 100-step normaliser |
+| **antigravity · gemini-3.1-pro-high** | 6 | 6 | Compact and elegant, toy examples; 30-step bound already fails 2^4 |
+| **gemini · gemini-3.1-pro-preview** | 5 | 8 | `DeepPartial` makes array elements optional; TaPL-faithful 400 steps |
+| **pi · opus-5-high** | 7 | 8 | Path-validated `DeepPick`; fused substitution, measured depth ceiling |
+| **pi · fable-5.1-xhigh** | 9 | 9 | `Action`-union reducer plus runtime `select`; 5,100-step burst loop |
+| **pi · opus-5.5-high** | 9 | 9 | Reducer plus Immer-style `produce`, no casts; zipper machine with caches |
+| **pi · opus-5-xhigh** | 8 | 8 | `"cart/add"` action union, cast-free clone; names the `never` parser trap |
+| **claude · opus-4.8** | 7 | 8 | `any`-free, runnable, no action reducer; honest 300-step normaliser |
+| **pi · opus-5.5-xhigh** | 10 | 10 | `deepFreeze` plus reducer replay; depth-independent machine, fact 4 in 6s |
+| **grok · grok-4.6-high** | 5 | 6 | Reducer/`produce` examples do not compile; WHNF/NF with per-subterm fuel |
+| **grok · grok-4.6-xhigh** | 5 | 6 | Solid types, cart reducer example does not compile; honest 64 steps |
+| **grok · grok-4.7-high** | 4 | 5 | `Set` becomes `WeakSet` (its own test caught it); 58 steps |
+| **grok · grok-4.7-xhigh** | 7 | 6 | Unified `Deep<T, Mode>` engine; threaded-fuel WHNF/NF but only 48 steps |
+| **gemini · gemini-3-flash-preview** | 4 | 2 | Casts hide a shallow merge; parser bug fails even `\x.x` |
+| **pi · gemma-4-26b-q6k** (Jun) | 1 | 0 | `types.ts` only with a `{}` placeholder; empty `solution.ts` |
+| **pi · deltacoder-9b-q8** (Jun) | 2 | 1 | Arrays stay mutable, dotted-key `DeepPick`; solution has syntax errors |
+| **gemini · gemini-2.5-pro** | 4 | - | Tuples collapse to arrays; real `ADD_POST` reducer, harness fails compile |
+| **codex · gpt-5.4** | 6 | - | Good types but `DeepPick` turns `Map` into `ReadonlyMap` |
+| **pi · opus-4.6** | 7 | - | Action reducer over `byId`/`allIds`; example `updateUser` calls itself |
+| **qwen · qwen3.5-coder** | 6 | - | Real GitHub REST shapes; `ReadonlyMap` input mangled, casts hide a bug |
+| **claude · opus-4.6** | 6 | - | Selector plus update function; `as unknown as` casts in examples |
+| **pi · opus-4.7-high** | 7 | - | Typed `toggle-theme` reducer, PII-safe telemetry pick |
+| **pi · opus-4.8-high** | 7 | - | Clean runnable examples; `addCartItem` transition without an action |
+| **pi · opus-4.8-xhigh** | 6 | - | Same design as 4.8-high; `reducer(state)` takes no action |
+| **pi · gemma-4-26b-q6k** (Apr) | 2 | - | Functions become `{}`; `DeepPick` cannot merge paths (admitted) |
+| **pi · deltacoder-9b-q8** (Apr) | 1 | - | `DeepPick` returns the value; `DeepMutable` never strips `readonly` |
+| **opencode · gemma-4-26b-q8_0** | - | - | No ch01 or ch07 deliverable |
+
 ## Results & tooling
 
 - [Scoreboard](#scoreboard) — ranked, scored table of every run (above).
   Regenerate with `npx tsx scripts/leaderboard.ts`.
 - [`docs/results/interpretations.md`](docs/results/interpretations.md) — up to
   three pros and cons per model, with cross-cutting observations.
+- [Qualitative depth](#qualitative-depth---challenges-01--07) - hand-scored
+  depth of every ch01 and ch07 answer (maintained by hand, not generated).
 - [`RESULTS.md`](RESULTS.md) — auto-generated overview of every run.
   Regenerate with `npx tsx scripts/scoreboard.ts`.
 - [`SCORES.md`](SCORES.md) — objective per-challenge grading of every run.
