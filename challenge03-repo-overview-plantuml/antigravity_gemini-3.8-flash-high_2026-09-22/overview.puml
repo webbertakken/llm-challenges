@@ -1,0 +1,57 @@
+@startuml
+!theme blueprint
+skinparam defaultFontName sans-serif
+
+package "LLM Challenges Benchmark Repository" as Repo {
+  
+  file "INSTRUCTIONS.md" as Instructions <<Root Guide>> {
+    [Benchmark Instructions & Protocol]
+    [Run Directory Conventions]
+    [Verification & Timing Protocol]
+  }
+
+  file "package.json" as PackageConfig <<Config>> {
+    [TypeScript / tsgo Dependencies]
+    [Execution Runtime Config]
+  }
+
+  package "challengeNN-<slug>/" as ChallengeDir <<Generic Challenge Suite>> {
+    file "README.md" as ChallengeSpec <<Specification>> {
+      [Objective & Problem Statement]
+      [Technical Requirements & Rules]
+      [Deliverables Specification]
+      [Evaluation Criteria & Constraints]
+    }
+
+    folder "Inputs & Assets (Optional)" as ChallengeInputs <<Problem Data>> {
+      [Input Data / Schemas / Fixtures]
+    }
+
+    folder "[harness]_[model]_[quantisation]_[YYYY-MM-DD]/" as RunResult <<Benchmark Run>> {
+      [Solution Implementations]
+      [Verification Tests & Assertions]
+      [duration-<N>-seconds.txt]
+    }
+  }
+
+  package "Tooling & Verification Pipeline" as Tooling {
+    component "tsgo / tsc" as Compiler <<Type Checker>>
+    component "tsx / node" as TestRunner <<Runtime Validator>>
+  }
+
+  Instructions .down.> ChallengeDir : defines execution rules
+  ChallengeSpec -down-> ChallengeInputs : references
+  ChallengeSpec -down-> RunResult : specifies deliverables
+  RunResult .down.> Compiler : validated by
+  RunResult .down.> TestRunner : executed by
+}
+
+note right of ChallengeDir
+  Challenges are organized modularly:
+  - Each challenge is self-contained in challengeNN-<slug>/
+  - README.md defines exact deliverables and constraints
+  - Solutions are placed directly in the designated model run folder
+  - Duration markers track execution efficiency
+end note
+
+@enduml
