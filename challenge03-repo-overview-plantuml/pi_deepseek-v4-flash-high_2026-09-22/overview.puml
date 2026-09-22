@@ -1,0 +1,88 @@
+@startuml
+!theme blueprint
+title llm-challenges - repository overview
+
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam wrapWidth 220
+
+' ------------------------------------------------------------------
+' Entry points
+' ------------------------------------------------------------------
+artifact "README.md" as readme
+artifact "INSTRUCTIONS.md" as instructions
+artifact "package.json" as pkg
+artifact "img.png" as img
+
+' ------------------------------------------------------------------
+' The challenge collection (one self-contained folder per challenge)
+' ------------------------------------------------------------------
+package "challengeNN-<slug>/" as challenges {
+  artifact "README.md" as spec
+  artifact "declared input files" as inputs
+  folder "grader/" as grader
+}
+
+' ------------------------------------------------------------------
+' Tooling
+' ------------------------------------------------------------------
+folder "scripts/" as scripts {
+  component "verify-challenges.ts" as verify
+  component "grade-all.ts" as gradeAll
+  component "scoreboard.ts" as scoreboard
+  component "leaderboard.ts" as leaderboard
+  component "bench/run-challenge.sh" as bench
+}
+
+folder ".github/workflows/" as workflows {
+  component "ci.yml" as ci
+}
+
+folder "docs/" as docs
+folder "plans/" as plans
+
+artifact "RESULTS.md" as results
+artifact "SCORES.md" as scores
+
+' ------------------------------------------------------------------
+' Relationships
+' ------------------------------------------------------------------
+readme --> instructions : workflow for solving agents
+readme --> challenges : indexes
+readme --> docs : points to
+instructions --> spec : defines the contract
+spec --> inputs : declares
+spec --> grader : graded by, where behavioural
+
+pkg --> scripts : exposes as npm scripts
+bench --> spec : seeds an isolated workspace from
+verify --> grader : runs each grader against its reference
+gradeAll --> grader : runs graders over every result folder
+gradeAll --> scores : writes
+scoreboard --> results : writes
+leaderboard --> readme : rewrites the scoreboard block
+ci --> verify
+ci --> scoreboard
+ci --> leaderboard
+plans ..> challenges
+docs ..> challenges
+
+note top of challenges
+  One self-contained folder per challenge,
+  numbered challengeNN-<slug>/.
+  Each folder carries its own specification
+  (README.md), the input files that
+  specification declares, and - for the
+  behaviourally graded challenges - a grader/.
+end note
+
+note bottom of scripts
+  Verification and reporting tooling.
+  Anything that touches result folders is
+  read-only apart from the generated
+  RESULTS.md, SCORES.md and the README
+  scoreboard block.
+end note
+
+@enduml

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solar System — p5.js</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #04060f;
+      }
+
+      canvas {
+        display: block;
+      }
+
+      #hud {
+        position: fixed;
+        left: 16px;
+        bottom: 14px;
+        font: 12px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        color: rgba(214, 226, 255, 0.72);
+        letter-spacing: 0.03em;
+        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+        pointer-events: none;
+        user-select: none;
+      }
+
+      #hud b {
+        color: rgba(255, 226, 168, 0.95);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hud">
+      <b>drag</b> pan &nbsp;·&nbsp; <b>wheel</b> zoom &nbsp;·&nbsp; <b>space</b> pause &nbsp;·&nbsp;
+      <b>l</b> labels &nbsp;·&nbsp; <b>o</b> orbits &nbsp;·&nbsp; <b>r</b> reset
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+    <script src="sketch.js"></script>
+  </body>
+</html>
