@@ -1,0 +1,95 @@
+@startuml overview
+!theme blueprint
+
+title LLM Challenges - repository overview
+
+skinparam componentStyle rectangle
+skinparam packageStyle folder
+skinparam nodesep 40
+skinparam ranksep 50
+
+actor "LLM agent\n(harness + model)" as agent
+actor "Maintainer" as maintainer
+
+package "llm-challenges/ (repo root)" as root {
+
+  package "Agent-facing contract" as contract {
+    file "INSTRUCTIONS.md" as instructions
+    note right of instructions
+      Step 1  identify: harness_model[_quant]_YYYY-MM-DD
+      Step 2  read ONE challenge README
+      Step 3  write deliverables into the result folder
+      Step 4  verify with tsgo --strict (+ tsx tests)
+      Step 5  record duration marker
+      Rule: never read graders or other results
+    end note
+  }
+
+  package "challengeNN-<slug>/  (one per challenge, numbered 01..NN)" as challenge {
+    file "README.md\n(specification: objective,\nrequirements, deliverables,\nevaluation criteria)" as spec
+    file "input files (optional)\ne.g. code under test,\nfunction to reverse-engineer" as inputs
+    package "grader/ (optional, hidden from agents)" as grader {
+      component "grade script" as gradeScript
+      file "reference solution" as reference
+    }
+  }
+
+  package "scripts/  (TypeScript, run with tsx)" as scripts {
+    component "verify-challenges.ts\n(graders vs references,\nplus negative controls)" as verify
+    component "grade-all.ts\n(grades every run)" as gradeAll
+    component "scoreboard.ts\n(run overview)" as scoreboard
+    component "leaderboard.ts\n(weighted scores, 100 pts)" as leaderboard
+    component "bench/run-challenge.sh\n(isolated runner:\none harness, one challenge)" as runner
+  }
+
+  package "Generated reports" as reports {
+    file "SCORES.md\n(per-challenge grades)" as scores
+    file "RESULTS.md\n(runs, files, durations)" as results
+    file "README.md\n(intro + leaderboard block)" as readme
+  }
+
+  package "Knowledge" as knowledge {
+    folder "docs/results/\n(model interpretations)" as docs
+    folder "plans/\n(work plans with checkboxes)" as plans
+  }
+
+  package "Tooling" as tooling {
+    file "package.json\nnpm run verify | scoreboard | leaderboard" as pkg
+    component "typescript (tsc)\n@typescript/native-preview (tsgo)\ntsx" as tsTools
+    file ".github/workflows/ci.yml" as ci
+  }
+}
+
+' Agent flow
+agent --> instructions : follows
+agent --> spec : reads
+agent ..> tsTools : verifies with
+
+' Challenge internals
+gradeScript --> reference : validated against
+spec ..> inputs : names
+
+' Scripts and outputs
+runner --> spec : copies into sandbox
+runner --> inputs : copies into sandbox
+verify --> gradeScript : runs
+gradeAll --> gradeScript : runs
+gradeAll --> scores : writes
+scoreboard --> results : writes
+leaderboard --> scores : reads
+leaderboard --> readme : injects block into
+readme ..> docs : links to
+
+' Tooling
+pkg --> scripts : npm scripts
+ci --> verify : npm run verify
+ci --> reference : tsgo --strict type-check
+ci --> scoreboard : --check
+ci --> leaderboard : --check
+scripts ..> tsTools : run via tsx
+
+maintainer --> plans : tracks work
+maintainer --> docs : interprets results
+maintainer --> runner : launches benchmarks
+
+@enduml
