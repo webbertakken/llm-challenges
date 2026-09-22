@@ -63,14 +63,23 @@ Times only cover challenges that left a duration marker.
 
 | # | Harness · Model | Done | Pass | Score | Avg ⏱ | Total ⏱ |
 | --- | --- | :---: | :---: | :---: | ---: | ---: |
-| 🥇 1 | **codex · gpt-5.5** | 7/7 | 7/7 | **100**/100 | 114s | 800s |
-| 🥈 2 | **gemini · gemini-3.1-pro-preview** | 7/7 | 7/7 | **100**/100 | 141s | 990s |
-| 🥉 3 | **claude · opus-4.8** | 7/7 | 7/7 | **100**/100 | 391s | 2734s |
-| 4 | **gemini · gemini-3-flash-preview** | 7/7 | 6/7 | **80**/100 | 57s ⚡ | 396s |
-| 5 | **pi · gemma-4-26b-q6k** | 6/7 | 3/7 | **53**/100 | 307s | 614s |
-| 6 | **pi · deltacoder-9b-q8** | 7/7 | 4/7 | **50**/100 | 129s | 514s |
-| 7 | **gemini · gemini-2.5-pro** | 5/7 | 4/7 | **50**/100 | 44s | 132s |
-| 8 | **codex · gpt-5.4** | 3/7 | 3/7 | **40**/100 | 134s | 403s |
+| 🥇 1 | **antigravity · gemini-3.7-flash-high** | 7/7 | 7/7 | **100**/100 | 30s ⚡ | 212s |
+| 🥈 2 | **antigravity · gemini-3.8-flash-high** | 7/7 | 7/7 | **100**/100 | 49s | 341s |
+| 🥉 3 | **codex · gpt-5.5** | 7/7 | 7/7 | **100**/100 | 114s | 800s |
+| 4 | **antigravity · gemini-3.1-pro-high** | 7/7 | 7/7 | **100**/100 | 117s | 821s |
+| 5 | **gemini · gemini-3.1-pro-preview** | 7/7 | 7/7 | **100**/100 | 141s | 990s |
+| 6 | **pi · opus-5-high** | 7/7 | 7/7 | **100**/100 | 201s | 1404s |
+| 7 | **pi · opus-5-xhigh** | 7/7 | 7/7 | **100**/100 | 275s | 1922s |
+| 8 | **claude · opus-4.8** | 7/7 | 7/7 | **100**/100 | 391s | 2734s |
+| 9 | **grok · grok-4.6-high** | 7/7 | 6/7 | **85**/100 | 67s | 470s |
+| 10 | **grok · grok-4.6-xhigh** | 7/7 | 6/7 | **85**/100 | 109s | 760s |
+| 11 | **grok · grok-4.7-high** | 7/7 | 6/7 | **85**/100 | 268s | 1874s |
+| 12 | **grok · grok-4.7-xhigh** | 7/7 | 6/7 | **85**/100 | 299s | 2096s |
+| 13 | **gemini · gemini-3-flash-preview** | 7/7 | 6/7 | **80**/100 | 57s | 396s |
+| 14 | **pi · gemma-4-26b-q6k** | 6/7 | 3/7 | **53**/100 | 307s | 614s |
+| 15 | **pi · deltacoder-9b-q8** | 7/7 | 4/7 | **50**/100 | 129s | 514s |
+| 16 | **gemini · gemini-2.5-pro** | 5/7 | 4/7 | **50**/100 | 44s | 132s |
+| 17 | **codex · gpt-5.4** | 3/7 | 3/7 | **40**/100 | 134s | 403s |
 
 ### Core three — challenges 01-03 only
 

@@ -10,6 +10,9 @@ Objective grading of every run (`scripts/grade-all.ts`). Read-only.
 
 | Run | 01 | 02 | 03 | 04 | 05 | 06 | 07 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| `antigravity_gemini-3.1-pro-high_2026-09-22` | ✅ compiles | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
+| `antigravity_gemini-3.7-flash-high_2026-09-22` | ✅ compiles | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
+| `antigravity_gemini-3.8-flash-high_2026-09-22` | ✅ compiles | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
 | `claude_opus-4.6_2026-04-03` | ✅ compiles | ok | ok | — | — | — | — |
 | `claude_opus-4.8_2026-06-03` | ✅ compiles | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
 | `codex_gpt-5.4_2026-06-02` | ✅ compiles | ok | — | 9/9 | — | — | — |
@@ -17,6 +20,10 @@ Objective grading of every run (`scripts/grade-all.ts`). Read-only.
 | `gemini_gemini-2.5-pro_2026-06-02` | ❌ errors | ok | ok | 9/9 | ✅ equiv | — | — |
 | `gemini_gemini-3-flash-preview_2026-06-02` | ✅ compiles | ok | ok | 9/9 | ✅ equiv | ✅ pass | ❌ fail |
 | `gemini_gemini-3.1-pro-preview_2026-06-02` | ✅ compiles | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
+| `grok_grok-4.6-high_2026-09-22` | ❌ errors | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
+| `grok_grok-4.6-xhigh_2026-09-22` | ❌ errors | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
+| `grok_grok-4.7-high_2026-09-22` | ❌ errors | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
+| `grok_grok-4.7-xhigh_2026-09-22` | ❌ errors | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
 | `opencode_gemma-4-26b-q8_0_2026-04-03` | — | — | ok | — | — | — | — |
 | `opencode_gemma-4-26b-q8_0_2026-04-03_altered` | — | — | — | — | — | — | — |
 | `pi_claude-opus-4-6_2026-04-03` | — | — | ok | — | — | — | — |
@@ -29,4 +36,6 @@ Objective grading of every run (`scripts/grade-all.ts`). Read-only.
 | `pi_opus-4.7-high_2026-06-02` | ✅ compiles | ok | ok | — | — | — | — |
 | `pi_opus-4.8-high_2026-06-02` | ✅ compiles | ok | ok | — | — | — | — |
 | `pi_opus-4.8-xhigh_2026-06-02` | ✅ compiles | ok | ok | — | — | — | — |
+| `pi_opus-5-high_2026-09-22` | ✅ compiles | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
+| `pi_opus-5-xhigh_2026-09-22` | ✅ compiles | ok | ok | 9/9 | ✅ equiv | ✅ pass | ✅ pass |
 | `qwen_qwen3.5-coder_2026-04-03` | ✅ compiles | ok | ok | — | — | — | — |
