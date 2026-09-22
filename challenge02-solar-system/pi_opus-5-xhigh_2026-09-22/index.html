@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solar System — p5.js</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='34' fill='%23ffb545'/></svg>" />
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #05060d;
+        color: #dfe6ff;
+        font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+      }
+      canvas {
+        display: block;
+      }
+      /* Reserve the exact canvas box so nothing shifts while p5 boots. */
+      #sketch-holder {
+        width: 100vw;
+        height: 100vh;
+      }
+      noscript {
+        display: block;
+        padding: 2rem;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="sketch-holder"></div>
+    <noscript>
+      This solar system is an animated p5.js sketch, so it needs JavaScript enabled.
+    </noscript>
+    <script src="sketch.js"></script>
+  </body>
+</html>
