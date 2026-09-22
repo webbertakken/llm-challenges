@@ -1,0 +1,110 @@
+@startuml overview
+!theme blueprint
+allowmixing
+skinparam componentStyle rectangle
+skinparam wrapWidth 340
+skinparam nodesep 40
+skinparam ranksep 55
+skinparam arrowThickness 1.2
+
+title LLM Challenges · repository overview
+
+actor "Agent under test\n(harness + model)" as agent
+
+package "Repository root" as root {
+
+  file readme [
+    **README.md**
+    ----
+    project overview
+    and leaderboard
+  ]
+
+  file instructions [
+    **INSTRUCTIONS.md**
+    ----
+    the agent protocol
+    1. identify harness, model, quantisation, date
+    2. pick a challenge, read its spec
+    3. write the deliverables
+    4. verify (type-check, runtime tests)
+    5. record the duration
+    ----
+    rules: read only INSTRUCTIONS.md, the spec
+    and the inputs it names; well-typed TS, no ""any""
+  ]
+
+  folder "docs/" as docs {
+    file "documentation" as docsContent
+  }
+
+  folder "challengeNN-<slug>/  (one per challenge, same shape)" as challenge {
+
+    map "README.md · the specification" as spec {
+      Header => Challenge NN · title, difficulty, topics
+      Objective => what to build and why
+      Requirements => behaviour, edge cases
+      Deliverables => the exact files to produce
+      Evaluation criteria => how the result is judged
+    }
+
+    file "input files\n(optional; only those\nthe spec names)" as inputs
+  }
+
+  package "Evaluation assets (off-limits to agents)" as evaluation {
+    folder "grader/ folders" as grader {
+      file "reference answers" as references
+    }
+    folder "results/" as results {
+      file "other runs' solutions" as otherRuns
+    }
+  }
+
+  package "Reports" as reports {
+    file "RESULTS.md\nper-run results" as resultsMd
+    file "SCORES.md\nscores" as scoresMd
+  }
+}
+
+node "Node.js toolchain (npx)" as toolchain {
+  component tsgo [
+    **tsgo** · TypeScript native preview
+    ----
+    ""~--noEmit ~--strict""
+    ""~--target ES2024 ~--module NodeNext""
+    ""~--moduleResolution NodeNext""
+  ]
+  component tsx [
+    **tsx**
+    ----
+    runs ""tests.ts"" when the spec
+    has runtime tests
+  ]
+}
+
+' Agent workflow (solid, numbered as in INSTRUCTIONS.md)
+agent -down-> instructions : 1. follows
+agent -down-> spec : 2. reads one spec
+agent -down-> challenge : 3. writes deliverables\n5. records duration
+agent -right-> tsgo : 4. type-checks
+agent -right-> tsx : 4. runs tests
+
+' Structure and governance (dashed)
+spec ..> inputs : names
+instructions ..> spec : points to
+instructions ..> evaluation : forbids reading
+references ..> spec : grade runs against\nevaluation criteria
+evaluation ..> reports : summarised in
+reports ..> readme : leaderboard
+
+footer Drawn from INSTRUCTIONS.md and the challenge specifications only; evaluation assets are shown as black boxes.
+
+legend right
+  |= Line |= Meaning |
+  | solid | agent workflow, numbered as in INSTRUCTIONS.md |
+  | dashed | structure, reference or governance |
+  ""challengeNN-<slug>/"" repeats for every challenge;
+  run folders produced by agents are deliberately not drawn.
+endlegend
+
+@enduml
