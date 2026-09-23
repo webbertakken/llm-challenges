@@ -108,58 +108,65 @@ Per-model strengths and weaknesses: [`docs/results/interpretations.md`](docs/res
 
 <!-- LEADERBOARD:END -->
 
-## Qualitative depth - challenges 01 & 07
+## Qualitative quality - all challenges
 
 Passing tests and ranking by time hides how good an answer is. This table is
 written by hand (it sits outside the generated leaderboard markers) from reading
-every submitted `types.ts`/`examples.ts` (ch01) and `solution.ts`/`notes.md`
-(ch07), backed by a 23-check behavioural probe of each `DeepReadonly` suite and
-22 extra normaliser cases (16 hidden, 6 heavy) whose expected outputs come from
-the challenge's own runtime reference. Ch01 and Ch07 are depth scores (0-10,
-`-` means not submitted). **Quality /10** is one overall score per run: the mean
-of the two depth scores (a missing challenge counts as 0), moved by the
-qualitative evidence - typed `(state, action)` reducers and machines built
-around the compiler's limits pull it up (at most +0.5); toy or non-compiling
-examples, casts hiding bugs, step bounds tuned to the published cases and notes
-that misdescribe the code pull it down (at most -1.5). The table is ranked by
-Quality, ties broken by Ch07, then Ch01, then average time. The Notes justify
-each score. Rubric, evidence and a paragraph per model:
+every run's work on **all seven challenges**, backed by reproducible probes: a
+23-check behavioural probe of every `DeepReadonly` suite (01), every sketch
+rendered in headless Chromium and checked for motion and page errors (02), every
+diagram rendered with PlantUML and checked against the repo it describes (03),
+every `fixed.ts` run over all 10 million in-contract `roundCurrency` inputs plus
+`__proto__` and concurrency probes (04), every `solution.ts` fuzzed with lone
+surrogates and every equivalence harness executed (05), 18 extra expressions per
+`Eval` (06) and 22 extra normaliser cases (07). Columns 01-07 are depth scores
+per challenge (0-10, `-` means not submitted). **Quality /10** is one overall
+score per run that now spans the whole gauntlet: the mean of the seven depth
+scores (a missing challenge counts as 0, so a run that only faced 01-03 can reach
+at most about 4), moved at most half a point by cross-cutting evidence -
+self-verification that the re-runs confirmed pulls it up; repeated overclaiming,
+shipped known-broken code, rule breaches or missing deliverables pull it down -
+then rounded down to the half point. The table is ranked by Quality, ties broken
+by the unrounded score, then average time. The Notes justify each score; the
+shortcomings of every run, at most three each, are in
+[*What each model did not do well*](docs/results/interpretations.md#what-each-model-did-not-do-well).
+Rubric and evidence:
 [`docs/results/interpretations.md`](docs/results/interpretations.md#overall-quality-score).
 
-| # | Harness · Model | Quality /10 | Ch01 /10 | Ch07 /10 | Notes |
-| --- | --- | :---: | :---: | :---: | --- |
-| 🥇 1 | **pi · opus-5.5-xhigh** | **10** | 10 | 10 | `deepFreeze` plus reducer replay; depth-independent machine, `fact 4` clean in 6s |
-| 🥈 2 | **pi · fable-5.1-xhigh** | **9.5** | 9 | 9 | `Action`-union reducer, runtime `select`; burst loop clears every heavy term |
-| 🥉 3 | **pi · opus-5.5-high** | **9.5** | 9 | 9 | Reducer plus cast-free `produce`; cached zipper machine, differential-tested |
-| 4 | **pi · opus-5.5-medium** | **9** | 8 | 9 | Typed `(state, action)` reducer; Krivine machine clears every heavy term |
-| 5 | **pi · opus-5-xhigh** | **8.5** | 8 | 8 | `"cart/add"` action union, cast-free clone; notes name the `never` parser trap |
-| 6 | **pi · opus-5-high** | **8** | 7 | 8 | Path-validated `DeepPick`, no reducer; fused substitution, measured depth ceiling |
-| 7 | **claude · opus-4.8** | **7.5** | 7 | 8 | `any`-free and runnable but no action reducer; honest 300-step normaliser |
-| 8 | **antigravity · gemini-3.8-flash-high** | **6.5** | 7 | 7 | 23/23 probe, PII-safe pick; JSON `cloneToMutable` silently loses `Map`s |
-| 9 | **pi · deepseek-v4-flash-high** | **6.5** | 7 | 6 | Normalised `byId`/`order` state, no action; 400 steps plus a 1-cycle detector |
-| 10 | **gemini · gemini-3.1-pro-preview** | **6** | 5 | 8 | TaPL-faithful 400 steps; toy examples, `DeepPartial` makes elements optional |
-| 11 | **codex · gpt-5.5** | **6** | 6 | 7 | `any`-free types but toy examples (fixed `history` tuple); textbook 100 steps |
-| 12 | **grok · grok-4.7-xhigh** | **6** | 7 | 6 | Unified `Deep<T, Mode>` engine; threaded fuel, but 48 steps fails `2^5` |
-| 13 | **antigravity · gemini-3.1-pro-high** | **5** | 6 | 6 | Elegant but toy examples; 30-step bound tuned to the grader, `2^4` diverges |
-| 14 | **antigravity · gemini-3.7-flash-high** | **4.5** | 5 | 6 | Tuples gain `...never[]`, state-only examples; notes say 120 steps, code 100 |
-| 15 | **grok · grok-4.6-high** | **4** | 5 | 6 | Reducer/`produce` examples do not compile; "128 steps" is really per subterm |
-| 16 | **grok · grok-4.6-xhigh** | **4** | 5 | 6 | Cart reducer example does not compile; honest but grader-sized 64 steps |
-| 17 | **pi · opus-4.7-high** | **4** | 7 | - | Ch01 only (ch07 postdates the run): typed `toggle-theme` reducer, PII-safe pick |
-| 18 | **pi · deepseek-v4-pro-high** | **3.5** | 5 | 4 | `declare`-stub examples; grader-sized normaliser hits TS2589 at `pred 3` |
-| 19 | **pi · opus-4.8-high** | **3.5** | 7 | - | Ch01 only (ch07 postdates the run): clean runnable examples, no action type |
-| 20 | **grok · grok-4.7-high** | **3** | 4 | 5 | Shipped a `Set`-to-`WeakSet` bug its own test caught; 58 steps fails `2^5` |
-| 21 | **pi · opus-4.6** | **3** | 7 | - | Ch01 only (ch07 postdates the run): loosely typed reducer; `updateUser` recurses |
-| 22 | **claude · opus-4.6** | **3** | 6 | - | Ch01 only (ch07 postdates the run): selector and update, casts to compile |
-| 23 | **pi · opus-4.8-xhigh** | **3** | 6 | - | Ch01 only (ch07 postdates the run): `reducer(state)` takes no action |
-| 24 | **qwen · qwen3.5-coder** | **2.5** | 6 | - | Ch01 only (ch07 postdates the run): GitHub REST shapes, casts hide a shallow merge |
-| 25 | **codex · gpt-5.4** | **2.5** | 6 | - | Ch01 only (no ch07 submitted): `DeepPick` yields `ReadonlyMap`; state constant |
-| 26 | **gemini · gemini-3-flash-preview** | **1.5** | 4 | 2 | Cast hides a shallow merge; parser fails `\x.x`; notes say 50 steps, code 20 |
-| 27 | **gemini · gemini-2.5-pro** | **1.5** | 4 | - | Ch01 only (no ch07 submitted): real `ADD_POST` reducer, but the file fails compile |
-| 28 | **pi · gemma-4-26b-q6k** (Jun) | **0.5** | 1 | 0 | `types.ts` only with a `{}` placeholder; empty `solution.ts` |
-| 29 | **pi · gemma-4-26b-q6k** (Apr) | **0.5** | 2 | - | Ch01 only (ch07 postdates the run): functions become `{}`; aliases, no code |
-| 30 | **pi · deltacoder-9b-q8** (Jun) | **0** | 2 | 1 | Mutable arrays, examples fail compile; normaliser has syntax errors, notes overclaim |
-| 31 | **pi · deltacoder-9b-q8** (Apr) | **0** | 1 | - | Ch01 only (ch07 postdates the run): `DeepMutable` a no-op, examples fail compile |
-| 32 | **opencode · gemma-4-26b-q8_0** | **0** | - | - | No ch01 or ch07 deliverable |
+| # | Harness · Model | Quality /10 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | Notes |
+| --- | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | --- |
+| 🥇 1 | **pi · opus-5.5-xhigh** | **9.5** | 10 | 10 | 5 | 10 | 10 | 10 | 10 | Deepest 01, 02, 05 and 07; ch03 skips `scripts/` and CI and invents a `results/` folder |
+| 🥈 2 | **pi · fable-5.1-xhigh** | **9.5** | 9 | 9 | 7 | 10 | 10 | 9 | 9 | Strong everywhere, CRC cross-checked against zlib; two wrong tooling edges in ch03 |
+| 🥉 3 | **pi · opus-5.5-medium** | **9** | 8 | 8 | 9 | 10 | 9 | 9 | 9 | Most accurate ch03 of the top tier, Krivine-machine ch07; ch01 examples are short |
+| 4 | **pi · opus-5.5-high** | **9** | 9 | 9 | 6 | 10 | 9 | 10 | 9 | Cast-free `produce`, cached ch07 machine, fast ch06; ch03 hides `scripts/` in one box |
+| 5 | **pi · opus-5-xhigh** | **9** | 8 | 9 | 6 | 10 | 10 | 9 | 8 | Comets in ch02, 5k-comparison CRC harness; ch03 swaps what the scripts write |
+| 6 | **pi · opus-5-high** | **8.5** | 7 | 9 | 6 | 10 | 9 | 9 | 8 | Measured ch07 ceiling, rich ch02; ch03 claims `verify` type-checks every submission |
+| 7 | **claude · opus-4.8** | **8** | 7 | 9 | 9 | 10 | 8 | 8 | 8 | Two rendered ch03 diagrams; ch06 reads `007+3` as 3, ch05 harness cannot find its input |
+| 8 | **pi · deepseek-v4-flash-high** | **8** | 7 | 8 | 9 | 9 | 9 | 8 | 6 | Accurate ch03 wiring, 5k-check CRC harness; ch07 dies at TS2589 on `fact` |
+| 9 | **grok · grok-4.7-high** | **7.5** | 4 | 9 | 8 | 9 | 8 | 10 | 5 | Fastest ch06 and a rich ch02; shipped a `Set`-to-`WeakSet` bug, 58-step ch07 |
+| 10 | **grok · grok-4.7-xhigh** | **7.5** | 7 | 8 | 9 | 9 | 8 | 6 | 6 | Most accurate ch03 wiring on the board; ch06 hits TS2589 on `0*999+1`, 48-step ch07 |
+| 11 | **antigravity · gemini-3.8-flash-high** | **7** | 7 | 8 | 5 | 9 | 7 | 8 | 7 | PII-safe ch01, polished ch02; ch03 draws result folders, JSON clone loses `Map`s |
+| 12 | **codex · gpt-5.5** | **7** | 6 | 7 | 7 | 8 | 8 | 8 | 7 | Precise CRC-32/ISO-HDLC write-up; `groupBy` loses a `__proto__` group, toy ch01 |
+| 13 | **grok · grok-4.6-xhigh** | **7** | 5 | 7 | 7 | 9 | 7 | 9 | 6 | Clean ch04 and ch06; ch01 example does not compile, grader-sized 64-step ch07 |
+| 14 | **antigravity · gemini-3.1-pro-high** | **6** | 6 | 6 | 4 | 8 | 6 | 7 | 6 | Compact but thin throughout: two-box ch03, toy ch01, 30-step ch07 |
+| 15 | **antigravity · gemini-3.7-flash-high** | **6** | 5 | 8 | 3 | 8 | 7 | 9 | 6 | Strong ch02 and ch06; ch03 does not render, ch07 notes say 120 steps, code 100 |
+| 16 | **pi · deepseek-v4-pro-high** | **6** | 5 | 6 | 5 | 9 | 8 | 5 | 4 | Good ch04 and ch05; ch06 and ch07 hit TS2589 early, ch03 invents tooling edges |
+| 17 | **grok · grok-4.6-high** | **5.5** | 5 | 7 | 5 | 7 | 7 | 8 | 6 | Examples do not compile, `__proto__` group lost, invented `verify`-to-`leaderboard` chain |
+| 18 | **gemini · gemini-3.1-pro-preview** | **5.5** | 5 | 6 | 5 | 6 | 6 | 8 | 8 | TaPL-faithful ch07; `EPSILON` rounding misses 65,613 inputs the grader never tries |
+| 19 | **gemini · gemini-3-flash-preview** | **4.5** | 4 | 4 | 6 | 8 | 6 | 7 | 2 | Fast but shallow: minimal ch02, ch07 parser loops, a cast hides a ch01 bug |
+| 20 | **pi · opus-4.8-xhigh** | **3** | 6 | 8 | 8 | - | - | - | - | Core three only: rule-abiding rendered ch03, polished ch02; action-less `reducer` |
+| 21 | **codex · gpt-5.4** | **3** | 6 | 6 | - | 9 | - | - | - | Quota stopped it at 3/7: clean 9/9 ch04; inner planets buried in the Sun's glow |
+| 22 | **pi · opus-4.6** | **2.5** | 7 | 7 | 6 | - | - | - | - | Core three only: Kepler-timed ch02; `updateUser` recurses forever, ch03 draws run folders |
+| 23 | **pi · opus-4.8-high** | **2.5** | 7 | 7 | 6 | - | - | - | - | Core three only: runnable ch01, rendered ch03, but the run folder the brief bans is drawn |
+| 24 | **gemini · gemini-2.5-pro** | **2.5** | 4 | 4 | 4 | 6 | 5 | - | - | No 06/07; ch01 fails compile, `EPSILON` rounding, ch05 harness runs the forbidden grader |
+| 25 | **pi · opus-4.7-high** | **2.5** | 7 | 7 | 5 | - | - | - | - | Core three only: typed reducer; ch03 names challenges 01-03 and embeds a missing SVG |
+| 26 | **pi · deltacoder-9b-q8** (Jun) | **2.5** | 2 | 3 | 2 | 7 | 6 | 1 | 1 | Honest 9/9 ch04; ch01, ch06 and ch07 do not compile, Saturn's ring fills its orbit |
+| 27 | **claude · opus-4.6** | **2** | 6 | 6 | 4 | - | - | - | - | Core three only: ch03 does not render, ch01 needs casts, Neptune starts off-screen |
+| 28 | **qwen · qwen3.5-coder** | **1** | 6 | 0 | 3 | - | - | - | - | Core three only: ch02 is a blank canvas (`random` runs before p5 loads) |
+| 29 | **pi · gemma-4-26b-q6k** (Apr) | **1** | 2 | 4 | 2 | - | - | - | - | Core three only: ch01 fails compile, minimal ch02, ch03 names each challenge |
+| 30 | **pi · gemma-4-26b-q6k** (Jun) | **0.5** | 1 | 3 | - | 2 | 3 | 1 | 0 | No ch03 or `bugs.md`, empty ch07, ch06 syntax error, `mapLimit` ignores its limit |
+| 31 | **pi · deltacoder-9b-q8** (Apr) | **0.5** | 1 | 2 | 1 | - | - | - | - | Core three only: four planets always off-screen, ch03 does not render |
+| 32 | **opencode · gemma-4-26b-q8_0** | **0** | - | - | 2 | - | - | - | - | Only a ch03 file tree that names each challenge; no ch01 or ch02 |
 
 ## Results & tooling
 
@@ -167,8 +174,10 @@ each score. Rubric, evidence and a paragraph per model:
   Regenerate with `npx tsx scripts/leaderboard.ts`.
 - [`docs/results/interpretations.md`](docs/results/interpretations.md) — up to
   three pros and cons per model, with cross-cutting observations.
-- [Qualitative depth](#qualitative-depth---challenges-01--07) - hand-scored,
-  quality-ranked depth of every ch01 and ch07 answer (maintained by hand).
+- [Qualitative quality](#qualitative-quality---all-challenges) - hand-scored,
+  quality-ranked depth of every run across all seven challenges (maintained by
+  hand), with each run's shortcomings in
+  [`interpretations.md`](docs/results/interpretations.md#what-each-model-did-not-do-well).
 - [`RESULTS.md`](RESULTS.md) — auto-generated overview of every run.
   Regenerate with `npx tsx scripts/scoreboard.ts`.
 - [`SCORES.md`](SCORES.md) — objective per-challenge grading of every run.

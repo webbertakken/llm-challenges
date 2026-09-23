@@ -23,9 +23,10 @@ scoreboard; this page is the qualitative companion.
   harness (`types.ts` + `tests.ts` + `examples.ts`) together, so a correct
   `DeepReadonly` can still fail the strict compile if the model over-asserts in
   its examples. Where that happened we say so.
-- **Depth, not just pass/fail.** For ch01 and ch07 every submission was also
-  read and scored for depth; see
-  [*Qualitative depth - challenges 01 & 07*](#qualitative-depth---challenges-01--07).
+- **Depth, not just pass/fail.** Every submission on every challenge was also
+  read, probed and scored for depth, and each run's shortcomings are listed; see
+  [*Qualitative quality - all challenges*](#qualitative-quality---all-challenges)
+  and [*What each model did not do well*](#what-each-model-did-not-do-well).
 
 ---
 
@@ -359,20 +360,23 @@ symlink — never a grader or another model's solution.
 
 ---
 
-## Qualitative depth - challenges 01 & 07
+## Qualitative quality - all challenges
 
 A pass/fail grade and a stopwatch say nothing about how *good* an answer is. This
-section judges depth and quality by reading the code of the first challenge
-(ch01, `DeepReadonly` and friends) and the frontier one (ch07, the type-level
-lambda normaliser) for every run that submitted them. The scores are the
-hand-written second table in the repo [`README.md`](../../README.md#qualitative-depth---challenges-01--07),
-ranked by the [overall quality score](#overall-quality-score).
+section judges depth and quality by reading every run's work on all seven
+challenges, not just the objective anchors in [`SCORES.md`](../../SCORES.md).
+The scores are the hand-written second table in the repo
+[`README.md`](../../README.md#qualitative-quality---all-challenges), ranked by
+the [overall quality score](#overall-quality-score); each run's shortcomings are
+listed in [*What each model did not do well*](#what-each-model-did-not-do-well).
 
 ### How this was judged
 
-- **Read, not skimmed.** Every `types.ts` and `examples.ts` (ch01) and every
-  `solution.ts` and `notes.md` (ch07) was read in full; `tests.ts` was read
-  where it explained a failure.
+- **Read, not skimmed.** Every deliverable of every run was read: `types.ts` and
+  `examples.ts` (01), `sketch.js` (02), `overview.puml` and `overview.md` (03),
+  `bugs.md` and `fixed.ts` (04), `analysis.md`, `solution.ts` and the
+  equivalence harness (05), `solution.ts` (06) and `solution.ts` and `notes.md`
+  (07); `tests.ts` was read where it explained a failure.
 - **ch01 behavioural probe.** Each run's `types.ts` was compiled on its own
   against 23 exact-type assertions: primitives, `null`/`undefined`, functions at
   the top and as properties, arrays, readonly arrays, tuples, `Map`, `Set`,
@@ -382,6 +386,30 @@ ranked by the [overall quality score](#overall-quality-score).
   example and a path through an optional property) and a self-referencing
   interface. This isolates the types from each run's own test harness, which is
   what the objective grader compiles.
+- **ch02 rendered.** Every `index.html` was loaded in headless Chromium at
+  1280x800 (dark scheme), screenshotted after 3 s and again 1.5 s later; the
+  pixel difference proves motion, and page errors were captured. The code was
+  then read for planet count, moons, rings, belt, camera controls and orbital
+  model (hand-tuned speeds versus real periods or Kepler's equation).
+- **ch03 rendered and fact-checked.** Every `overview.puml` was rendered with
+  PlantUML 1.2025.4; three do not render at all. Every box and arrow was checked
+  against the repository the run actually saw (the April and early-June runs
+  predate challenges 04-07; the isolated runs got a snapshot without graders or
+  results), and against the brief's two rules: no result folders, no individual
+  challenges.
+- **ch04 exhaustive probes.** Every `fixed.ts` was run over all 10,000,000
+  in-contract `roundCurrency` inputs (0 to 9999.999 in steps of 0.001) against
+  exact decimal half-up rounding, plus a `groupBy` probe with a `"__proto__"`
+  key and a `mapLimit` probe that records peak concurrency. The grader's 9/9
+  hides that two runs round wrongly on 65,613 inputs.
+- **ch05 fuzzed.** Every `solution.ts` was compared with `mystery.mjs` on 3,000
+  random UTF-16 strings, lone surrogates, a NUL, an emoji and a 100 kB string
+  (all equivalent), and every run's own `equivalence.test.ts` was executed from
+  its result folder.
+- **ch06 stress.** 18 extra expressions per `Eval`: a 30-term sum, eleven nested
+  parentheses, leading zeros (`007+3`, legal under `number = digit+`), a
+  three-digit operand (`0*999+1`), `2*2*2*2*2*2*2*2`, right-nested subtraction
+  and whitespace, with the compile time recorded.
 - **ch07 hidden and heavy cases.** 16 unpublished closed terms (shadowing,
   capture, reduction under a binder, S K K, `2*2`, `3+2`, `pred 2`, `2^3`,
   whitespace, redundant brackets, left-associative spines, unusual letters, a
@@ -391,87 +419,358 @@ ranked by the [overall quality score](#overall-quality-score).
   was generated by the challenge's own `grader/reference.ts`, so none of this is
   guesswork. The headline claims of the four strongest runs (`fact 4`, 3,873
   steps) were also re-run.
-- **What counts.** For ch01: correct recursion across every container, no
-  over-application of `readonly`, no `any` or casts papering over bugs, and
-  examples that look like real code (a Redux reducer, a config loader, an API
-  projection) rather than throwaway shapes. For ch07: whether `Normalize` is a
-  genuine general normaliser, the step bound and how honestly `notes.md`
-  explains it, breadth and robustness (including how it behaves at TypeScript's
-  TS2589 instantiation limits), and elegance.
+- **What counts.** 01: correct recursion across every container, no `any` or
+  casts papering over bugs, examples that look like real code (a Redux reducer,
+  a config loader, an API projection). 02: a real animated simulation with
+  relative scale and extras, not static or broken. 03: an overview accurate to
+  this repo, with correct relationships, that renders and follows the brief.
+  04: the grade *and* whether the reasoning is right or lucky. 05: equivalence
+  *and* how well `analysis.md` understands the code. 06: a general evaluator
+  that survives inputs beyond the grader's. 07: a genuine general normaliser,
+  the honesty of its bound, and robustness at TypeScript's TS2589 limit.
 
 ### Overall quality score
 
-Each run gets one **Quality /10**, and the README table is ranked by it, the way
-the scoreboard ranks by score. It is a synthesis, not an average:
+Each run gets one **Quality /10** that spans the whole gauntlet, and the README
+table is ranked by it, the way the scoreboard ranks by score. It is a synthesis
+of hand-given depth scores, not an average of objective passes:
 
-1. **Base** = the mean of the ch01 and ch07 depth scores. A challenge that was
-   not submitted counts as 0, so a ch01-only run can reach at most half marks
-   and ranks low for coverage, not because its ch01 was poor.
-2. **Pull up, at most +0.5 in total**, for any of: a `(state, action)` reducer
-   over a literal-typed action in ch01; a ch07 machine reorganised around
-   TypeScript's limits (it clears all six heavy terms); notes with measured,
-   falsifiable limits that the re-run confirmed. The cap stops these from
-   double-counting what the depth scores already reward.
-3. **Pull down, at most -1.5 in total**: -1 for examples that do not compile or
-   a bug the run's own tests caught and shipped anyway; -0.5 each for toy or
-   stub examples (a state constant, `declare` stubs, bare aliases), casts or
-   code that hide a runtime bug, a step bound sized to the published cases (it
-   fails `2^4`, `2^5` or `pred 3`), and notes that misdescribe the shipped code.
-4. Clamp to 0-10, in half points. Ties are broken by ch07 depth, then ch01
-   depth, then the scoreboard's average time (faster first; `-` sorts below 0).
+1. **Depth per challenge**, 0-10, for each of 01-07. Anchors: 01 and 07 as in
+   the per-model notes below; 02 from 0 (blank or broken) through 4 (meets the
+   brief, no extras) to 10 (real orbital model, moons, rings, belt, camera,
+   information panel); 03 from 0 (missing) through 4 (thin, unrenderable or
+   naming each challenge) to 9 (accurate wiring end to end); 04 from 2 (8/9, no
+   write-up) through 6 (9/9 by luck) to 10 (9/9, exhaustively correct, both
+   defects in `median` and the pool shape of `mapLimit` explained); 05 from 3
+   (the analysis is not Markdown) through 6 (correct but thin) to 10 (full
+   parameter set, check value, surrogates and a large harness that runs); 06
+   from 1 (does not compile) through 5-6 (TS2589 on modest inputs) and 8 (fails
+   only leading zeros, or slow) to 10 (all 18 stress cases in under 0.5 s).
+2. **Base** = the mean of the seven. A challenge that was not submitted counts as
+   0, so a run that only faced 01-03 can reach at most about 4 and ranks low for
+   coverage, not because its work was poor.
+3. **Move by at most half a point** for evidence that spans challenges: +0.5 for
+   self-verification the re-runs confirmed (measured limits, differential or
+   100k-input equivalence testing); -0.5 for repeated overclaiming, shipped
+   known-broken code, a rule breach or missing deliverables.
+4. **Round down** to the half point and clamp to 0-10. Ties are broken by the
+   unrounded score, then by the scoreboard's average time (faster first).
 
-| # | Run | Ch01 | Ch07 | Base | Adjustments | Quality |
-| ---: | --- | :---: | :---: | :---: | --- | :---: |
-| 1 | pi · opus-5.5-xhigh | 10 | 10 | 10 | +0.5 reducer, machine, measured notes (clamped) | **10** |
-| 2 | pi · fable-5.1-xhigh | 9 | 9 | 9 | +0.5 reducer, machine, measured `fact 4` | **9.5** |
-| 3 | pi · opus-5.5-high | 9 | 9 | 9 | +0.5 reducer, machine, measured notes | **9.5** |
-| 4 | pi · opus-5.5-medium | 8 | 9 | 8.5 | +0.5 reducer, machine | **9** |
-| 5 | pi · opus-5-xhigh | 8 | 8 | 8 | +0.5 `"cart/add"` reducer, predicted limits | **8.5** |
-| 6 | pi · opus-5-high | 7 | 8 | 7.5 | +0.5 measured depth ceiling and step table | **8** |
-| 7 | claude · opus-4.8 | 7 | 8 | 7.5 | none: runnable and honest, but no action | **7.5** |
-| 8 | antigravity · gemini-3.8-flash-high | 7 | 7 | 7 | -0.5 JSON clone silently loses `Map`s | **6.5** |
-| 9 | pi · deepseek-v4-flash-high | 7 | 6 | 6.5 | none | **6.5** |
-| 10 | gemini · gemini-3.1-pro-preview | 5 | 8 | 6.5 | -0.5 toy examples | **6** |
-| 11 | codex · gpt-5.5 | 6 | 7 | 6.5 | -0.5 toy examples | **6** |
-| 12 | grok · grok-4.7-xhigh | 7 | 6 | 6.5 | -0.5 48-step bound fails `2^5` | **6** |
-| 13 | antigravity · gemini-3.1-pro-high | 6 | 6 | 6 | -0.5 toy examples, -0.5 30-step bound | **5** |
-| 14 | antigravity · gemini-3.7-flash-high | 5 | 6 | 5.5 | -0.5 state-only examples, -0.5 notes (120 vs 100) | **4.5** |
-| 15 | grok · grok-4.6-high | 5 | 6 | 5.5 | -1 examples do not compile, -0.5 per-subterm "128" | **4** |
-| 16 | grok · grok-4.6-xhigh | 5 | 6 | 5.5 | -1 example does not compile, -0.5 64-step bound | **4** |
-| 17 | pi · opus-4.7-high | 7 | - | 3.5 | +0.5 typed `toggle-theme` reducer; ch01 only | **4** |
-| 18 | pi · deepseek-v4-pro-high | 5 | 4 | 4.5 | -0.5 `declare` stubs, -0.5 TS2589 at `pred 3` | **3.5** |
-| 19 | pi · opus-4.8-high | 7 | - | 3.5 | none; ch01 only | **3.5** |
-| 20 | grok · grok-4.7-high | 4 | 5 | 4.5 | -1 shipped `Set`-to-`WeakSet` bug, -0.5 58-step bound | **3** |
-| 21 | pi · opus-4.6 | 7 | - | 3.5 | -0.5 `updateUser` recurses forever; ch01 only | **3** |
-| 22 | claude · opus-4.6 | 6 | - | 3 | none; ch01 only | **3** |
-| 23 | pi · opus-4.8-xhigh | 6 | - | 3 | none; ch01 only | **3** |
-| 24 | qwen · qwen3.5-coder | 6 | - | 3 | -0.5 casts hide a shallow merge; ch01 only | **2.5** |
-| 25 | codex · gpt-5.4 | 6 | - | 3 | -0.5 state-constant examples; ch01 only | **2.5** |
-| 26 | gemini · gemini-3-flash-preview | 4 | 2 | 3 | -0.5 toy, -0.5 cast hides a bug, -0.5 notes (50 vs 20) | **1.5** |
-| 27 | gemini · gemini-2.5-pro | 4 | - | 2 | +0.5 `ADD_POST` reducer, -1 file does not compile | **1.5** |
-| 28 | pi · gemma-4-26b-q6k (Jun) | 1 | 0 | 0.5 | none | **0.5** |
-| 29 | pi · gemma-4-26b-q6k (Apr) | 2 | - | 1 | -0.5 aliases, no code; ch01 only | **0.5** |
-| 30 | pi · deltacoder-9b-q8 (Jun) | 2 | 1 | 1.5 | -1 examples do not compile, -0.5 notes overclaim | **0** |
-| 31 | pi · deltacoder-9b-q8 (Apr) | 1 | - | 0.5 | -1 stray `@ts-expect-error` fails compile (clamped) | **0** |
-| 32 | opencode · gemma-4-26b-q8_0 | - | - | 0 | no deliverable | **0** |
+| # | Run | 01 | 02 | 03 | 04 | 05 | 06 | 07 | Base | Adjustment | Quality |
+| ---: | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | --- | :---: |
+| 1 | pi · opus-5.5-xhigh | 10 | 10 | 5 | 10 | 10 | 10 | 10 | 9.29 | +0.5 `fact 4` and 101k-input harness confirmed | **9.5** |
+| 2 | pi · fable-5.1-xhigh | 9 | 9 | 7 | 10 | 10 | 9 | 9 | 9.00 | +0.5 measured `fact 4`, zlib cross-check | **9.5** |
+| 3 | pi · opus-5.5-medium | 8 | 8 | 9 | 10 | 9 | 9 | 9 | 8.86 | +0.5 measured `fact 4`, 20k-input harness | **9** |
+| 4 | pi · opus-5.5-high | 9 | 9 | 6 | 10 | 9 | 10 | 9 | 8.86 | +0.5 differential tests, 88k-check harness | **9** |
+| 5 | pi · opus-5-xhigh | 8 | 9 | 6 | 10 | 10 | 9 | 8 | 8.57 | +0.5 predicted TS2589 limits confirmed | **9** |
+| 6 | pi · opus-5-high | 7 | 9 | 6 | 10 | 9 | 9 | 8 | 8.29 | +0.5 measured depth ceiling and step table | **8.5** |
+| 7 | claude · opus-4.8 | 7 | 9 | 9 | 10 | 8 | 8 | 8 | 8.43 | none | **8** |
+| 8 | pi · deepseek-v4-flash-high | 7 | 8 | 9 | 9 | 9 | 8 | 6 | 8.00 | none | **8** |
+| 9 | grok · grok-4.7-high | 4 | 9 | 8 | 9 | 8 | 10 | 5 | 7.57 | none | **7.5** |
+| 10 | grok · grok-4.7-xhigh | 7 | 8 | 9 | 9 | 8 | 6 | 6 | 7.57 | none | **7.5** |
+| 11 | antigravity · gemini-3.8-flash-high | 7 | 8 | 5 | 9 | 7 | 8 | 7 | 7.29 | none | **7** |
+| 12 | codex · gpt-5.5 | 6 | 7 | 7 | 8 | 8 | 8 | 7 | 7.29 | none | **7** |
+| 13 | grok · grok-4.6-xhigh | 5 | 7 | 7 | 9 | 7 | 9 | 6 | 7.14 | none | **7** |
+| 14 | antigravity · gemini-3.1-pro-high | 6 | 6 | 4 | 8 | 6 | 7 | 6 | 6.14 | none | **6** |
+| 15 | antigravity · gemini-3.7-flash-high | 5 | 8 | 3 | 8 | 7 | 9 | 6 | 6.57 | -0.5 notes (120 vs 100), invented `tsconfig.json` | **6** |
+| 16 | pi · deepseek-v4-pro-high | 5 | 6 | 5 | 9 | 8 | 5 | 4 | 6.00 | none | **6** |
+| 17 | grok · grok-4.6-high | 5 | 7 | 5 | 7 | 7 | 8 | 6 | 6.43 | -0.5 "128 steps" per subterm, invented script chain | **5.5** |
+| 18 | gemini · gemini-3.1-pro-preview | 5 | 6 | 5 | 6 | 6 | 8 | 8 | 6.29 | -0.5 "no known limitations", lucky 9/9 | **5.5** |
+| 19 | gemini · gemini-3-flash-preview | 4 | 4 | 6 | 8 | 6 | 7 | 2 | 5.29 | -0.5 notes claim 50 steps and an unrun self-check | **4.5** |
+| 20 | pi · opus-4.8-xhigh | 6 | 8 | 8 | - | - | - | - | 3.14 | none; core three only | **3** |
+| 21 | codex · gpt-5.4 | 6 | 6 | - | 9 | - | - | - | 3.00 | none; quota stopped the run | **3** |
+| 22 | pi · opus-4.6 | 7 | 7 | 6 | - | - | - | - | 2.86 | none; core three only | **2.5** |
+| 23 | pi · opus-4.8-high | 7 | 7 | 6 | - | - | - | - | 2.86 | none; core three only | **2.5** |
+| 24 | gemini · gemini-2.5-pro | 4 | 4 | 4 | 6 | 5 | - | - | 3.29 | -0.5 ch05 harness runs the forbidden grader | **2.5** |
+| 25 | pi · opus-4.7-high | 7 | 7 | 5 | - | - | - | - | 2.71 | none; core three only | **2.5** |
+| 26 | pi · deltacoder-9b-q8 (Jun) | 2 | 3 | 2 | 7 | 6 | 1 | 1 | 3.14 | -0.5 notes claim cases the code cannot produce | **2.5** |
+| 27 | claude · opus-4.6 | 6 | 6 | 4 | - | - | - | - | 2.29 | none; core three only | **2** |
+| 28 | qwen · qwen3.5-coder | 6 | 0 | 3 | - | - | - | - | 1.29 | none; core three only | **1** |
+| 29 | pi · gemma-4-26b-q6k (Apr) | 2 | 4 | 2 | - | - | - | - | 1.14 | none; core three only | **1** |
+| 30 | pi · gemma-4-26b-q6k (Jun) | 1 | 3 | - | 2 | 3 | 1 | 0 | 1.43 | -0.5 no ch03, no `bugs.md`, empty ch07 | **0.5** |
+| 31 | pi · deltacoder-9b-q8 (Apr) | 1 | 2 | 1 | - | - | - | - | 0.57 | none; core three only | **0.5** |
+| 32 | opencode · gemma-4-26b-q8_0 | - | - | 2 | - | - | - | - | 0.29 | none | **0** |
+
+The April core runs are credited with the sibling folders the scoreboard merges
+into them: `pi_claude-opus-4-6` (ch03) for pi · opus-4.6 and
+`pi_gemma-4-26b-a4b` (ch02) for the April gemma run.
 
 What the ranking says:
 
-- **The top four are the only compiler-aware ch07 machines**, and all four pair
-  them with a typed reducer in ch01. opus-5.5-xhigh is alone at 10 because its
-  machine does not depend on term depth at all.
-- **Quality and the objective scoreboard disagree most in the middle.** The
-  three fastest perfect scorers on the scoreboard (antigravity gemini-3.8-flash,
-  3.7-flash, deepseek-v4-pro) land 8th, 14th and 18th here: they pass the
-  graders, but with a hidden runtime bug, toy examples, grader-sized bounds or
-  notes that do not match the code.
-- **Grok's objective ch01 fails are real quality losses except for 4.7-xhigh**,
-  whose fail comes from over-ambitious tests; it keeps 6 and ranks above all
-  three other grok runs.
-- **Ch01-only runs rank 17th and below by construction.** Their ch01 work is
-  often good (pi opus-4.6, opus-4.7-high and opus-4.8-high all score 7), but
-  ch07 did not exist yet (or, for gemini-2.5-pro and codex gpt-5.4, was never
-  submitted), so half the evidence is missing.
+- **Breadth moved the order.** Scored across seven challenges, opus-5.5-xhigh
+  and fable tie on 9.5. opus-5.5-medium draws level with opus-5.5-high (its
+  accurate ch03 offsets high's deeper ch01 and ch06; high hides the tooling in
+  one box) and ranks ahead on speed. Nobody is flawless: even the
+  leader drew a repo overview that leaves out `scripts/` and CI.
+- **ch03 is the great leveller.** It is the challenge with the weakest top-end:
+  only grok-4.7-xhigh, deepseek-v4-flash, opus-5.5-medium and claude opus-4.8
+  get the tooling wiring right. Most detailed diagrams from strong models invent
+  at least one relationship (`verify-challenges.ts` "type-checks submissions";
+  it runs each grader against its reference).
+- **Objective passes hid luck and breakage.** gemini-3.1-pro and gemini-2.5-pro
+  score 9/9 on ch04 with a `roundCurrency` that is wrong on 65,613 in-contract
+  inputs; qwen's ch02 counts as delivered but renders a blank canvas; codex-5.5,
+  grok-4.6-high and deltacoder still lose a `"__proto__"` group in `groupBy`.
+- **Grok 4.7 recovers.** Its ch01 and ch07 held it back, but grok-4.7-high has
+  the fastest perfect ch06 and a rich ch02, and grok-4.7-xhigh the most
+  accurate ch03, so both climb to 7.5.
+- **The antigravity flash runs are fast and uneven.** Excellent ch02 and ch06,
+  weak ch03 (one does not render, the other draws the forbidden result folder).
+- **Core-three runs rank 20th and below by construction.** opus-4.8-xhigh has
+  one of the best ch03s on the board and a polished ch02, but four of seven
+  challenges did not exist when it ran.
+
+### What each model did not do well
+
+At most three shortcomings per run, across all exercises combined; strong runs
+get their honest nitpicks. Ordered as in the quality table.
+
+**pi · opus-5.5-xhigh**
+
+- ch03 leaves out `scripts/` and CI entirely and draws a top-level `results/` folder that does not exist.
+- The slowest full-gauntlet run (422 s average); ch02 alone took 1,052 s for a 1,405-line sketch.
+- Verbose where it need not be: a 141-line analysis of textbook CRC-32 and a 160-line `bugs.md`.
+
+**pi · fable-5.1-xhigh**
+
+- ch03 says `verify-challenges.ts` compiles every submission; it runs each grader against its reference.
+- ch03 also has `scoreboard.ts` writing `SCORES.md`; `grade-all.ts` writes it, `scoreboard.ts` writes `RESULTS.md`.
+- ch07 returns the right `fact 4` but with a TS2589 alongside, and ch01's `DeepKeyOf` stops at depth 10.
+
+**pi · opus-5.5-medium**
+
+- ch01 examples are the shortest of the top tier: one reducer, typed defaults and a PATCH type.
+- ch07 ends in TS2589 on the growing divergent term, and `fact 4` comes with a TS2589 too.
+
+**pi · opus-5.5-high**
+
+- ch03 collapses `scripts/` into one "repo automation" box and omits CI, so the tooling pipeline is invisible.
+- ch07 hits TS2589 on `fact 4` and on the growing divergent term (15 of 16 hidden cases).
+- Costly: ch07 alone took 1,035 s, and the run averages 256 s per challenge.
+
+**pi · opus-5-xhigh**
+
+- ch03 swaps the scripts' outputs: `scoreboard.ts` "aggregates into" `SCORES.md`, `leaderboard.ts` "ranks into" `RESULTS.md`.
+- ch07 dies with TS2589 on `fact` and the growing divergent term, far below its 600-step bound.
+- ch04 `bugs.md` runs to 273 lines for seven defects.
+
+**pi · opus-5-high**
+
+- ch03 claims `verify` type-checks and runs every submission and `scoreboard.ts` runs the graders; neither is true.
+- ch01 "reducer" is a one-argument `toggleSidebar`, and `Date` is walked as an object.
+- ch07 is depth-bound: `fact` and the growing divergent term end in TS2589.
+
+**claude · opus-4.8**
+
+- ch06 evaluates `007+3` to 3: leading zeros, legal under `number = digit+`, are mis-parsed.
+- ch05 `equivalence.test.ts` imports `./mystery.mjs`, so it crashes when run from its result folder.
+- ch01 has no action type and walks `Date`; 391 s average, 3.4x codex-5.5 for similar work.
+
+**pi · deepseek-v4-flash-high**
+
+- ch07 dies with TS2589 on `fact` and the growing divergent term despite its 400-step bound.
+- ch06 fails `007+3` (leading zeros).
+- ch01 examples have no action type, and `Date` is walked as an object.
+
+**grok · grok-4.7-high**
+
+- ch01 tests `WeakSet` before `Set`, so `DeepReadonly<Set<T>>` becomes `WeakSet<T>`; its own test caught it, and it shipped.
+- ch07 has a 58-step bound and 0-64 index tables: `2^5` returns `DIVERGE`, `fact` hits TS2589.
+- ch02 took 1,145 s for a 1,237-line sketch.
+
+**grok · grok-4.7-xhigh**
+
+- ch06 hits TS2589 on `0*999+1`, whose result is 1.
+- ch07 pairs a 48-step bound with a successor table capped at 40: `2^5` and `fact` return `DIVERGE`.
+- ch01 fails the strict compile on two over-ambitious assertions in its own tests; ch02 took 1,210 s.
+
+**antigravity · gemini-3.8-flash-high**
+
+- ch01 `cloneToMutable` round-trips through JSON, silently turning `Map`s into `{}`.
+- ch03 draws the `[harness]_[model]_...` result folder the brief forbids and leaves out `scripts/` and CI.
+- ch06 fails `007+3`, and ch07 silently drops unknown characters instead of rejecting them.
+
+**codex · gpt-5.5**
+
+- ch04 `groupBy` uses `Object.hasOwn` on `{}`, so a `"__proto__"` key sets the prototype and its group vanishes.
+- ch01 examples are toys: one selector, a fixed two-element `history` tuple, a note exported as a string.
+- ch07 ends in TS2589 on `fact` and the growing divergent term; ch06 needs about 6 s for 18 expressions.
+
+**grok · grok-4.6-xhigh**
+
+- ch01 cart example mixes readonly and mutable items and fails the strict compile.
+- ch07's 64-step gas sits just above the published cases, and `fact` hits TS2589.
+- ch05 analysis never considers lone surrogates, the one input where a hand-rolled UTF-8 encoder would differ.
+
+**antigravity · gemini-3.1-pro-high**
+
+- ch03 diagram is two boxes (`INSTRUCTIONS.md` and a challenge folder): no README, `package.json`, `scripts/` or CI.
+- ch07's 30-step bound is the tightest on the board: `2^4` already returns `DIVERGE`.
+- ch01 examples are thin (a state constant, an identity `updateConfig`), and ch06 fails `007+3`.
+
+**antigravity · gemini-3.7-flash-high**
+
+- ch03 PlantUML does not render (free text inside `file {}`) and invents a `tsconfig.json`.
+- ch01 tuples gain a phantom `...never[]` rest, so `length` becomes `number` and the round trip breaks.
+- ch07 notes claim a 120-step bound; the code runs 100.
+
+**pi · deepseek-v4-pro-high**
+
+- ch06 and ch07 are shallow: TS2589 on a 30-term sum, on `0*999+1` and already on `pred 3`.
+- ch03 invents wiring: CI runs `grade-all`, `verify` type-checks solutions, `grade-all` drives the bench runner.
+- ch01 examples are mostly `declare` stubs with no bodies.
+
+**grok · grok-4.6-high**
+
+- ch01 reducer and `produce` examples do not compile (readonly users into a mutable `Map`).
+- ch04 `groupBy` still loses a `"__proto__"` group, and ch07's "128 steps" is really 128 per subterm.
+- ch03 draws a `verify` → `scoreboard` → `leaderboard` chain that does not exist.
+
+**gemini · gemini-3.1-pro-preview**
+
+- ch04 `roundCurrency` adds `Number.EPSILON` and is wrong on 65,613 in-contract inputs (`2.135` → 2.13).
+- ch01 `DeepPartial` makes array elements optional, and the examples are toys.
+- ch03 says the scripts "evaluate the agents' solutions" and omits `grader/`; `verify` checks graders against references.
+
+**gemini · gemini-3-flash-preview**
+
+- ch07 parser recurses forever on `never`, so every input, even `\x.x`, ends in TS2589; notes claim 50 steps, code runs 20.
+- ch02 is minimal: no zoom or pan, no asteroid belt, and every planet starts on one straight line.
+- ch01 `{ ...current, ...patch } as AppConfig` hides a shallow-merge bug behind a cast.
+
+**pi · opus-4.8-xhigh**
+
+- Faced only challenges 01-03, and at 277 s average it is the slowest core run by far.
+- ch01 `reducer(state)` takes no action, and the draft example needs a `structuredClone(...) as` cast.
+- ch02 planets are pin-pricks next to their labels, hard to tell apart without reading.
+
+**codex · gpt-5.4**
+
+- A usage quota stopped the run at 3/7: no ch03, ch05, ch06 or ch07.
+- ch01 `DeepPick` returns `ReadonlyMap` where the spec's own example wants `Map`; the examples are a state constant.
+- ch02 buries the four inner planets and their overlapping labels inside the Sun's glow.
+
+**pi · opus-4.6**
+
+- Faced only challenges 01-03.
+- ch01 PATCH example's `updateUser` calls itself unconditionally, and `DeepPartial` turns tuples into arrays.
+- ch03 draws the per-run result folders the brief says to leave out, and its markdown names individual challenges.
+
+**pi · opus-4.8-high**
+
+- Faced only challenges 01-03.
+- ch03 draws the per-run result folder the brief says to leave out.
+- ch01 has no action type; 177 s average for work opus-4.6 did in 44 s.
+
+**gemini · gemini-2.5-pro**
+
+- ch01 fails the strict compile, tuples collapse to arrays, and the example runs the forbidden `push`.
+- ch04 `roundCurrency` uses the same `Number.EPSILON` fudge (65,613 misses); ch06 and ch07 were never submitted.
+- ch05 `equivalence.test.ts` shells out to `../grader/grade.ts`, which the brief forbids.
+
+**pi · opus-4.7-high**
+
+- Faced only challenges 01-03.
+- ch03 names challenges 01-03 on its edges, draws result folders, and embeds an `overview.svg` that does not exist.
+- ch01 `AnyFunction` is typed with `any`.
+
+**pi · deltacoder-9b-q8 (Jun)**
+
+- ch01 examples, ch06 and ch07 all fail to compile (ch06 subtracts values inside a type).
+- ch02 Saturn's "ring" is a filled polygon spanning its whole orbit, and zoom can only ever increase.
+- ch03 lists every challenge by name and invents files (`app.ts`, `assets/`, `tsconfig.json`).
+
+**claude · opus-4.6**
+
+- Faced only challenges 01-03.
+- ch03 PlantUML does not render (free text inside `file {}`), and it draws result folders.
+- ch01 needs `as` casts to compile its Redux example; ch02 planets start in a line and Neptune off-screen.
+
+**qwen · qwen3.5-coder**
+
+- Faced only challenges 01-03.
+- ch02 renders a blank canvas: top-level `random(TWO_PI)` runs before p5 loads and throws.
+- ch03 names the three challenges and draws a solutions package; ch01 casts hide a shallow merge.
+
+**pi · gemma-4-26b-q6k (Apr)**
+
+- Faced only challenges 01-03; ch01 fails to compile, functions become `{}`, `DeepMutable` keeps `readonly`.
+- ch02 (filed as `gemma-4-26b-a4b`) is minimal: no controls or belt, and a flat, untilted Saturn ring.
+- ch03 names each challenge and includes `ALL_PROMPTS.md`, a local prompt log rather than part of the repo.
+
+**pi · gemma-4-26b-q6k (Jun)**
+
+- No ch03 and no `bugs.md`; ch04 `mapLimit` never drops settled promises (5 in flight at limit 2).
+- ch06 has a syntax error and returns a string; ch07 `solution.ts` is empty; ch01 ships a `{}` placeholder.
+- ch02 draws each orbit ring around its planet instead of the Sun; ch05 `analysis.md` is a JS comment that doubts itself.
+
+**pi · deltacoder-9b-q8 (Apr)**
+
+- Faced only challenges 01-03; ch01 `DeepMutable` is a no-op and the examples fail to compile.
+- ch02: Jupiter to Neptune orbit outside a 1280x800 view, moons are zero-size and circle the Sun, planets barely move.
+- ch03 PlantUML does not render, uses `skinparam theme` instead of `!theme`, and names each challenge.
+
+**opencode · gemma-4-26b-q8_0**
+
+- Only ch03 was delivered: no ch01 and no ch02.
+- ch03 is a file tree without a single relationship, naming the three challenges beside the generic one.
+- ch03 embeds `overview.puml` as an image, which Markdown cannot display; its duration marker is a timestamp.
+
+### Challenges 02-06 - what the reading found
+
+**02 solar system.** Every sketch loads without errors and moves, except qwen's
+(blank: `random()` at module scope throws before p5 exists). The weakest working
+ones are deltacoder April (four planets permanently off-screen, invisible moons,
+near-static orbits), deltacoder June (Saturn's ring drawn as a disc over its
+whole orbit) and gemma June (orbit rings centred on the planets). gemini-2.5-pro,
+gemini-3-flash and gemma April meet the brief with nothing extra. The best are
+real models: opus-5.5-xhigh computes positions from J2000 orbital elements with
+Kepler's equation and adds an information panel, Pluto and comets; fable,
+opus-5-high, opus-5-xhigh, opus-5.5-high, claude opus-4.8 and grok-4.7-high all
+use real or Kepler-derived periods with belts, rings and camera controls.
+
+**03 repo overview.** Three diagrams do not render (antigravity
+gemini-3.7-flash, claude opus-4.6 and deltacoder April, all with free text or
+bare labels inside a container). Six ignore the ban on naming individual
+challenges (the three April gemma/deltacoder/opencode runs, qwen, opus-4.7-high
+and deltacoder June); several draw the banned result folder (claude opus-4.6,
+pi opus-4.6, opus-4.7-high, opus-4.8-high, antigravity gemini-3.8-flash, qwen and
+deltacoder June).
+Accurate wiring of the tooling (bench runner hides graders, `verify` checks each
+grader against its reference, `grade-all` writes `SCORES.md`, `scoreboard`
+writes `RESULTS.md`, `leaderboard` rewrites the README block, CI runs the
+checks) appears only in grok-4.7-xhigh, deepseek-v4-flash, opus-5.5-medium and
+claude opus-4.8.
+
+**04 bug hunt.** Of the 23 runs, 22 score 9/9, but the probes separate them.
+gemini-3.1-pro and gemini-2.5-pro fix `roundCurrency` with `Number.EPSILON`,
+which is wrong on 65,613 of the 10,000,000 in-contract inputs (from `2.135` up)
+and passes only because the grader never tries them. codex-5.5, grok-4.6-high and
+deltacoder June guard `groupBy` with `hasOwn` on a plain `{}`, so a
+`"__proto__"` key still swallows its group. gemma June scores 8/9 with no
+`bugs.md` at all; its `mapLimit` runs five calls at limit 2. The fullest
+write-ups (fable, claude opus-4.8, the opus-5 and opus-5.5 runs) explain both
+defects in `median`, the batch-versus-pool shape of `mapLimit` and why
+`clamp` and `dedupe` hold; the opus-5 and opus-5.5 runs also cover `NaN` and `-0`.
+
+**05 reverse engineer.** All 22 solutions are equivalent under the extra fuzz,
+lone surrogates included, and all name reflected CRC-32 with the right
+parameters, so depth lives in `analysis.md` and the harness. gemma June's
+analysis is a JavaScript block comment that argues with itself about the empty
+input; gemini-2.5-pro's harness shells out to the forbidden grader; claude
+opus-4.8's harness imports `./mystery.mjs` and cannot run from its folder. The
+deepest pair the analysis with large harnesses: opus-5.5-xhigh (101,442 inputs),
+opus-5.5-high (87,953), opus-5.5-medium (20,070) and fable (cross-checked
+against `node:zlib`).
+
+**06 type eval.** deltacoder and gemma June do not compile (deltacoder writes
+value-level `R - 1` in a type; gemma leaves a conditional unclosed and returns a
+string). Of the passing runs, six mis-read leading zeros (`007+3`): antigravity
+gemini-3.1-pro and 3.8-flash, claude opus-4.8, gemini-3-flash, grok-4.6-high
+and deepseek-v4-flash. deepseek-v4-pro hits TS2589 on a 30-term sum and on
+`0*999+1`, grok-4.7-xhigh on `0*999+1`. antigravity gemini-3.1-pro, codex-5.5
+and gemini-3-flash need about 6 s for the 18 expressions; grok-4.7-high,
+opus-5.5-high and opus-5.5-xhigh clear all of them in under half a second.
 
 ### Challenge 01 - per model
 
@@ -895,6 +1194,18 @@ bound was tested at the exact boundary (10,000 normalises, 10,001 does not).
   4.6-xhigh fail on example code, not on `DeepReadonly`. Conversely, gemma June
   passes with only a `types.ts` and a placeholder. The depth scores above are
   the correction.
+- **The presence checks for 02 and 03 hide broken work.** `SCORES.md` marks
+  every ch02 and ch03 deliverable `ok` when the files exist (and ch03 carries
+  the theme line), yet qwen's sketch is a blank canvas and three diagrams do not
+  render. Only rendering them reveals it.
+- **A 9/9 grade can be luck.** The ch04 grader samples `roundCurrency`; the
+  `Number.EPSILON` fix (both gemini-2.5-pro and gemini-3.1-pro) passes the
+  sample and fails 65,613 of 10,000,000 in-contract inputs. The fixes that
+  round to thousandths first, go through the decimal string, or add a `1e-9`
+  nudge are exhaustively correct.
+- **Repo comprehension lags code skill.** The same models that write the best
+  type-level code misdescribe which script writes which report in ch03; only
+  four runs wire the tooling correctly end to end.
 
 ### Corrections to earlier notes
 
@@ -907,3 +1218,12 @@ bound was tested at the exact boundary (10,000 normalises, 10,001 does not).
 - The earlier cross-cutting bullet names three runs that normalised ch07. With
   the 2026-09-22 runs there are now 18 passing submissions (see the second
   README table).
+- The gemini-3.1-pro-preview and gemini-2.5-pro entries call the 9/9 bug hunt
+  rock-solid or excellent. Their `roundCurrency` fix is wrong on 65,613
+  in-contract inputs the grader never tries (see *Challenges 02-06*).
+- The gemma June entry calls its bug hunt near-perfect. It shipped no `bugs.md`,
+  and its `mapLimit` exceeds the concurrency limit.
+- The qwen entry reports a perfect core sweep. Its ch02 sketch throws on load
+  and renders nothing; the presence check cannot see that.
+- The April deltacoder entry calls its ch02 sketch working. It runs, but four
+  planets orbit outside a 1280x800 view and its moons are zero-size.
