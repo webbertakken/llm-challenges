@@ -92,3 +92,10 @@ export function compactCount(n: number): string {
   if (n < 999_500) return `${Math.round(n / 1_000)}k`;
   return `${(n / 1_000_000).toFixed(1)}M`;
 }
+
+/** The scoreboard's `Output` and `Tokens` cells; `~` marks a windowed estimate. */
+export function leaderboardCells(row: TokenRow): [output: string, total: string] {
+  if (!row.usage) return [NONE, NONE];
+  const mark = row.basis === "window" ? "~" : "";
+  return [`${mark}${compactCount(row.usage.output)}`, `${mark}${compactCount(totalTokens(row.usage))}`];
+}

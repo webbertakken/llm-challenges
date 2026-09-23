@@ -4,7 +4,8 @@
  *
  * It is purely derived data: objective per-challenge grades come from the
  * generated SCORES.md, durations come from each run's `duration-<n>-seconds.txt`
- * marker. Nothing here re-grades or touches a result folder.
+ * marker and token usage from the generated TOKENS.md. Nothing here re-grades
+ * or touches a result folder.
  *
  *   npx tsx scripts/leaderboard.ts          # rewrite the README block
  *   npx tsx scripts/leaderboard.ts --check  # fail if the block is stale
@@ -29,10 +30,12 @@
  */
 import { readdirSync, statSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { leaderboardCells, parseTokensTable, type TokenRow } from "./tokens/table.ts";
 
 const root = resolve(import.meta.dirname, "..");
 const README = resolve(root, "README.md");
 const SCORES = resolve(root, "SCORES.md");
+const TOKENS = resolve(root, "TOKENS.md");
 const START = "<!-- LEADERBOARD:START -->";
 const END = "<!-- LEADERBOARD:END -->";
 
@@ -234,10 +237,29 @@ function rank(rows: Scored[]): Scored[] {
 }
 
 const secs = (n: number | null): string => (n === null ? "—" : `${n}s`);
+
+/** Token rows by run; every scored run must have one and every row must match a run. */
+class TokenLookup {
+  private readonly rows = parseTokensTable(readFileSync(TOKENS, "utf8"));
+  private readonly used = new Set<string>();
+
+  cells(m: Model): string {
+    const key = `${m.harness}/${m.model}/${m.date}`;
+    const row: TokenRow | undefined = this.rows.get(key);
+    if (!row) throw new Error(`TOKENS.md has no row for ${key}. Run: npx tsx scripts/tokens.ts`);
+    this.used.add(key);
+    return leaderboardCells(row).join(" | ");
+  }
+
+  assertAllUsed(): void {
+    const stray = [...this.rows.keys()].filter((key) => !this.used.has(key));
+    if (stray.length) throw new Error(`TOKENS.md lists runs the scoreboard does not know: ${stray.join(", ")}`);
+  }
+}
 const name = (m: Model): string => `${m.harness} · ${m.model}`;
 const MEDALS = ["🥇", "🥈", "🥉"];
 
-function fullTable(rows: Scored[]): string[] {
+function fullTable(rows: Scored[], tokens: TokenLookup): string[] {
   const ranked = rank(rows);
   // The speed badge only rewards a run that actually delivered every challenge,
   // so a model that was fast on a handful cannot claim it.
@@ -249,36 +271,39 @@ function fullTable(rows: Scored[]): string[] {
     "",
     "Scored out of 100 across challenges 01-07. `Done` counts delivered",
     "challenges, `Pass` counts objective passes (ch04 must be a perfect 9/9).",
-    "Times only cover challenges that left a duration marker.",
+    "Times only cover challenges that left a duration marker. `Output` counts",
+    "generated tokens (reasoning included), `Tokens` everything the model read and",
+    "wrote, cache reads included; `~` marks an estimate cut from an interactive",
+    "session. Breakdown per run: [`TOKENS.md`](TOKENS.md).",
     "",
-    "| # | Harness · Model | Done | Pass | Score | Avg ⏱ | Total ⏱ |",
-    "| --- | --- | :---: | :---: | :---: | ---: | ---: |",
+    "| # | Harness · Model | Done | Pass | Score | Avg ⏱ | Total ⏱ | Output | Tokens |",
+    "| --- | --- | :---: | :---: | :---: | ---: | ---: | ---: | ---: |",
   ];
   ranked.forEach((r, i) => {
     const medal = i < MEDALS.length && r.score >= 50 ? `${MEDALS[i]} ` : "";
     const star = r === fastest ? " ⚡" : "";
     out.push(
-      `| ${medal}${i + 1} | **${name(r.model)}** | ${r.delivered}/7 | ${r.passed}/7 | **${r.score}**/100 | ${secs(r.avgSeconds)}${star} | ${secs(r.totalSeconds)} |`,
+      `| ${medal}${i + 1} | **${name(r.model)}** | ${r.delivered}/7 | ${r.passed}/7 | **${r.score}**/100 | ${secs(r.avgSeconds)}${star} | ${secs(r.totalSeconds)} | ${tokens.cells(r.model)} |`,
     );
   });
   out.push("");
   return out;
 }
 
-function coreTable(rows: Scored[]): string[] {
+function coreTable(rows: Scored[], tokens: TokenLookup): string[] {
   const ranked = rank(rows);
   const out = [
     "### Core three — challenges 01-03 only",
     "",
     `Earlier runs made before challenges 04-07 existed. Scored out of ${CORE_MAX}`,
-    "(deep-readonly 15, solar-system 10, plantuml 10).",
+    "(deep-readonly 15, solar-system 10, plantuml 10). Token columns as above.",
     "",
-    "| Harness · Model | Pass | Score | Avg ⏱ | Total ⏱ |",
-    "| --- | :---: | :---: | ---: | ---: |",
+    "| Harness · Model | Pass | Score | Avg ⏱ | Total ⏱ | Output | Tokens |",
+    "| --- | :---: | :---: | ---: | ---: | ---: | ---: |",
   ];
   for (const r of ranked) {
     out.push(
-      `| **${name(r.model)}** | ${r.passed}/3 | **${r.score}**/${CORE_MAX} | ${secs(r.avgSeconds)} | ${secs(r.totalSeconds)} |`,
+      `| **${name(r.model)}** | ${r.passed}/3 | **${r.score}**/${CORE_MAX} | ${secs(r.avgSeconds)} | ${secs(r.totalSeconds)} | ${tokens.cells(r.model)} |`,
     );
   }
   out.push("");
@@ -289,14 +314,17 @@ function render(): string {
   const scored = collectModels().map(score);
   const full = scored.filter((s) => s.full);
   const core = scored.filter((s) => !s.full);
+  const tokens = new TokenLookup();
+  const tables = [...fullTable(full, tokens), ...coreTable(core, tokens)];
+  tokens.assertAllUsed();
   return [
     START,
     "",
     "_Generated by `scripts/leaderboard.ts` from the objective grades in_",
-    "_[`SCORES.md`](SCORES.md) and each run's duration marker. Do not edit by hand._",
+    "_[`SCORES.md`](SCORES.md), each run's duration marker and the token usage in_",
+    "_[`TOKENS.md`](TOKENS.md). Do not edit by hand._",
     "",
-    ...fullTable(full),
-    ...coreTable(core),
+    ...tables,
     `Per-model strengths and weaknesses: [\`docs/results/interpretations.md\`](docs/results/interpretations.md).`,
     "",
     END,

@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { compactCount, parseTokensTable, renderTokensTable, type TokenRow } from "./table.ts";
+import { compactCount, leaderboardCells, parseTokensTable, renderTokensTable, type TokenRow } from "./table.ts";
 
 const rows: TokenRow[] = [
   {
@@ -54,5 +54,19 @@ describe("compactCount", () => {
     assert.equal(compactCount(67_563), "68k");
     assert.equal(compactCount(999_600), "1.0M");
     assert.equal(compactCount(31_427_484), "31.4M");
+  });
+});
+
+describe("leaderboardCells", () => {
+  it("shows output and total, compacted", () => {
+    assert.deepEqual(leaderboardCells(rows[0]), ["362k", "31.4M"]);
+  });
+
+  it("marks a windowed estimate with a tilde", () => {
+    assert.deepEqual(leaderboardCells(rows[2]), ["~4k", "~114k"]);
+  });
+
+  it("shows a dash when no log survives", () => {
+    assert.deepEqual(leaderboardCells(rows[3]), ["—", "—"]);
   });
 });
