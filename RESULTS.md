@@ -22,8 +22,11 @@ from its `duration-<secs>-seconds.txt` marker.
 | `grok_grok-4.6-xhigh_2026-09-22` | 129s | examples.ts, tests.ts, types.ts |
 | `grok_grok-4.7-high_2026-09-22` | 76s | examples.ts, tests.ts, types.ts |
 | `grok_grok-4.7-xhigh_2026-09-22` | 229s | examples.ts, tests.ts, types.ts |
+| `pi_deepseek-v4-flash-high_2026-09-22` | 112s | examples.ts, tests.ts, types.ts |
+| `pi_deepseek-v4-pro-high_2026-09-22` | 202s | examples.ts, tests.ts, types.ts |
 | `pi_deltacoder-9b-q8_2026-04-03` | — | examples.ts, tests.ts, types.ts |
 | `pi_deltacoder-9b_q8_2026-06-02` | — | examples.ts, tests.ts, types.ts |
+| `pi_fable-5.1-xhigh_2026-09-22` | 223s | examples.ts, tests.ts, types.ts |
 | `pi_gemma-4-26b_q6k_2026-04-03` | — | examples.ts, tests.ts, types.ts |
 | `pi_gemma-4-26b_q6k_2026-06-02` | — | types.ts |
 | `pi_opus-4.6_2026-04-03` | 58s | examples.ts, tests.ts, types.ts |
@@ -32,6 +35,9 @@ from its `duration-<secs>-seconds.txt` marker.
 | `pi_opus-4.8-xhigh_2026-06-02` | 327s | examples.ts, tests.ts, tsconfig.json, types.ts |
 | `pi_opus-5-high_2026-09-22` | 199s | examples.ts, tests.ts, types.ts |
 | `pi_opus-5-xhigh_2026-09-22` | 230s | examples.ts, tests.ts, types.ts |
+| `pi_opus-5.5-high_2026-09-22` | 135s | examples.ts, tests.ts, types.ts |
+| `pi_opus-5.5-medium_2026-09-22` | 57s | examples.ts, tests.ts, types.ts |
+| `pi_opus-5.5-xhigh_2026-09-22` | 277s | examples.ts, tests.ts, types.ts |
 | `qwen_qwen3.5-coder_2026-04-03` | 267s | examples.ts, tests.ts, types.ts |
 
 ## challenge02-solar-system
@@ -52,8 +58,11 @@ from its `duration-<secs>-seconds.txt` marker.
 | `grok_grok-4.6-xhigh_2026-09-22` | 71s | index.html, sketch.js |
 | `grok_grok-4.7-high_2026-09-22` | 1145s | index.html, sketch.js |
 | `grok_grok-4.7-xhigh_2026-09-22` | 1210s | index.html, sketch.js |
+| `pi_deepseek-v4-flash-high_2026-09-22` | 93s | index.html, sketch.js |
+| `pi_deepseek-v4-pro-high_2026-09-22` | 29s | index.html, sketch.js |
 | `pi_deltacoder-9b-q8_2026-04-03` | 48s | index.html, sketch.js |
 | `pi_deltacoder-9b_q8_2026-06-02` | 59s | index.html, sketch.js |
+| `pi_fable-5.1-xhigh_2026-09-22` | 550s | index.html, sketch.js |
 | `pi_gemma-4-26b-a4b_2026-04-03` | 58s | index.html, sketch.js |
 | `pi_gemma-4-26b_q6k_2026-06-02` | 607s | index.html, sketch.js |
 | `pi_opus-4.6_2026-04-03` | 48s | index.html, sketch.js |
@@ -62,6 +71,9 @@ from its `duration-<secs>-seconds.txt` marker.
 | `pi_opus-4.8-xhigh_2026-06-02` | 326s | index.html, preview.png, sketch.js |
 | `pi_opus-5-high_2026-09-22` | 357s | index.html, sketch.js |
 | `pi_opus-5-xhigh_2026-09-22` | 440s | index.html, sketch.js |
+| `pi_opus-5.5-high_2026-09-22` | 194s | index.html, sketch.js |
+| `pi_opus-5.5-medium_2026-09-22` | 94s | index.html, sketch.js |
+| `pi_opus-5.5-xhigh_2026-09-22` | 1052s | index.html, sketch.js |
 | `qwen_qwen3.5-coder_2026-04-03` | 56s | index.html, sketch.js |
 
 ## challenge03-repo-overview-plantuml
@@ -84,8 +96,11 @@ from its `duration-<secs>-seconds.txt` marker.
 | `opencode_gemma-4-26b-q8_0_2026-04-03` | 1775234322s | overview.md, overview.puml |
 | `opencode_gemma-4-26b-q8_0_2026-04-03_altered` | — | duration-31-seconds_altered.txt, overview_altered.md, overview_altered.puml |
 | `pi_claude-opus-4-6_2026-04-03` | 27s | overview.md, overview.puml |
+| `pi_deepseek-v4-flash-high_2026-09-22` | 62s | overview.md, overview.puml |
+| `pi_deepseek-v4-pro-high_2026-09-22` | 24s | overview.md, overview.puml |
 | `pi_deltacoder-9b-q8_2026-04-03` | 18s | overview.md, overview.puml |
 | `pi_deltacoder-9b_q8_2026-06-02` | 33s | overview.md, overview.puml |
+| `pi_fable-5.1-xhigh_2026-09-22` | 177s | overview.md, overview.puml |
 | `pi_gemma-4-26b_q6k_2026-04-03` | 25s | overview.md, overview.puml |
 | `pi_gemma-4-26b_q6k_2026-06-02` | — | — |
 | `pi_opus-4.7-high_2026-06-02` | 34s | overview.md, overview.puml |
@@ -93,6 +108,9 @@ from its `duration-<secs>-seconds.txt` marker.
 | `pi_opus-4.8-xhigh_2026-06-02` | 178s | overview.md, overview.puml, repo-overview.png, repo-overview.svg |
 | `pi_opus-5-high_2026-09-22` | 117s | overview.md, overview.puml |
 | `pi_opus-5-xhigh_2026-09-22` | 119s | overview.md, overview.puml |
+| `pi_opus-5.5-high_2026-09-22` | 105s | overview.md, overview.puml |
+| `pi_opus-5.5-medium_2026-09-22` | 143s | overview.md, overview.puml |
+| `pi_opus-5.5-xhigh_2026-09-22` | 197s | overview.md, overview.puml |
 | `qwen_qwen3.5-coder_2026-04-03` | 42s | overview.md, overview.puml |
 
 ## challenge04-bug-hunt
@@ -112,10 +130,16 @@ from its `duration-<secs>-seconds.txt` marker.
 | `grok_grok-4.6-xhigh_2026-09-22` | 149s | bugs.md, fixed.ts |
 | `grok_grok-4.7-high_2026-09-22` | 152s | bugs.md, fixed.ts |
 | `grok_grok-4.7-xhigh_2026-09-22` | 216s | bugs.md, fixed.ts |
+| `pi_deepseek-v4-flash-high_2026-09-22` | 57s | bugs.md, fixed.ts |
+| `pi_deepseek-v4-pro-high_2026-09-22` | 31s | bugs.md, fixed.ts |
 | `pi_deltacoder-9b_q8_2026-06-02` | 357s | bugs.md, fixed.ts |
+| `pi_fable-5.1-xhigh_2026-09-22` | 152s | bugs.md, fixed.ts |
 | `pi_gemma-4-26b_q6k_2026-06-02` | — | fixed.ts |
 | `pi_opus-5-high_2026-09-22` | 150s | bugs.md, fixed.ts |
 | `pi_opus-5-xhigh_2026-09-22` | 236s | bugs.md, fixed.ts |
+| `pi_opus-5.5-high_2026-09-22` | 109s | bugs.md, fixed.ts |
+| `pi_opus-5.5-medium_2026-09-22` | 63s | bugs.md, fixed.ts |
+| `pi_opus-5.5-xhigh_2026-09-22` | 215s | bugs.md, fixed.ts |
 
 ## challenge05-reverse-engineer
 
@@ -133,10 +157,16 @@ from its `duration-<secs>-seconds.txt` marker.
 | `grok_grok-4.6-xhigh_2026-09-22` | 79s | analysis.md, equivalence.test.ts, solution.ts |
 | `grok_grok-4.7-high_2026-09-22` | 172s | analysis.md, equivalence.test.ts, solution.ts |
 | `grok_grok-4.7-xhigh_2026-09-22` | 147s | analysis.md, equivalence.test.ts, solution.ts |
+| `pi_deepseek-v4-flash-high_2026-09-22` | 77s | analysis.md, equivalence.test.ts, mystery-module.d.ts, solution.ts |
+| `pi_deepseek-v4-pro-high_2026-09-22` | 31s | analysis.md, equivalence.test.ts, solution.ts |
 | `pi_deltacoder-9b_q8_2026-06-02` | 65s | analysis.md, equivalence.test.ts, solution.ts |
+| `pi_fable-5.1-xhigh_2026-09-22` | 111s | analysis.md, equivalence.test.ts, solution.ts |
 | `pi_gemma-4-26b_q6k_2026-06-02` | 7s | analysis.md, equivalence.test.ts, solution.ts |
 | `pi_opus-5-high_2026-09-22` | 135s | analysis.md, equivalence.test.ts, solution.ts |
 | `pi_opus-5-xhigh_2026-09-22` | 174s | analysis.md, equivalence.test.ts, solution.ts |
+| `pi_opus-5.5-high_2026-09-22` | 82s | analysis.md, equivalence.test.ts, solution.ts |
+| `pi_opus-5.5-medium_2026-09-22` | 45s | analysis.md, equivalence.test.ts, solution.ts |
+| `pi_opus-5.5-xhigh_2026-09-22` | 202s | analysis.md, equivalence.test.ts, solution.ts |
 
 ## challenge06-type-eval
 
@@ -153,10 +183,16 @@ from its `duration-<secs>-seconds.txt` marker.
 | `grok_grok-4.6-xhigh_2026-09-22` | 46s | solution.ts, tests.ts |
 | `grok_grok-4.7-high_2026-09-22` | 41s | solution.ts, tests.ts |
 | `grok_grok-4.7-xhigh_2026-09-22` | 39s | solution.ts, tests.ts |
+| `pi_deepseek-v4-flash-high_2026-09-22` | 46s | solution.ts, tests.ts |
+| `pi_deepseek-v4-pro-high_2026-09-22` | 156s | solution.ts, tests.ts |
 | `pi_deltacoder-9b_q8_2026-06-02` | — | solution.ts |
+| `pi_fable-5.1-xhigh_2026-09-22` | 200s | solution.ts, tests.ts |
 | `pi_gemma-4-26b_q6k_2026-06-02` | — | solution.ts |
 | `pi_opus-5-high_2026-09-22` | 67s | solution.ts, tests.ts |
 | `pi_opus-5-xhigh_2026-09-22` | 133s | solution.ts, tests.ts |
+| `pi_opus-5.5-high_2026-09-22` | 131s | solution.ts, tests.ts |
+| `pi_opus-5.5-medium_2026-09-22` | 105s | solution.ts, tests.ts |
+| `pi_opus-5.5-xhigh_2026-09-22` | 133s | solution.ts, tests.ts |
 
 ## challenge07-type-lambda
 
@@ -173,7 +209,13 @@ from its `duration-<secs>-seconds.txt` marker.
 | `grok_grok-4.6-xhigh_2026-09-22` | 193s | notes.md, solution.ts, tests.ts |
 | `grok_grok-4.7-high_2026-09-22` | 93s | notes.md, solution.ts, tests.ts |
 | `grok_grok-4.7-xhigh_2026-09-22` | 68s | notes.md, solution.ts, tests.ts |
+| `pi_deepseek-v4-flash-high_2026-09-22` | 114s | notes.md, solution.ts |
+| `pi_deepseek-v4-pro-high_2026-09-22` | 50s | notes.md, solution.ts, tests.ts |
 | `pi_deltacoder-9b_q8_2026-06-02` | — | notes.md, solution.ts |
+| `pi_fable-5.1-xhigh_2026-09-22` | 319s | notes.md, solution.ts |
 | `pi_gemma-4-26b_q6k_2026-06-02` | — | solution.ts |
 | `pi_opus-5-high_2026-09-22` | 379s | notes.md, solution.ts |
 | `pi_opus-5-xhigh_2026-09-22` | 590s | notes.md, solution.ts |
+| `pi_opus-5.5-high_2026-09-22` | 1035s | notes.md, solution.ts, tests.ts |
+| `pi_opus-5.5-medium_2026-09-22` | 259s | notes.md, solution.ts, tests.ts |
+| `pi_opus-5.5-xhigh_2026-09-22` | 876s | notes.md, solution.ts |
