@@ -130,47 +130,49 @@ scores (a missing challenge counts as 0, so a run that only faced 01-03 can reac
 at most about 4), moved at most half a point by cross-cutting evidence -
 self-verification that the re-runs confirmed pulls it up; repeated overclaiming,
 shipped known-broken code, rule breaches or missing deliverables pull it down -
-then rounded down to the half point. The table is ranked by Quality, ties broken
+then rounded down to the half point. `Output` and `Tokens` are the whole run's
+token usage, copied from [`TOKENS.md`](TOKENS.md) as in the scoreboard (`~` marks
+an estimate cut from an interactive session). The table is ranked by Quality, ties broken
 by the unrounded score, then average time. The Notes justify each score; the
 shortcomings of every run, at most three each, are in
 [*What each model did not do well*](docs/results/interpretations.md#what-each-model-did-not-do-well).
 Rubric and evidence:
 [`docs/results/interpretations.md`](docs/results/interpretations.md#overall-quality-score).
 
-| # | Harness · Model | Quality /10 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | Notes |
-| --- | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | --- |
-| 🥇 1 | **pi · opus-5.5-xhigh** | **9.5** | 10 | 10 | 5 | 10 | 10 | 10 | 10 | Deepest 01, 02, 05 and 07; ch03 skips `scripts/` and CI and invents a `results/` folder |
-| 🥈 2 | **pi · fable-5.1-xhigh** | **9.5** | 9 | 9 | 7 | 10 | 10 | 9 | 9 | Strong everywhere, CRC cross-checked against zlib; two wrong tooling edges in ch03 |
-| 🥉 3 | **pi · opus-5.5-medium** | **9** | 8 | 8 | 9 | 10 | 9 | 9 | 9 | Most accurate ch03 of the top tier, Krivine-machine ch07; ch01 examples are short |
-| 4 | **pi · opus-5.5-high** | **9** | 9 | 9 | 6 | 10 | 9 | 10 | 9 | Cast-free `produce`, cached ch07 machine, fast ch06; ch03 hides `scripts/` in one box |
-| 5 | **pi · opus-5-xhigh** | **9** | 8 | 9 | 6 | 10 | 10 | 9 | 8 | Comets in ch02, 5k-comparison CRC harness; ch03 swaps what the scripts write |
-| 6 | **pi · opus-5-high** | **8.5** | 7 | 9 | 6 | 10 | 9 | 9 | 8 | Measured ch07 ceiling, rich ch02; ch03 claims `verify` type-checks every submission |
-| 7 | **claude · opus-4.8** | **8** | 7 | 9 | 9 | 10 | 8 | 8 | 8 | Two rendered ch03 diagrams; ch06 reads `007+3` as 3, ch05 harness cannot find its input |
-| 8 | **pi · deepseek-v4-flash-high** | **8** | 7 | 8 | 9 | 9 | 9 | 8 | 6 | Accurate ch03 wiring, 5k-check CRC harness; ch07 dies at TS2589 on `fact` |
-| 9 | **grok · grok-4.7-high** | **7.5** | 4 | 9 | 8 | 9 | 8 | 10 | 5 | Fastest ch06 and a rich ch02; shipped a `Set`-to-`WeakSet` bug, 58-step ch07 |
-| 10 | **grok · grok-4.7-xhigh** | **7.5** | 7 | 8 | 9 | 9 | 8 | 6 | 6 | Most accurate ch03 wiring on the board; ch06 hits TS2589 on `0*999+1`, 48-step ch07 |
-| 11 | **antigravity · gemini-3.8-flash-high** | **7** | 7 | 8 | 5 | 9 | 7 | 8 | 7 | PII-safe ch01, polished ch02; ch03 draws result folders, JSON clone loses `Map`s |
-| 12 | **codex · gpt-5.5** | **7** | 6 | 7 | 7 | 8 | 8 | 8 | 7 | Precise CRC-32/ISO-HDLC write-up; `groupBy` loses a `__proto__` group, toy ch01 |
-| 13 | **grok · grok-4.6-xhigh** | **7** | 5 | 7 | 7 | 9 | 7 | 9 | 6 | Clean ch04 and ch06; ch01 example does not compile, grader-sized 64-step ch07 |
-| 14 | **antigravity · gemini-3.1-pro-high** | **6** | 6 | 6 | 4 | 8 | 6 | 7 | 6 | Compact but thin throughout: two-box ch03, toy ch01, 30-step ch07 |
-| 15 | **antigravity · gemini-3.7-flash-high** | **6** | 5 | 8 | 3 | 8 | 7 | 9 | 6 | Strong ch02 and ch06; ch03 does not render, ch07 notes say 120 steps, code 100 |
-| 16 | **pi · deepseek-v4-pro-high** | **6** | 5 | 6 | 5 | 9 | 8 | 5 | 4 | Good ch04 and ch05; ch06 and ch07 hit TS2589 early, ch03 invents tooling edges |
-| 17 | **grok · grok-4.6-high** | **5.5** | 5 | 7 | 5 | 7 | 7 | 8 | 6 | Examples do not compile, `__proto__` group lost, invented `verify`-to-`leaderboard` chain |
-| 18 | **gemini · gemini-3.1-pro-preview** | **5.5** | 5 | 6 | 5 | 6 | 6 | 8 | 8 | TaPL-faithful ch07; `EPSILON` rounding misses 65,613 inputs the grader never tries |
-| 19 | **gemini · gemini-3-flash-preview** | **4.5** | 4 | 4 | 6 | 8 | 6 | 7 | 2 | Fast but shallow: minimal ch02, ch07 parser loops, a cast hides a ch01 bug |
-| 20 | **pi · opus-4.8-xhigh** | **3** | 6 | 8 | 8 | - | - | - | - | Core three only: rule-abiding rendered ch03, polished ch02; action-less `reducer` |
-| 21 | **codex · gpt-5.4** | **3** | 6 | 6 | - | 9 | - | - | - | Quota stopped it at 3/7: clean 9/9 ch04; inner planets buried in the Sun's glow |
-| 22 | **pi · opus-4.6** | **2.5** | 7 | 7 | 6 | - | - | - | - | Core three only: Kepler-timed ch02; `updateUser` recurses forever, ch03 draws run folders |
-| 23 | **pi · opus-4.8-high** | **2.5** | 7 | 7 | 6 | - | - | - | - | Core three only: runnable ch01, rendered ch03, but the run folder the brief bans is drawn |
-| 24 | **gemini · gemini-2.5-pro** | **2.5** | 4 | 4 | 4 | 6 | 5 | - | - | No 06/07; ch01 fails compile, `EPSILON` rounding, ch05 harness runs the forbidden grader |
-| 25 | **pi · opus-4.7-high** | **2.5** | 7 | 7 | 5 | - | - | - | - | Core three only: typed reducer; ch03 names challenges 01-03 and embeds a missing SVG |
-| 26 | **pi · deltacoder-9b-q8** (Jun) | **2.5** | 2 | 3 | 2 | 7 | 6 | 1 | 1 | Honest 9/9 ch04; ch01, ch06 and ch07 do not compile, Saturn's ring fills its orbit |
-| 27 | **claude · opus-4.6** | **2** | 6 | 6 | 4 | - | - | - | - | Core three only: ch03 does not render, ch01 needs casts, Neptune starts off-screen |
-| 28 | **qwen · qwen3.5-coder** | **1** | 6 | 0 | 3 | - | - | - | - | Core three only: ch02 is a blank canvas (`random` runs before p5 loads) |
-| 29 | **pi · gemma-4-26b-q6k** (Apr) | **1** | 2 | 4 | 2 | - | - | - | - | Core three only: ch01 fails compile, minimal ch02, ch03 names each challenge |
-| 30 | **pi · gemma-4-26b-q6k** (Jun) | **0.5** | 1 | 3 | - | 2 | 3 | 1 | 0 | No ch03 or `bugs.md`, empty ch07, ch06 syntax error, `mapLimit` ignores its limit |
-| 31 | **pi · deltacoder-9b-q8** (Apr) | **0.5** | 1 | 2 | 1 | - | - | - | - | Core three only: four planets always off-screen, ch03 does not render |
-| 32 | **opencode · gemma-4-26b-q8_0** | **0** | - | - | 2 | - | - | - | - | Only a ch03 file tree that names each challenge; no ch01 or ch02 |
+| # | Harness · Model | Quality /10 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | Output | Tokens | Notes |
+| --- | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | ---: | ---: | --- |
+| 🥇 1 | **pi · opus-5.5-xhigh** | **9.5** | 10 | 10 | 5 | 10 | 10 | 10 | 10 | 362k | 31.4M | Deepest 01, 02, 05 and 07; ch03 skips `scripts/` and CI and invents a `results/` folder |
+| 🥈 2 | **pi · fable-5.1-xhigh** | **9.5** | 9 | 9 | 7 | 10 | 10 | 9 | 9 | 138k | 12.2M | Strong everywhere, CRC cross-checked against zlib; two wrong tooling edges in ch03 |
+| 🥉 3 | **pi · opus-5.5-medium** | **9** | 8 | 8 | 9 | 10 | 9 | 9 | 9 | 79k | 6.0M | Most accurate ch03 of the top tier, Krivine-machine ch07; ch01 examples are short |
+| 4 | **pi · opus-5.5-high** | **9** | 9 | 9 | 6 | 10 | 9 | 10 | 9 | 191k | 18.9M | Cast-free `produce`, cached ch07 machine, fast ch06; ch03 hides `scripts/` in one box |
+| 5 | **pi · opus-5-xhigh** | **9** | 8 | 9 | 6 | 10 | 10 | 9 | 8 | 177k | 21.8M | Comets in ch02, 5k-comparison CRC harness; ch03 swaps what the scripts write |
+| 6 | **pi · opus-5-high** | **8.5** | 7 | 9 | 6 | 10 | 9 | 9 | 8 | 135k | 12.3M | Measured ch07 ceiling, rich ch02; ch03 claims `verify` type-checks every submission |
+| 7 | **claude · opus-4.8** | **8** | 7 | 9 | 9 | 10 | 8 | 8 | 8 | 214k | 9.1M | Two rendered ch03 diagrams; ch06 reads `007+3` as 3, ch05 harness cannot find its input |
+| 8 | **pi · deepseek-v4-flash-high** | **8** | 7 | 8 | 9 | 9 | 9 | 8 | 6 | 132k | 11.2M | Accurate ch03 wiring, 5k-check CRC harness; ch07 dies at TS2589 on `fact` |
+| 9 | **grok · grok-4.7-high** | **7.5** | 4 | 9 | 8 | 9 | 8 | 10 | 5 | 202k | 18.3M | Fastest ch06 and a rich ch02; shipped a `Set`-to-`WeakSet` bug, 58-step ch07 |
+| 10 | **grok · grok-4.7-xhigh** | **7.5** | 7 | 8 | 9 | 9 | 8 | 6 | 6 | 256k | 22.6M | Most accurate ch03 wiring on the board; ch06 hits TS2589 on `0*999+1`, 48-step ch07 |
+| 11 | **antigravity · gemini-3.8-flash-high** | **7** | 7 | 8 | 5 | 9 | 7 | 8 | 7 | 73k | 4.2M | PII-safe ch01, polished ch02; ch03 draws result folders, JSON clone loses `Map`s |
+| 12 | **codex · gpt-5.5** | **7** | 6 | 7 | 7 | 8 | 8 | 8 | 7 | 52k | 3.8M | Precise CRC-32/ISO-HDLC write-up; `groupBy` loses a `__proto__` group, toy ch01 |
+| 13 | **grok · grok-4.6-xhigh** | **7** | 5 | 7 | 7 | 9 | 7 | 9 | 6 | 69k | 3.2M | Clean ch04 and ch06; ch01 example does not compile, grader-sized 64-step ch07 |
+| 14 | **antigravity · gemini-3.1-pro-high** | **6** | 6 | 6 | 4 | 8 | 6 | 7 | 6 | 76k | 7.1M | Compact but thin throughout: two-box ch03, toy ch01, 30-step ch07 |
+| 15 | **antigravity · gemini-3.7-flash-high** | **6** | 5 | 8 | 3 | 8 | 7 | 9 | 6 | 58k | 3.1M | Strong ch02 and ch06; ch03 does not render, ch07 notes say 120 steps, code 100 |
+| 16 | **pi · deepseek-v4-pro-high** | **6** | 5 | 6 | 5 | 9 | 8 | 5 | 4 | 126k | 5.9M | Good ch04 and ch05; ch06 and ch07 hit TS2589 early, ch03 invents tooling edges |
+| 17 | **grok · grok-4.6-high** | **5.5** | 5 | 7 | 5 | 7 | 7 | 8 | 6 | 68k | 2.6M | Examples do not compile, `__proto__` group lost, invented `verify`-to-`leaderboard` chain |
+| 18 | **gemini · gemini-3.1-pro-preview** | **5.5** | 5 | 6 | 5 | 6 | 6 | 8 | 8 | 81k | 2.4M | TaPL-faithful ch07; `EPSILON` rounding misses 65,613 inputs the grader never tries |
+| 19 | **gemini · gemini-3-flash-preview** | **4.5** | 4 | 4 | 6 | 8 | 6 | 7 | 2 | 69k | 5.2M | Fast but shallow: minimal ch02, ch07 parser loops, a cast hides a ch01 bug |
+| 20 | **pi · opus-4.8-xhigh** | **3** | 6 | 8 | 8 | - | - | - | - | 81k | 3.0M | Core three only: rule-abiding rendered ch03, polished ch02; action-less `reducer` |
+| 21 | **codex · gpt-5.4** | **3** | 6 | 6 | - | 9 | - | - | - | 26k | 1.4M | Quota stopped it at 3/7: clean 9/9 ch04; inner planets buried in the Sun's glow |
+| 22 | **pi · opus-4.6** | **2.5** | 7 | 7 | 6 | - | - | - | - | ~15k | ~423k | Core three only: Kepler-timed ch02; `updateUser` recurses forever, ch03 draws run folders |
+| 23 | **pi · opus-4.8-high** | **2.5** | 7 | 7 | 6 | - | - | - | - | 42k | 1.8M | Core three only: runnable ch01, rendered ch03, but the run folder the brief bans is drawn |
+| 24 | **gemini · gemini-2.5-pro** | **2.5** | 4 | 4 | 4 | 6 | 5 | - | - | 50k | 2.0M | No 06/07; ch01 fails compile, `EPSILON` rounding, ch05 harness runs the forbidden grader |
+| 25 | **pi · opus-4.7-high** | **2.5** | 7 | 7 | 5 | - | - | - | - | 42k | 1.4M | Core three only: typed reducer; ch03 names challenges 01-03 and embeds a missing SVG |
+| 26 | **pi · deltacoder-9b-q8** (Jun) | **2.5** | 2 | 3 | 2 | 7 | 6 | 1 | 1 | 63k | 2.6M | Honest 9/9 ch04; ch01, ch06 and ch07 do not compile, Saturn's ring fills its orbit |
+| 27 | **claude · opus-4.6** | **2** | 6 | 6 | 4 | - | - | - | - | 30k | 2.3M | Core three only: ch03 does not render, ch01 needs casts, Neptune starts off-screen |
+| 28 | **qwen · qwen3.5-coder** | **1** | 6 | 0 | 3 | - | - | - | - | 22k | 1.5M | Core three only: ch02 is a blank canvas (`random` runs before p5 loads) |
+| 29 | **pi · gemma-4-26b-q6k** (Apr) | **1** | 2 | 4 | 2 | - | - | - | - | ~35k | ~1.9M | Core three only: ch01 fails compile, minimal ch02, ch03 names each challenge |
+| 30 | **pi · gemma-4-26b-q6k** (Jun) | **0.5** | 1 | 3 | - | 2 | 3 | 1 | 0 | 24k | 911k | No ch03 or `bugs.md`, empty ch07, ch06 syntax error, `mapLimit` ignores its limit |
+| 31 | **pi · deltacoder-9b-q8** (Apr) | **0.5** | 1 | 2 | 1 | - | - | - | - | ~35k | ~1.3M | Core three only: four planets always off-screen, ch03 does not render |
+| 32 | **opencode · gemma-4-26b-q8_0** | **0** | - | - | 2 | - | - | - | - | — | — | Only a ch03 file tree that names each challenge; no ch01 or ch02 |
 
 ## Results & tooling
 
