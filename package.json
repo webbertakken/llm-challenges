@@ -5,7 +5,9 @@
   "scripts": {
     "verify": "tsx scripts/verify-challenges.ts",
     "scoreboard": "tsx scripts/scoreboard.ts",
-    "leaderboard": "tsx scripts/leaderboard.ts"
+    "leaderboard": "tsx scripts/leaderboard.ts",
+    "test": "tsx --test scripts/tokens/*.test.ts",
+    "tokens": "tsx scripts/tokens.ts"
   },
   "devDependencies": {
     "@typescript/native-preview": "^7.0.0-dev.20260403.1",
