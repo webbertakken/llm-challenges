@@ -1,0 +1,188 @@
+/**
+ * Generates TOKENS.md: the token usage of every run, read from the harness logs
+ * listed in scripts/tokens/sources.ts. Those logs live in the home directory of
+ * the machine that ran the benchmark, so this only runs there; the leaderboard
+ * and CI read the committed TOKENS.md instead.
+ *
+ *   npx tsx scripts/tokens.ts          # write TOKENS.md
+ *   npx tsx scripts/tokens.ts --check  # fail if TOKENS.md differs from the logs
+ */
+import { readFileSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { basename, resolve } from "node:path";
+import { DatabaseSync } from "node:sqlite";
+import {
+  readAntigravity,
+  readClaudeCode,
+  readCodex,
+  readGeminiCli,
+  readGrok,
+  readPi,
+  readQwen,
+} from "./tokens/readers.ts";
+import { NOT_COUNTED, RUNS, UNAVAILABLE, type Source } from "./tokens/sources.ts";
+import { compactCount, renderTokensTable, type TokenRow } from "./tokens/table.ts";
+import { addUsage, NO_USAGE, totalTokens, type Usage } from "./tokens/usage.ts";
+
+const root = resolve(import.meta.dirname, "..");
+const TOKENS = resolve(root, "TOKENS.md");
+
+function readSource(source: Source): Usage {
+  const path = resolve(homedir(), source.path);
+  if (source.window && source.reader !== "pi") {
+    throw new Error(`${source.path}: only pi sources support a window`);
+  }
+  try {
+    switch (source.reader) {
+      case "pi":
+        return readPi(readFileSync(path, "utf8"), source.window);
+      case "claude-code":
+        return readClaudeCode(readFileSync(path, "utf8"));
+      case "codex":
+        return readCodex(readFileSync(path, "utf8"));
+      case "gemini-cli":
+        return readGeminiCli(readFileSync(path, "utf8"));
+      case "qwen":
+        return readQwen(readFileSync(path, "utf8"));
+      case "grok":
+        return readGrok(readFileSync(path, "utf8"));
+      case "antigravity": {
+        const db = new DatabaseSync(path, { readOnly: true });
+        try {
+          const rows = db.prepare("SELECT data FROM gen_metadata ORDER BY idx").all();
+          return readAntigravity(rows.map((row) => row.data as Uint8Array));
+        } finally {
+          db.close();
+        }
+      }
+    }
+  } catch (error) {
+    throw new Error(`cannot read ${source.reader} log ~/${source.path}: ${(error as Error).message}`);
+  }
+}
+
+function describe(usage: Usage): string {
+  return `${usage.calls} calls, ${compactCount(usage.output)} output, ${compactCount(totalTokens(usage))} total`;
+}
+
+const byDateThenRun = (a: { run: string }, b: { run: string }): number => {
+  const date = (run: string): string => run.split("/").at(-1) ?? "";
+  return date(b.run).localeCompare(date(a.run)) || a.run.localeCompare(b.run);
+};
+
+function collectRows(): TokenRow[] {
+  const rows: TokenRow[] = RUNS.map((entry) => {
+    let usage = NO_USAGE;
+    for (const source of entry.sources) {
+      const part = readSource(source);
+      console.log(`[tokens] ${entry.run} <- ~/${source.path}: ${describe(part)}`);
+      usage = addUsage(usage, part);
+    }
+    if (usage.calls === 0) throw new Error(`${entry.run}: its sources hold no model calls`);
+    const windowed = entry.sources.some((s) => s.window !== undefined);
+    return { run: entry.run, basis: windowed ? "window" : "session", usage, note: entry.note ?? "" };
+  });
+  for (const entry of UNAVAILABLE) {
+    console.log(`[tokens] ${entry.run}: unavailable (${entry.reason})`);
+    rows.push({ run: entry.run, basis: "unavailable", usage: null, note: entry.reason });
+  }
+  const seen = new Set<string>();
+  for (const row of rows) {
+    if (seen.has(row.run)) throw new Error(`${row.run} is listed more than once in sources.ts`);
+    seen.add(row.run);
+  }
+  return rows.sort(byDateThenRun);
+}
+
+function notCountedTable(): string[] {
+  const lines = ["| Run | Log | Calls | Output | Total | Why it is not counted |", "| --- | --- | ---: | ---: | ---: | --- |"];
+  for (const entry of [...NOT_COUNTED].sort(byDateThenRun)) {
+    const usage = readSource(entry.source);
+    console.log(`[tokens] not counted: ${entry.run} <- ~/${entry.source.path}: ${describe(usage)}`);
+    const n = (x: number): string => x.toLocaleString("en-GB");
+    lines.push(
+      `| \`${entry.run}\` | \`${basename(entry.source.path)}\` | ${n(usage.calls)} | ${n(usage.output)} | ${n(totalTokens(usage))} | ${entry.reason} |`,
+    );
+  }
+  return lines;
+}
+
+function sourceList(): string[] {
+  const lines: string[] = [];
+  for (const entry of [...RUNS].sort(byDateThenRun)) {
+    lines.push(`- \`${entry.run}\``);
+    for (const source of entry.sources) {
+      const w = source.window;
+      const window = w
+        ? ` (${[w.model && `model ${w.model}`, w.from && `from ${w.from}`, w.to && `until ${w.to}`].filter(Boolean).join(", ")})`
+        : "";
+      lines.push(`  - ${source.reader}: \`~/${source.path}\`${window}`);
+    }
+  }
+  return lines;
+}
+
+function render(): string {
+  return [
+    "# Token usage",
+    "",
+    "_Generated by `scripts/tokens.ts` from the harness logs listed in_",
+    "_`scripts/tokens/sources.ts`. Do not edit by hand._",
+    "",
+    "What every run consumed, per harness session. The logs stay on the machine",
+    "that ran the benchmark; this file is what the README scoreboard reads.",
+    "",
+    "## How to read it",
+    "",
+    "- **Fresh input**: prompt tokens not served from the prompt cache.",
+    "- **Cache read / write**: prompt tokens served from or written to the cache.",
+    "  Harnesses cache very differently, so compare runs on **Output** first.",
+    "- **Output**: generated tokens, reasoning included. **Reasoning** is its",
+    "  share where the harness reports it (`—` where it does not).",
+    "- **Total**: fresh input + cache read + cache write + output.",
+    "- **Cost**: only where the harness logs one. pi logs a list-price estimate",
+    "  (local llama.cpp models cost nothing); grok logs its own. Claude Code, Codex,",
+    "  Gemini CLI, Qwen Code and Antigravity log none.",
+    "- **Basis**: `session` counts whole sessions dedicated to the run; `window`",
+    "  counts part of an interactive session (the 2026-04-03 runs were typed by hand",
+    "  between repo edits), so treat those as close estimates.",
+    "",
+    "Per harness: Claude Code logs a message once per content block, so usage is",
+    "counted once per message id. Codex, Gemini CLI, Qwen Code and grok report",
+    "input including its cached share, which is split out here. Gemini CLI reports",
+    "thoughts outside its output count; they are added. Antigravity stores usage",
+    "in undocumented protobuf; its field mapping is inferred (output always equals",
+    "thinking plus response), so treat it with a little more care.",
+    "",
+    "## Runs",
+    "",
+    ...renderTokensTable(collectRows()),
+    "",
+    "## Attempts not counted",
+    "",
+    "Earlier or aborted attempts whose output was not committed. Sessions that",
+    "failed before the first model response hold no usage and are left out.",
+    "",
+    ...notCountedTable(),
+    "",
+    "<details>",
+    "<summary>Logs read per run</summary>",
+    "",
+    ...sourceList(),
+    "",
+    "</details>",
+    "",
+  ].join("\n");
+}
+
+const doc = render();
+if (process.argv.includes("--check")) {
+  if (readFileSync(TOKENS, "utf8") !== doc) {
+    console.error("TOKENS.md is stale. Run: npx tsx scripts/tokens.ts");
+    process.exit(1);
+  }
+  console.log("TOKENS.md is up to date.");
+} else {
+  writeFileSync(TOKENS, doc);
+  console.log(`Wrote ${TOKENS}`);
+}
