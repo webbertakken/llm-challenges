@@ -267,7 +267,7 @@ function fullTable(rows: Scored[], tokens: TokenLookup): string[] {
     .filter((r) => r.delivered === CHALLENGES.length && r.avgSeconds !== null)
     .reduce<Scored | null>((best, r) => (best && best.avgSeconds! <= r.avgSeconds! ? best : r), null);
   const out = [
-    "### Full gauntlet — all seven challenges",
+    "### Rating by completion and speed (see quality below)",
     "",
     "Scored out of 100 across challenges 01-07. `Done` counts delivered",
     "challenges, `Pass` counts objective passes (ch04 must be a perfect 9/9).",
