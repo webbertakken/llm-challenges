@@ -12,6 +12,6 @@
   "devDependencies": {
     "@typescript/native-preview": "^7.0.0-dev.20260403.1",
     "tsx": "^4.22.4",
-    "typescript": "^5.7.0"
+    "typescript": "^7.0.0"
   }
 }
